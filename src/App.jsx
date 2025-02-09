@@ -12,10 +12,16 @@ function App() {
     navigate(PATH.SPEECHTOTEXT);
   };
 
+  const goToPage = () => {
+    navigate(PATH.PAGE);
+  };
+
   return (
     <>
       <button onClick={goToWhisper}>Whisper</button>
       <button onClick={goToSpeechToText}>SpeechToText</button>
+
+      <button onClick={goToPage}>Page</button>
     </>
   );
 }

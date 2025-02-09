@@ -4,6 +4,10 @@ import AudioRecorder from "../whisper";
 import SpeechToText from "../SpeechToText";
 import { PATH } from "./path";
 
+import Page from "../Page";
+import Login from "../Login";
+import LoginHandler from "../LoginHandler";
+
 const router = createBrowserRouter([
   {
     index: true,
@@ -17,6 +21,18 @@ const router = createBrowserRouter([
   {
     path: PATH.SPEECHTOTEXT,
     element: <SpeechToText />,
+  },
+  {
+    path: PATH.PAGE,
+    element: <Page />,
+  },
+  {
+    path: PATH.LOGIN,
+    element: <Login />,
+  },
+  {
+    path: PATH.LOGINHANDLER,
+    element: <LoginHandler />,
   },
 ]);
 

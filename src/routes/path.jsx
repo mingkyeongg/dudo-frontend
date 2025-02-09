@@ -3,4 +3,8 @@ export const PATH = {
   WHISPER: "/whisper",
   SPEECHTOTEXT: "/speechtotext",
   NOTFOUND: "/notfound",
+
+  PAGE: "/Page",
+  LOGIN: "/Login",
+  LOGINHANDLER: "/Loginhandler",
 };
