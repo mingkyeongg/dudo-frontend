@@ -37,3 +37,5 @@ export const colors = {
   },
   white :'#FFFFFC',
 };
+
+export default colors;

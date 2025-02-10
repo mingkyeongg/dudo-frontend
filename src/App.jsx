@@ -1,5 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { PATH } from "./routes/path";
+import styled from "@emotion/styled";
+import colors from "./constants/colors";
 
 function App() {
   const navigate = useNavigate();
@@ -21,14 +23,17 @@ function App() {
   }
 
   return (
-    <>
+    <AppContainer>
       <button onClick={goToWhisper}>Whisper</button>
       <button onClick={goToSpeechToText}>SpeechToText</button>
 
       <button onClick={goToPage}>Page</button>
       <button onClick={goToJob}>Job</button>
-    </>
+    </AppContainer>
   );
 }
+
+const AppContainer = styled.div`
+`;
 
 export default App;
