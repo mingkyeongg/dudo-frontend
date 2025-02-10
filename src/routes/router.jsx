@@ -7,6 +7,7 @@ import { PATH } from "./path";
 import Page from "../Page";
 import Login from "../Login";
 import LoginHandler from "../LoginHandler";
+import RecommendJob from "../components/Job/RecommendJob";
 
 const router = createBrowserRouter([
   {
@@ -33,6 +34,10 @@ const router = createBrowserRouter([
   {
     path: PATH.LOGINHANDLER,
     element: <LoginHandler />,
+  },
+  {
+    path: PATH.JOB,
+    element: <RecommendJob />,
   },
 ]);
 

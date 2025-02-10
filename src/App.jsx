@@ -16,12 +16,17 @@ function App() {
     navigate(PATH.PAGE);
   };
 
+  const goToJob = () => {
+    navigate(PATH.JOB);
+  }
+
   return (
     <>
       <button onClick={goToWhisper}>Whisper</button>
       <button onClick={goToSpeechToText}>SpeechToText</button>
 
       <button onClick={goToPage}>Page</button>
+      <button onClick={goToJob}>Job</button>
     </>
   );
 }
