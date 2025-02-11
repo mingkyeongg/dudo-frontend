@@ -65,8 +65,14 @@ const MainContent = () => {
       </div>
 
       <div style={style.collectContainer}>
-        <Collect text="추천받은 일자리 모아보기" />
-        <Collect text="저장된 이력서 모아보기" />
+        <Collect 
+          text="추천받은 일자리 모아보기" 
+          move="/JobArchiving"
+        />
+        <Collect 
+          text="저장된 이력서 모아보기"
+          move="/ResumeArchiving" 
+        />
       </div>
     </div>
   )

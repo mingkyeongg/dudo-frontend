@@ -11,4 +11,6 @@ export const PATH = {
 
   HOME: "/Home",
   EXPLANATION: "/Explanation",
+  JOBARCHIVING: "/Jobarchiving",
+  RESUMEARCHIVING: "/Resumearchiving",
 };
