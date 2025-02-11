@@ -22,6 +22,10 @@ function App() {
     navigate(PATH.JOB);
   }
 
+  const goToHome = () => {
+    navigate(PATH.HOME);
+  }
+
   return (
     <AppContainer>
       <button onClick={goToWhisper}>Whisper</button>
@@ -29,6 +33,7 @@ function App() {
 
       <button onClick={goToPage}>Page</button>
       <button onClick={goToJob}>Job</button>
+      <button onClick={goToHome}>Home</button>
     </AppContainer>
   );
 }

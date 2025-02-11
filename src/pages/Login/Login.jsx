@@ -1,6 +1,6 @@
-import dudoMascot from "./assets/dudo_mascot.svg";
-import kakaoLogin from "./assets/kakao_login.svg";
-import dudoLogo from "./assets/dudo_logo.svg";
+import dudoMascot from "../../assets/dudo_mascot.svg";
+import kakaoLogin from "../../assets/kakao_login.svg";
+import dudoLogo from "../../assets/dudo_logo.svg";
 
 function Login() {
   const imageStyle = {
