@@ -48,10 +48,14 @@ function Login() {
     mascotText: {
       fontSize: "14px",
       color: "#806B4C",
+    },
+    button: {
+      border: "none",
+      backgroundColor: "#FFFFFC"
     }
   };
   const handleLogin = () => {
-    window.location.href = KAKAO_AUTH_URL; // React Router가 아니라, 직접 이동하도록 수정
+    window.location.href = KAKAO_AUTH_URL;
   };
 
   return (
@@ -80,7 +84,7 @@ function Login() {
           <p style={style.mascotText}>두도의 마스코트 <strong>'두도지'</strong></p>
         </div>
 
-        <button onClick={handleLogin}>
+        <button onClick={handleLogin} style={style.button}>
           <img src={kakaoLogin}></img>
         </button>
 
