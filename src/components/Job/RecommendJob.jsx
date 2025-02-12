@@ -1,7 +1,6 @@
-import QuestionLayout from './QuestionLayout';
 import styled from '@emotion/styled';
 import colors from '../../constants/colors';
-import step1 from '../../assets/progressBar/step1.svg';
+import { Outlet } from 'react-router-dom';
 import breakpoints from '../../constants/breakpoints';
 import AnswerLayout from './AnswerLayout';
 import quitIcon from '../../assets/Icon/quit.svg';
@@ -16,8 +15,7 @@ export const RecommendJob = () => {
           </HeaderText>
           <QuitIcon src={quitIcon} alt="quit" />
         </Header>
-      <AnswerLayout question={['이전에 어떤 회사에서', '무슨 일을 하셨나요?']}/>
-      {/* <QuestionLayout progressbarSrc={step1} question={['이전에 어떤 회사에서', '무슨 일을 하셨나요?']}/> */}
+      <Outlet />
     </RecommendJobWrapper>
   );
 }

@@ -13,6 +13,8 @@ import Home from "../pages/Home/Home";
 import Explanation from "../pages/Home/Explanation";
 import JobArchiving from "../pages/Archiving/JobArchiving";
 import ResumeArchiving from "../pages/Archiving/ResumeArchiving";
+import { JobQuestion } from "../components/Job/JobQuestion";
+import JobAnswer from "../components/Job/JobAnswer";
 
 const router = createBrowserRouter([
   {
@@ -43,6 +45,16 @@ const router = createBrowserRouter([
   {
     path: PATH.JOB,
     element: <RecommendJob />,
+    children: [
+      {
+        path: `${PATH.JOB_QUESTRION}/:step`,
+        element: <JobQuestion />,
+      },
+      {
+        path: `${PATH.JOB_ANSWER}/:step`,
+        element: <JobAnswer />,
+      },
+    ],
   },
   {
     path: PATH.HOME,

@@ -2,10 +2,19 @@ import styled from '@emotion/styled';
 import colors from '../../constants/colors';
 import dudo from '../../assets/dudo_mascot.svg';
 import breakpoints from '../../constants/breakpoints';
-import microphone from '../../assets/Icon/microphone.svg';
 import Content from './Content';
+import rightArrowIcon from '../../assets/Icon/rightArrow.svg';
+import { useNavigate } from 'react-router-dom';
+import { PATH } from '../../routes/path';
 
-export const QuestionLayout = ({ progressbarSrc, question = [], onClick }) => {
+export const QuestionLayout = ({ progressbarSrc, question = [], onClick, step }) => {
+
+  const navigate = useNavigate();
+  
+  const goToNextPage = () => {
+    navigate(`${PATH.JOB_ANSWER}/${step}`);
+  };
+
   return (
     <Content>
       <Progressbar src={progressbarSrc} alt="step1" />
@@ -15,9 +24,9 @@ export const QuestionLayout = ({ progressbarSrc, question = [], onClick }) => {
           <Question key={index}>{element}</Question>
         ))}
       </QuestionWrapper>
-      <Microphone onClick={onClick}>
-        <MicrophoneIcon src={microphone} alt="microphone" />
-      </Microphone>
+      <RightArrow onClick={onClick}>
+        <RightArrowIcon src={rightArrowIcon} alt="rightArrow" onClick={goToNextPage}/>
+      </RightArrow>
     </Content>
   );
 };
@@ -63,17 +72,17 @@ const Question = styled.h1`
   }
 `;
 
-const Microphone = styled.button`
+const RightArrow = styled.button`
   width: 120px;
   height: 120px;
   background-color: ${colors.secondary[90]};
   border-radius: 50%;
-  position: absolute;
   bottom: 80px;
   border: none;
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-top: 140px;
 
   @media (max-width: ${breakpoints.mobile}px) {
     width: 80px;
@@ -81,7 +90,7 @@ const Microphone = styled.button`
   }
 `;
 
-const MicrophoneIcon = styled.img`
+const RightArrowIcon = styled.img`
   width: 60px;
   height: 60px;
   color: ${colors.white};
