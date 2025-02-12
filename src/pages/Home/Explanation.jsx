@@ -10,14 +10,31 @@ import BoxExplanation from "./BoxExplanation";
 const Explanation = () => {
   const style = {
     container: {
-      padding: "0px 150px",
+      maxWidth: '700px',
+      padding: "0px 20%",
     },
     header: {
       display: "flex",
-      gap: "180px",
+      justifyContent: "center",
+      alignItems: "center",
+      position: "relative",
       fontWeight: "600",
       fontSize: "16px",
-      margin: "40px 0px"
+      margin: "40px 0px",
+    },
+    backIcon: {
+      position: "absolute",
+      left: "0",
+    },
+    headerText: {
+      textAlign: "center",
+      flexGrow: 1,
+    },
+    logoContainer: {
+      display: "flex",
+      alignItems: "center",
+      gap: "5px", 
+      whiteSpace: "nowrap",
     },
     logo: {
       width: "48px",
@@ -32,28 +49,50 @@ const Explanation = () => {
       gap: "5px",
       fontSize: "16px",
       margin: "7px 0px",
+      flexWrap: "wrap", 
     },
     font: {
       fontSize: "16px",
     },
+    globalStyles: `
+      @media (max-width: 768px) {
+        .container {
+          padding: 0px 5%;
+        }
+        .header {
+          font-size: 14px;
+        }
+        .textContainer {
+          margin: 20px 0;
+        }
+        .logo {
+          width: 40px;
+          height: 12px;
+        }
+      }
+    `,
   };
 
 
   return (
     <div style={style.container}>
       <header style={style.header}>
-        <a href="/Home">
+        <a href="/Home" style={style.backIcon}>
           <img src={back_icon}></img>
         </a>
 
-        <p>두도 이용방법</p>
+        <p style={style.headerText}>두도 이용방법</p>
       </header>
       
       <div style={style.textContainer}>
         <p style={style.font}>은퇴 후 새 일자리를 구해보려 하시나요?</p>
         <p 
-          style={style.text}>맞춤형 일자리 추천 서비스 <strong>두도</strong>
-          <img src={dudo_logo} style={style.logo}></img>는
+          style={style.text}>맞춤형 일자리 추천 서비스 
+          <span style={style.logoContainer}>
+            <strong>두도</strong>
+            <img src={dudo_logo} style={style.logo}></img>
+          </span>
+          는
         </p>
         <p style={style.font}>액티브 시니어 여러분의 <strong>두</strong>번째 <strong>도</strong>전을 응원합니다</p>
       </div>
