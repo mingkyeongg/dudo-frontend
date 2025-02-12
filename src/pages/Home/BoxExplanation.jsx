@@ -11,7 +11,7 @@ const BoxExplanation = ({image, title, text1, text2, color}) => {
       padding: "23px",
       borderRadius: "20px",
       gap: "8px",
-      width: "327px",
+      width: "90%",
       height: "94px",
     },
     title: {

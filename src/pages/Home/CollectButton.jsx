@@ -5,13 +5,14 @@ const CollectButton = ({text, move}) => {
 
   const style = {
     button: {
-      width: "375px",
+      width: "100%",
       height: "50px",
       backgroundColor: "#FFFFFC",
       borderRadius: "20px",
       borderWidth: "1px",
       borderColor: "#3E2522",
-      cursor: "pointer"
+      cursor: "pointer",
+      maxWidth: "500px",
     },
     text: {
       fontSize: "16px",

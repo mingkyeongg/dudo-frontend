@@ -10,11 +10,11 @@ import BoxExplanation from "./BoxExplanation";
 const Explanation = () => {
   const style = {
     container: {
-      padding: "0px 200px",
+      padding: "0px 150px",
     },
     header: {
       display: "flex",
-      gap: "115px",
+      gap: "180px",
       fontWeight: "600",
       fontSize: "16px",
       margin: "40px 0px"

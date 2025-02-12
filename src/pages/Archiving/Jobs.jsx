@@ -5,7 +5,7 @@ function Jobs({text, move}) {
 
   const style = {
     container: {
-      width: "375px",
+      width: "100%",
       height: "60px",
       borderRadius: "16px",
       backgroundColor: "#806B4C",

@@ -4,7 +4,7 @@ const JobButton = ({text1, text2, text3, image, color}) => {
     container: {
     },
     button: {
-      width: "180px",
+      width: "100%",
       height: "260px",
       borderRadius: "24px",
       border: "none",

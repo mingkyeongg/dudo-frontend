@@ -17,7 +17,7 @@ function JobArchiving() {
 
   const style = {
     container: {
-      padding: "0px 200px 50px 200px"
+      padding: "0px 150px 50px 150px"
     }
   }
 

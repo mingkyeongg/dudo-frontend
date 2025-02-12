@@ -4,7 +4,7 @@ import MainContent from "./MainContent";
 function Home() {
   const style = {
     container: {
-      padding: "0px 200px",
+      padding: "0px 150px",
     }
   }
 

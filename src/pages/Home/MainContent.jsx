@@ -9,12 +9,16 @@ const MainContent = () => {
     container: {
       display: "flex",
       flexDirection: "column",
-      gap: "30px"
+      gap: "30px",
+      alignItems: "center",
     },
     btnContainer: {
       display: "flex",
       flexDirection: "row",
       justifyContent: "space-between",
+      width: "100%",
+      maxWidth: "500px",
+      gap: "10px",
     },
     divider: {
       display: "flex",
@@ -36,6 +40,7 @@ const MainContent = () => {
       display: "flex",
       flexDirection: "column",
       gap: "20px",
+      width: "100%",
     },
   };
 
@@ -47,14 +52,14 @@ const MainContent = () => {
           text2="일자리"
           text3="추천받기" 
           image={job_icon}
-          color="#806B4C"
+          color="#B29872"
         />
         <Button 
           text1="나만의" 
           text2="이력서"
           text3="쓰러가기" 
           image={resume_icon}
-          color="#956A65"
+          color="#D0A29D"
         />
       </div>
 
