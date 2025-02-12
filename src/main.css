@@ -81,13 +81,14 @@
 
 body {
   font-family: 'Pretendard', sans-serif;
-  background-color: gray;
+  background-color: #EAEAEA;
   display: flex;
   justify-content: center;
 }
 
 #root {
-  width: 768px;
+  width: 375px;
   background-color: white;
   min-height: 100vh;
+  padding: 0 25px;
 }

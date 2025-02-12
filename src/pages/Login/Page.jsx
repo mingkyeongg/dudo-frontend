@@ -1,4 +1,4 @@
-import dudoLogo from "./assets/dudo_logo.svg";
+import dudoLogo from "../../assets/dudo_logo.svg";
 import React, { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
 
@@ -22,7 +22,7 @@ function Page() {
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
-      height: "90vh",
+      height: "80vh",
     },
     imageStyle: {
       width: "140px",
