@@ -1,14 +1,25 @@
 import styled from "@emotion/styled";
 import breakpoints from "../../constants/breakpoints";
 import colors from "../../constants/colors";
+import { useState, useEffect } from "react";
 
-export const AnswerOutput = ({ defaultValue = '', readOnly = true,  value = '' }) => {
+export const AnswerOutput = ({ defaultValue = '', readOnly = false, value }) => {
+  const [text, setText] = useState(value);
+
+  useEffect(() => {
+    setText(value);
+  }, [value]);
+
   return (
-    <OutputBox placeholder={defaultValue} readOnly={readOnly} >
-      {value}
-    </OutputBox>
+    <OutputBox
+      placeholder={defaultValue}
+      onChange={(e) => setText(e.target.value)}
+      readOnly={readOnly}
+      value={text}
+    />
   );
-}
+};
+
 
 const OutputBox = styled.textarea`
   display: block;
@@ -24,6 +35,7 @@ const OutputBox = styled.textarea`
   resize: none;
   overflow-y: auto;
   border: none;
+  outline: none;
 
   &::placeholder {
     color: #aaa;

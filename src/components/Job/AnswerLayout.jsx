@@ -1,4 +1,6 @@
 import styled from "@emotion/styled";
+import { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import breakpoints from "../../constants/breakpoints";
 import colors from "../../constants/colors";
 import Content from "./Content";
@@ -6,19 +8,20 @@ import AnswerOutput from "./AnswerOutput";
 import Button from "../common/Button";
 import { Spacer } from "../common/Spacer";
 import doubleArrowLeft from "../../assets/Icon/doubleArrowLeft.svg";
-import { useState, useEffect } from "react";
 import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 import micAnimation from "../../assets/animation/mic.json";
-import { useNavigate } from "react-router-dom";
 import { PATH } from "../../routes/path";
 
-export const AnswerLayout = ({question = [], answerDefault = '', step}) => {
+export const AnswerLayout = ({ question = [], answerDefault = '', step }) => {
   const [isListening, setIsListening] = useState(false);
-  const navigate = useNavigate();
   const [transcript, setTranscript] = useState("");
-  const recognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-  let speechRecognizer = null;
+  const speechRecognizerRef = useRef(null);
+  const timeoutRef = useRef(null);
+  const navigate = useNavigate();
   const isMobile = window.innerWidth < breakpoints.mobile;
+  const recognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  const [readOnly, setReadOnly] = useState(true);
+  const [buttonDisabled, setButtonDisabled] = useState(true);
 
   useEffect(() => {
     if (!recognition) {
@@ -26,81 +29,96 @@ export const AnswerLayout = ({question = [], answerDefault = '', step}) => {
       return;
     }
 
-    speechRecognizer = new recognition();
-    speechRecognizer.continuous = true; // 실시간 인식 유지
-    speechRecognizer.interimResults = true; // 중간 결과도 표시
-    speechRecognizer.lang = "ko-KR"; // 한국어 설정
+    speechRecognizerRef.current = new recognition();
+    speechRecognizerRef.current.continuous = true;
+    speechRecognizerRef.current.interimResults = true;
+    speechRecognizerRef.current.lang = "ko-KR";
 
-    speechRecognizer.onresult = (event) => {
+    speechRecognizerRef.current.onresult = (event) => {
       const result = Array.from(event.results)
         .map((res) => res[0].transcript)
         .join(" ");
       setTranscript(result);
     };
 
-    speechRecognizer.onerror = (event) => {
+    speechRecognizerRef.current.onerror = (event) => {
       console.error("음성 인식 오류:", event.error);
     };
 
     return () => {
-      speechRecognizer.abort();
+      speechRecognizerRef.current?.abort();
     };
   }, []);
 
-  let timeoutId = null; // setTimeout ID 저장
-
   const startListening = () => {
-    if (speechRecognizer) {
+    if (speechRecognizerRef.current) {
       setIsListening(true);
-      speechRecognizer.start();
+      setButtonDisabled(true);
+      speechRecognizerRef.current.start();
 
-      timeoutId = setTimeout(() => {
+      timeoutRef.current = setTimeout(() => {
         stopListening();
       }, 60000);
     }
   };
 
   const stopListening = () => {
-    if (speechRecognizer) {
+    if (speechRecognizerRef.current) {
       setIsListening(false);
-      speechRecognizer.stop();
+      speechRecognizerRef.current.stop();
+      setButtonDisabled(false);
 
-      // ⏹️ 타이머가 설정되어 있으면 취소
-      if (timeoutId !== null) {
-        clearTimeout(timeoutId);
-        timeoutId = null;
+      if (timeoutRef.current !== null) {
+        clearTimeout(timeoutRef.current);
+        timeoutRef.current = null;
       }
     }
   };
 
-  const handleBack = () => {
-    navigate(`${PATH.JOB_QUESTRION}/${step}`);
-  }
+  const clickButtonHandler = () => {
+    isListening ? stopListening() : startListening();
+  };
 
+  const handleBack = () => {
+    navigate(`${PATH.JOB_QUESTRION}/${step || 1}`);
+  };
+
+  const handleEdit = () => {
+    setReadOnly(false);
+  };
+
+  console.log(isListening);
+  console.log("readOnly", readOnly);
 
   return (
     <Content>
-      <QuestionBox>
-        {question.join(' ')}
-      </QuestionBox>
+      <QuestionBox>{question.join(' ')}</QuestionBox>
       <Spacer height={18} />
-      <AnswerOutput defaultValue={answerDefault}>
-          {transcript}
-        </AnswerOutput>
+      <AnswerOutput defaultValue={answerDefault} value={transcript} readOnly={readOnly} />
       <Spacer height={18} />
       <ButtonContainer>
-        <Button width={isMobile ? "156px" : "100%"} height="48px" innerText="수정" fontSize={isMobile ? "16px" : "24px"}/>
-        <Button width={isMobile ? "156px" : "100%"} height="48px" innerText="확인" fontSize={isMobile ? "16px" : "24px"}/>
+        <Button width={isMobile ? "156px" : "100%"} height="48px" innerText="수정" disabled={buttonDisabled} onClick={handleEdit} />
+        <Button width={isMobile ? "156px" : "100%"} height="48px" innerText="확인" disabled={buttonDisabled} />
       </ButtonContainer>
       <Spacer height={28} />
       <Footer>
-        <BackIcon src={doubleArrowLeft} onClick={handleBack}/>
-        <DotLottieReact 
-          data={micAnimation}
-          loop
-          autoplay
-          style={{ height: "80px" }}
-        />
+        <BackIcon src={doubleArrowLeft} onClick={handleBack} />
+        {isListening ? 
+          <DotLottieReact 
+            data={micAnimation}
+            loop
+            autoPlay
+            style={{ height: "80px" }}
+            onClick={clickButtonHandler}
+          /> :
+          <DotLottieReact 
+            data={micAnimation}
+            loop
+            autoPlay={false}
+            style={{ height: "80px" }}
+            onClick={clickButtonHandler}
+          />
+        }
       </Footer>
     </Content>
   );

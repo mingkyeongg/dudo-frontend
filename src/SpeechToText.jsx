@@ -13,9 +13,9 @@ const SpeechToText = () => {
     }
 
     speechRecognizer = new recognition();
-    speechRecognizer.continuous = true; // 실시간 인식 유지
-    speechRecognizer.interimResults = true; // 중간 결과도 표시
-    speechRecognizer.lang = "ko-KR"; // 한국어 설정
+    speechRecognizer.continuous = true;
+    speechRecognizer.interimResults = true;
+    speechRecognizer.lang = "ko-KR";
 
     speechRecognizer.onresult = (event) => {
       const result = Array.from(event.results)
