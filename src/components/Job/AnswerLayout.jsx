@@ -11,6 +11,7 @@ import doubleArrowLeft from "../../assets/Icon/doubleArrowLeft.svg";
 import micAnimation from "../../assets/animation/mic.json";
 import { PATH } from "../../routes/path";
 import Lottie from "lottie-react";
+import restart from "../../assets/Icon/restart.svg";
 
 export const AnswerLayout = ({ question = [], answerDefault = '', step }) => {
   const [isListening, setIsListening] = useState(false);
@@ -23,6 +24,7 @@ export const AnswerLayout = ({ question = [], answerDefault = '', step }) => {
   const [readOnly, setReadOnly] = useState(true);
   const [buttonDisabled, setButtonDisabled] = useState(true);
   const lottieRef = useRef(null);
+  const [isRestart, setIsRestart] = useState(false);
 
   useEffect(() => {
     if (!recognition) {
@@ -55,10 +57,12 @@ export const AnswerLayout = ({ question = [], answerDefault = '', step }) => {
     if (speechRecognizerRef.current) {
       setIsListening(true);
       setButtonDisabled(true);
+      setIsRestart(false);
       speechRecognizerRef.current.start();
 
       timeoutRef.current = setTimeout(() => {
         stopListening();
+        setIsRestart(false);
       }, 60000);
     }
   };
@@ -68,6 +72,7 @@ export const AnswerLayout = ({ question = [], answerDefault = '', step }) => {
       setIsListening(false);
       speechRecognizerRef.current.stop();
       setButtonDisabled(false);
+      setIsRestart(true);
 
       if (timeoutRef.current !== null) {
         clearTimeout(timeoutRef.current);
@@ -116,16 +121,47 @@ export const AnswerLayout = ({ question = [], answerDefault = '', step }) => {
       <Spacer height={28} />
       <Footer>
         <BackIcon src={doubleArrowLeft} onClick={handleBack} />
-        <Lottie
+        {isRestart ?
+        <RestartIconWrapper>
+          <RestartIcon 
+            src={restart} 
+            onClick={clickButtonHandler} 
+          />
+        </RestartIconWrapper>
+        : <Lottie
           animationData={micAnimation}
           lottieRef={lottieRef}
-          style={{ height: "80px", cursor: "pointer", outline: "none", WebkitTapHighlightColor: "transparent"}}
+          style={{ height: isMobile ? "80px" : "100px", cursor: "pointer", outline: "none", WebkitTapHighlightColor: "transparent"}}
           onClick={clickButtonHandler}
         />
+      }
       </Footer>
     </Content>
   );
 };
+
+const RestartIconWrapper = styled.div`
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: ${colors.secondary[90]};
+  justify-self: center;
+  align-self: center;
+
+  @media (max-width: ${breakpoints.mobile}px) {
+    width: 80px;
+    height: 80px;
+  }
+`;
+
+const RestartIcon = styled.img`
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+`;
 
 const QuestionBox = styled.div`
   display: flex;
