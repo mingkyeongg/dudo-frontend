@@ -10,7 +10,9 @@ function BoxJobResult({rank, title, jobListings}) {
 
   const style = {
     container: {
-      margin: "20px 0px",
+      width: "100%",
+      maxWidth: "500px",
+      margin: "10px 0px",
       backgroundColor: "#FFEED4",
       display: "flex",
       flexDirection: "column",
@@ -18,6 +20,7 @@ function BoxJobResult({rank, title, jobListings}) {
       fontSize: "20px",
       borderRadius: "10px",
       cursor: 'pointer',
+      boxSizing: "border-box"
     },
     header: {
       display: "flex",

@@ -6,31 +6,45 @@ function Header() {
     header: {
       position: "relative",
       display: "flex",
-      justifyContent: "center",
+      justifyContent: "space-between",
       alignItems: "center",
+      gap: "10px",
       margin: "40px 0px",
     },
     headerTitle: {
       textAlign: "center",
       fontWeight: "600",
-      width: "100%",
+      fontSize: "20px",
+      flexGrow: 1,
     },
-    logoImage: {
-      width: "94px",
-      height: "94px",
+    helpIcon: {
+      right: "10px",
+      width: "22px",
+      height: "22px",
     },
     textContainer: {
       display: "flex",
-      alignItems: "flex-end",
-      margin: "30px 0px",
+      flexDirection: "row",
+      alignItems: "center",
+      gap: "15px",
+      justifyContent: "center",
+      maxWidth: "700px",
+      margin: "auto",
+    },
+    logoImage: {
+      width: "80px",
+      height: "80px",
+    },
+    textBox: {
+      display: "flex",
+      flexDirection: "column",
     },
     text1: {
       fontSize: "18px",
-      margin: "0px 0px 5px 0px"
+      fontWeight: "bold",
     },
     text2: {
       fontSize: "18px",
-      margin: "0px 0px 10px 0px"
     },
     divider: {
       display: "flex",
@@ -39,6 +53,7 @@ function Header() {
       width: "100%",
       color: "#848484",
       fontSize: "14px",
+      marginTop: "20px",
     },
     hr: {
       flex: 1,
@@ -48,6 +63,20 @@ function Header() {
     dividerText: {
       padding: "0 20px",
     },
+    globalStyles: `
+      @media (max-width: 768px) {
+        .header {
+        gap: 5px;
+        }
+        .headerTitle {
+          font-size: 18px;
+        }
+        .logoImage {
+          width: 60px;
+          height: 60px;
+        }
+      }
+    `,
   };
 
   return (
@@ -55,14 +84,13 @@ function Header() {
       <div style={style.header}>
         <p style={style.headerTitle}>일자리 추천 결과</p>
         <a href="/Explanation">
-          <img src={help_icon}></img>
+          <img src={help_icon} style={style.helpIcon} />
         </a>
       </div>
 
       <div style={style.textContainer}>
-        <img src={dudo_mascot} style={style.logoImage}></img>
-        <div>
-          {/* 카카오 별명으로 바꿔야 함  */}
+        <img src={dudo_mascot} style={style.logoImage} />
+        <div style={style.textBox}>
           <p style={style.text1}><strong>지연</strong>님이 이 일을 하면</p>
           <p style={style.text2}>잘 하실 것 같아요!</p>
         </div>
@@ -73,9 +101,8 @@ function Header() {
         <span style={style.dividerText}>추천 직업</span>
         <hr style={style.hr} />
       </div>
-
     </header>
-  )
-};
+  );
+}
 
 export default Header;

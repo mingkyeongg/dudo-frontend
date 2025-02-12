@@ -5,7 +5,9 @@ function Bottom() {
     container: {
       display: "flex",
       justifyContent: "center",
-      marginBottom: "70px"
+      marginBottom: "70px",
+      padding: "10px",
+      width: "100%",
     }
   };
 

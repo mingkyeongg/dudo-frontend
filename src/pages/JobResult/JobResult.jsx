@@ -5,7 +5,8 @@ import Bottom from "./Bottom";
 function JobResult() {
   const style = {
     container: {
-      padding: "0px 150px",
+      maxWidth: "700px",
+      padding: "0px 20%",
       display: "flex",
       flexDirection: "column",
       position: "relative",
@@ -17,8 +18,30 @@ function JobResult() {
     bottom: {
       position: "fixed",
       bottom: "0",
+      width: "100%",
+    },
+    globalStyles: `
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
 
-    }
+      @media (max-width: 768px) {
+        .container {
+          padding: 0px 20px; 
+        }
+
+        .box-job {
+          font-size: 16px;
+          padding: 15px;
+        }
+
+        .bottom {
+          padding: 15px 0;
+        }
+      }
+    `,
   };
 
   return (
