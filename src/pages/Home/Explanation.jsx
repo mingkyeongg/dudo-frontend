@@ -9,6 +9,9 @@ import BoxExplanation from "./BoxExplanation";
 
 const Explanation = () => {
   const style = {
+    container: {
+      padding: "0px 200px",
+    },
     header: {
       display: "flex",
       gap: "115px",
@@ -37,7 +40,7 @@ const Explanation = () => {
 
 
   return (
-    <>
+    <div style={style.container}>
       <header style={style.header}>
         <a href="/Home">
           <img src={back_icon}></img>
@@ -83,7 +86,7 @@ const Explanation = () => {
         text2=""
         color="#FFE5E2"
       />
-    </>
+    </div>
   )
 }
 

@@ -2,8 +2,14 @@ import Header from "./Header";
 import MainContent from "./MainContent";
 
 function Home() {
+  const style = {
+    container: {
+      padding: "0px 200px",
+    }
+  }
+
   return (
-    <>
+    <div style={style.container}>
       <style>
         {`
           * {
@@ -15,7 +21,7 @@ function Home() {
 
       <Header />
       <MainContent />
-    </>
+    </div>
   )
 }
 
