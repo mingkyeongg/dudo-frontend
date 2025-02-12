@@ -37,7 +37,7 @@ function App() {
       <button onClick={goToPage}>Page</button>
       <button onClick={goToJob}>Job</button>
       <button onClick={goToHome}>Home</button>
-      배포 테스트 중
+      배포 테스트 중 테스트
     </AppContainer>
   );
 }
