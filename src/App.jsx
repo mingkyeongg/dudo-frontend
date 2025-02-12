@@ -26,6 +26,10 @@ function App() {
     navigate(PATH.HOME);
   }
 
+  const goToResumeResult = () => {
+    navigate(PATH.RESUMERESULT);
+  }
+
   return (
     <AppContainer>
       <button onClick={goToWhisper}>Whisper</button>

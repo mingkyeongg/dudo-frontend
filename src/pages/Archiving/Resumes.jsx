@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 
-function Resume({title, date, move}) {
+function Resumes({title, date, move}) {
   const navigate = useNavigate();
 
   const style = {
@@ -9,7 +9,7 @@ function Resume({title, date, move}) {
       height: "60px",
       borderRadius: "16px",
       border: "none",
-      backgroundColor: "#806B4C",
+      backgroundColor: "#956A65",
       color: "#FFFFFC",
       margin: "25px 0px 0px 0px",
       cursor: "pointer",
@@ -47,4 +47,4 @@ function Resume({title, date, move}) {
   )
 }
 
-export default Resume;
+export default Resumes;

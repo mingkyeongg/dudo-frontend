@@ -1,5 +1,5 @@
 import Header from "./HeaderArchiving";
-import Resume from "./Resume";
+import Resumes from "./Resumes";
 import { useEffect } from "react";
 
 function ResumeArchiving() {
@@ -42,7 +42,7 @@ function ResumeArchiving() {
         />
       ))} */}
 
-      <Resume
+      <Resumes
         title={""}
         date={""}
         move=""
