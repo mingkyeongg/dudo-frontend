@@ -34,7 +34,7 @@ export const QuestionLayout = ({ progressbarSrc, question = [], onClick, step })
 const DudoImg = styled.img`
   width: 200px;
   height: 200px;
-  margin-top: 170px;
+  margin-top: 60px;
 
   @media (max-width: ${breakpoints.mobile}px) {
     width: 142px;
@@ -52,7 +52,7 @@ const Progressbar = styled.img`
 `;
 
 const QuestionWrapper = styled.div`
-  margin-top: 40px;
+  margin-top: 30px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -73,8 +73,8 @@ const Question = styled.h1`
 `;
 
 const RightArrow = styled.button`
-  width: 120px;
-  height: 120px;
+  width: 100px;
+  height: 100px;
   background-color: ${colors.secondary[90]};
   border-radius: 50%;
   bottom: 80px;
@@ -82,7 +82,7 @@ const RightArrow = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 140px;
+  margin-top: 160px;
 
   @media (max-width: ${breakpoints.mobile}px) {
     width: 80px;

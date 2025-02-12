@@ -165,15 +165,15 @@ const RestartIcon = styled.img`
 
 const QuestionBox = styled.div`
   display: flex;
-  width: 100%;
+  width: 450px;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   background-color: ${colors.secondary[30]};
   border-radius: 20px 20px 20px 4px;
-  padding: 24px;
+  padding: 18px;
   box-sizing: border-box;
-  font-size: 24px;
+  font-size: 22px;
   font-weight: 700;
   outline: none;
 
