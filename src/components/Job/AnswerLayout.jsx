@@ -8,9 +8,9 @@ import AnswerOutput from "./AnswerOutput";
 import Button from "../common/Button";
 import { Spacer } from "../common/Spacer";
 import doubleArrowLeft from "../../assets/Icon/doubleArrowLeft.svg";
-import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 import micAnimation from "../../assets/animation/mic.json";
 import { PATH } from "../../routes/path";
+import Lottie from "lottie-react";
 
 export const AnswerLayout = ({ question = [], answerDefault = '', step }) => {
   const [isListening, setIsListening] = useState(false);
@@ -22,6 +22,7 @@ export const AnswerLayout = ({ question = [], answerDefault = '', step }) => {
   const recognition = window.SpeechRecognition || window.webkitSpeechRecognition;
   const [readOnly, setReadOnly] = useState(true);
   const [buttonDisabled, setButtonDisabled] = useState(true);
+  const lottieRef = useRef(null);
 
   useEffect(() => {
     if (!recognition) {
@@ -80,15 +81,27 @@ export const AnswerLayout = ({ question = [], answerDefault = '', step }) => {
   };
 
   const handleBack = () => {
-    navigate(`${PATH.JOB_QUESTRION}/${step || 1}`);
+    navigate(`${PATH.JOB_QUESTION}/${step || 1}`);
   };
 
   const handleEdit = () => {
     setReadOnly(false);
   };
 
-  console.log(isListening);
-  console.log("readOnly", readOnly);
+  const goToNextPage = () => {
+    navigate(`${PATH.JOB_QUESTION}/${parseInt(step) + 1}`);
+  };
+
+  useEffect(() => {
+    if (lottieRef.current) {
+      if (isListening) {
+        lottieRef.current.play();
+      } else {
+        lottieRef.current.stop();
+      }
+    }
+  }, [isListening]);
+
 
   return (
     <Content>
@@ -98,27 +111,17 @@ export const AnswerLayout = ({ question = [], answerDefault = '', step }) => {
       <Spacer height={18} />
       <ButtonContainer>
         <Button width={isMobile ? "156px" : "100%"} height="48px" innerText="수정" disabled={buttonDisabled} onClick={handleEdit} />
-        <Button width={isMobile ? "156px" : "100%"} height="48px" innerText="확인" disabled={buttonDisabled} />
+        <Button width={isMobile ? "156px" : "100%"} height="48px" innerText="확인" disabled={buttonDisabled} onClick={goToNextPage} />
       </ButtonContainer>
       <Spacer height={28} />
       <Footer>
         <BackIcon src={doubleArrowLeft} onClick={handleBack} />
-        {isListening ? 
-          <DotLottieReact 
-            data={micAnimation}
-            loop
-            autoPlay
-            style={{ height: "80px" }}
-            onClick={clickButtonHandler}
-          /> :
-          <DotLottieReact 
-            data={micAnimation}
-            loop
-            autoPlay={false}
-            style={{ height: "80px" }}
-            onClick={clickButtonHandler}
-          />
-        }
+        <Lottie
+          animationData={micAnimation}
+          lottieRef={lottieRef}
+          style={{ height: "80px", cursor: "pointer", outline: "none", WebkitTapHighlightColor: "transparent"}}
+          onClick={clickButtonHandler}
+        />
       </Footer>
     </Content>
   );

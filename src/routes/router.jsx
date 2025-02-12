@@ -47,7 +47,7 @@ const router = createBrowserRouter([
     element: <RecommendJob />,
     children: [
       {
-        path: `${PATH.JOB_QUESTRION}/:step`,
+        path: `${PATH.JOB_QUESTION}/:step`,
         element: <JobQuestion />,
       },
       {
