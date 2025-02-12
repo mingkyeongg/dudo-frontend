@@ -9,7 +9,7 @@ export const Button = ({ disabled = false, width = '100%', height = '100%', inne
   );
 };
 
-const ButtonContainer = styled.button`
+const ButtonContainer = styled.div`
   background-color: ${({ disabled }) => (disabled ? `${colors.grayScale[30]}` : `${colors.secondary[90]}`)};
   color: ${colors.white};
   border-radius: 8px;
@@ -19,6 +19,7 @@ const ButtonContainer = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
+  box-sizing: border-box;
   width: ${({ width }) => width || 'auto'};
   height: ${({ height }) => height || 'auto'};
   cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
