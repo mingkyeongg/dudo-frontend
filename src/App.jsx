@@ -34,10 +34,10 @@ function App() {
     <AppContainer>
       <button onClick={goToWhisper}>Whisper</button>
       <button onClick={goToSpeechToText}>SpeechToText</button>
-
       <button onClick={goToPage}>Page</button>
       <button onClick={goToJob}>Job</button>
       <button onClick={goToHome}>Home</button>
+      배포 테스트 중
     </AppContainer>
   );
 }
