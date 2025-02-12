@@ -1,6 +1,8 @@
-import dudoMascot from "./assets/dudo_mascot.svg";
-import kakaoLogin from "./assets/kakao_login.svg";
-import dudoLogo from "./assets/dudo_logo.svg";
+import dudoMascot from "../../assets/dudo_mascot.svg";
+import kakaoLogin from "../../assets/kakao_login.svg";
+import dudoLogo from "../../assets/dudo_logo.svg";
+
+import { KAKAO_AUTH_URL } from './OAuth.js';
 
 function Login() {
   const imageStyle = {
@@ -46,8 +48,14 @@ function Login() {
     mascotText: {
       fontSize: "14px",
       color: "#806B4C",
+    },
+    button: {
+      border: "none",
+      backgroundColor: "#FFFFFC"
     }
-
+  };
+  const handleLogin = () => {
+    window.location.href = KAKAO_AUTH_URL;
   };
 
   return (
@@ -76,9 +84,9 @@ function Login() {
           <p style={style.mascotText}>두도의 마스코트 <strong>'두도지'</strong></p>
         </div>
 
-        <a href='KAKAO_AUTH_URL'>
+        <button onClick={handleLogin} style={style.button}>
           <img src={kakaoLogin}></img>
-        </a>
+        </button>
 
       </div>
     </>

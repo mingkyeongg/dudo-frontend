@@ -22,13 +22,22 @@ function App() {
     navigate(PATH.JOB);
   }
 
+  const goToHome = () => {
+    navigate(PATH.HOME);
+  }
+
+  const goToResumeResult = () => {
+    navigate(PATH.RESUMERESULT);
+  }
+
   return (
     <AppContainer>
       <button onClick={goToWhisper}>Whisper</button>
       <button onClick={goToSpeechToText}>SpeechToText</button>
-
       <button onClick={goToPage}>Page</button>
       <button onClick={goToJob}>Job</button>
+      <button onClick={goToHome}>Home</button>
+      배포 테스트 중 테스트
     </AppContainer>
   );
 }

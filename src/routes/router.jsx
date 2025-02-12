@@ -4,10 +4,15 @@ import AudioRecorder from "../whisper";
 import SpeechToText from "../SpeechToText";
 import { PATH } from "./path";
 
-import Page from "../Page";
-import Login from "../Login";
-import LoginHandler from "../LoginHandler";
+import Page from "../pages/Login/Page";
+import Login from "../pages/Login/Login";
+import LoginHandler from "../pages/Login/LoginHandler";
 import RecommendJob from "../components/Job/RecommendJob";
+
+import Home from "../pages/Home/Home";
+import Explanation from "../pages/Home/Explanation";
+import JobArchiving from "../pages/Archiving/JobArchiving";
+import ResumeArchiving from "../pages/Archiving/ResumeArchiving";
 
 const router = createBrowserRouter([
   {
@@ -38,6 +43,22 @@ const router = createBrowserRouter([
   {
     path: PATH.JOB,
     element: <RecommendJob />,
+  },
+  {
+    path: PATH.HOME,
+    element: <Home />,
+  },
+  {
+    path: PATH.EXPLANATION,
+    element: <Explanation />,
+  },
+  {
+    path: PATH.JOBARCHIVING,
+    element: <JobArchiving />,
+  },
+  {
+    path: PATH.RESUMEARCHIVING,
+    element: <ResumeArchiving />,
   },
 ]);
 
