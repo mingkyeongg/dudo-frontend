@@ -13,7 +13,7 @@ function Bottom() {
 
   return (
     <div style={style.container}>
-      <a href="/Home">
+      <a href="/Main">
         <img src={home_icon}></img>
       </a>
     </div>

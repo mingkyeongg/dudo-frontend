@@ -27,6 +27,7 @@ const Explanation = () => {
       left: "0",
     },
     headerText: {
+      fontSize: "20px",
       textAlign: "center",
       flexGrow: 1,
     },
@@ -77,7 +78,7 @@ const Explanation = () => {
   return (
     <div style={style.container}>
       <header style={style.header}>
-        <a href="/Home" style={style.backIcon}>
+        <a href="/Main" style={style.backIcon}>
           <img src={back_icon}></img>
         </a>
 

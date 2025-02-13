@@ -24,12 +24,9 @@ function Header() {
     },
     textContainer: {
       display: "flex",
-      //alignItems: "center",
       gap: "15px",
-      //justifyContent: "center",
       alignItems: "flex-end",
       maxWidth: "700px",
-      //margin: "auto",
       marginBottom: "20px",
     },
     logoImage: {
@@ -42,11 +39,10 @@ function Header() {
       marginBottom: "10px",
     },
     text1: {
-      fontSize: "18px",
-      // fontWeight: "bold",
+      fontSize: "20px",
     },
     text2: {
-      fontSize: "18px",
+      fontSize: "20px",
     },
     divider: {
       display: "flex",
