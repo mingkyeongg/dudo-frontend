@@ -3,6 +3,7 @@ import Header from "./HeaderArchiving";
 import Jobs from "./Jobs";
 import { auth } from "../../components/common/libraries/firebase";
 import { getFirestore, collection, getDocs } from "firebase/firestore";
+import back_icon from "../../assets/icon/back.svg";
 
 function JobArchiving() {
   const [jobList, setJobList] = useState([]);
@@ -23,12 +24,22 @@ function JobArchiving() {
 
   const style = {
     container: {
-      padding: "0px 20% 50px 20%"
+      padding: "0px 20% 50px 20%",
+      position: "relative"
+    },
+    backIcon: {
+      position: "absolute",  // 절대 위치 설정
+      top: "0px",
+      left: "20%",          // 왼쪽 여백
+      zIndex: 10             // 다른 요소 위에 표시
     }
   };
 
   return (
     <div style={style.container}>
+      <a href="/Main" style={style.backIcon}>
+        <img src={back_icon}></img>
+      </a>
       <Header text1={"두도지가 추천해준"} text2={"일자리들을 모아뒀어요."} />
 
       {jobList.length === 0 ? (
