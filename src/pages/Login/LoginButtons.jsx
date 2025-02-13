@@ -2,8 +2,11 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../components/common/libraries/firebase";
+import { useSetAtom } from "jotai";
+import { alertAtom } from "../../store/modal";
+import Alert from "../../components/common/Modal/Alert";
 
-function LoginButtons({ email={email}, password={password} }) {
+function LoginButtons({ email = { email }, password = { password } }) {
   const navigate = useNavigate();
 
   const style = {
@@ -38,29 +41,43 @@ function LoginButtons({ email={email}, password={password} }) {
     },
   };
 
+  const setAlert = useSetAtom(alertAtom);
+
   const handleLogin = async () => {
     try {
-      const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      alert("로그인 성공!");
-      navigate("/Main"); 
-      
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      setAlert({
+        message: "로그인",
+        isVisible: true,
+        onConfirm: () => navigate("/Main"),
+      });
     } catch (error) {
       console.error("로그인 실패:", error.message);
-      alert("로그인 실패: " + error.message);
+      let errorMessage = "이메일 또는 비밀번호가 올바르지 않습니다.";
+      if (error.code === "auth/invalid-email") {
+        errorMessage = "유효하지 않은 이메일 형식입니다.";
+      }
+      setAlert({
+        message: errorMessage,
+        isVisible: true,
+        onConfirm: () =>
+          setAlert({ isVisible: false, message: "", onConfirm: () => {} }),
+      });
     }
   };
 
   return (
     <div style={style.buttonContainer}>
-      <button 
-        style={style.loginButton} 
-        type="button"
-        onClick={handleLogin}
-      >
+      <Alert />
+      <button style={style.loginButton} type="button" onClick={handleLogin}>
         로그인
       </button>
-      <button 
-        style={style.signupButton} 
+      <button
+        style={style.signupButton}
         type="button"
         onClick={() => navigate("/SignUp")}
       >

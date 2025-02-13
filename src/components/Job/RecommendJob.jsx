@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import colors from '../../constants/colors';
 import { Outlet } from 'react-router-dom';
 import breakpoints from '../../constants/breakpoints';
-import quitIcon from '../../assets/Icon/quit.svg';
+import quitIcon from '../../assets/Icon/home.svg';
 import { useSetAtom } from 'jotai';
 import { confirmAtom } from '../../store/modal';
 import { Confirm } from '../common/Modal/Confirm';

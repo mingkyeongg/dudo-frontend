@@ -1,8 +1,13 @@
 import Header from "./Header";
 import BoxJobResult from "./BoxJobResult";
 import Bottom from "./Bottom";
+import React, {useEffect, useState} from "react";
+import { db } from "../../components/common/libraries/firebase";
+import { collection, getDocs } from "firebase/firestore";
 
-function JobResult() {
+function JobResult({collectionName}) {
+  const [ jobs, setJobs] = useState([]);
+
   const style = {
     container: {
       maxWidth: "700px",
@@ -44,6 +49,19 @@ function JobResult() {
     `,
   };
 
+  useEffect(() => {
+    const fetchJobs = async () => {
+      try {
+        const querySnapshot = await getDocs(collection(db, collectionName));
+        const jobList = querySnapshot.docs.map((doc) => ({ id:doc.id, ...doc.data()}));
+        setJobs(jobList);
+      } catch (error) {
+        console.error("Firebase에서 데이터 가져오기 실패:", error);
+      }
+    };
+    fetchJobs();
+  }, [collectionName]);
+
   return (
     <div style={style.container}>
       <style>
@@ -58,7 +76,19 @@ function JobResult() {
       <Header />
 
       <div style={style.content}>
-        <BoxJobResult
+        {jobs.map((job, index) => (
+          <BoxJobResult
+            key={job.id}
+            rank={job.certification_rank}
+            title={job.certification_name}
+            jobListings={[
+              { title: job.job_post_title, link: job.job_post_url },
+              { title: job.youtube_title, link: job.youtube_link },
+              { title: job.blog_title, link: job.blog_link },
+            ]}
+          />
+        ))}
+        {/* <BoxJobResult
           rank={1}
           title="사회복지사"
           jobListings={[
@@ -111,7 +141,7 @@ function JobResult() {
               link: "https://www.example.com/job3",
             },
           ]}
-        />
+        /> */}
       </div>
 
       <Bottom style={style.bottom} />

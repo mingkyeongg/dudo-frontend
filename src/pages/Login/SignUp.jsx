@@ -6,6 +6,9 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../components/common/libraries/firebase";
 import { db } from "../../components/common/libraries/firebase";
 import { doc, setDoc } from 'firebase/firestore';
+import { useSetAtom } from "jotai";
+import { alertAtom } from "../../store/modal";
+import Alert from "../../components/common/Modal/Alert";
 
 function SignUp() {
   const [email, setEmail] = useState("");
@@ -51,7 +54,42 @@ function SignUp() {
     }
   };
 
+  const setAlert = useSetAtom(alertAtom);
+
   const handleSignUp = async () => {
+    if (!name || !email || !password) {
+      setAlert({
+        message: "이름, 이메일, 비밀번호를 모두 입력해주세요.",
+        isVisible: true,
+        onConfirm: () => setAlert({ isVisible: false, message: "", onConfirm: () => {} }),
+      });
+      return;
+    }
+    if (name.length < 2 || /[^a-zA-Z가-힣]/.test(name)) {
+      setAlert({
+        message: "이름은 최소 2자 이상이어야 하며, 특수문자를 포함할 수 없습니다.",
+        isVisible: true,
+        onConfirm: () => setAlert({ isVisible: false, message: "", onConfirm: () => {} }),
+      });
+      return;
+    }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      setAlert({
+        message: "유효하지 않은 이메일 형식입니다.",
+        isVisible: true,
+        onConfirm: () => setAlert({ isVisible: false, message: "", onConfirm: () => {} }),
+      });
+      return;
+    }
+    if (password.length < 6) {
+      setAlert({
+        message: "비밀번호는 최소 6자리 이상이어야 합니다.",
+        isVisible: true,
+        onConfirm: () => setAlert({ isVisible: false, message: "", onConfirm: () => {} }),
+      });
+      return;
+    }
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
@@ -62,16 +100,26 @@ function SignUp() {
       });
 
       console.log("회원가입 성공:", userCredential.user);
-      alert("회원가입 성공!");
-      navigate("/login");
+      setAlert({
+        message: "회원가입에 성공했습니다.",
+        isVisible: true,
+        onConfirm: () => navigate("/login"),
+      });
     } catch (error) {
       console.error("회원가입 실패:", error.message);
-      alert("회원가입 실패: " + error.message);
+      setAlert({
+        message: '회원가입에 실패했습니다.',
+        isVisible: true,
+        onConfirm: () =>
+          setAlert({ isVisible: false, message: "", onConfirm: () => {} }),
+      });
     }
   };
 
   return (
     <div style={style.container}>
+      <Alert />
+
       <div style={style.header}>
         <p>회원가입</p>
         <img 
