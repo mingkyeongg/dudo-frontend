@@ -40,6 +40,10 @@ function App() {
     navigate(PATH.LOADING);
   }
 
+  const goToFirebase = () => {
+    navigate(PATH.FIREBASE);
+  }
+
 
   return (
     <AppContainer>
@@ -53,6 +57,7 @@ function App() {
       <button onClick={goToResumeWrite2}>Resume2</button>
       <button onClick={goToJobResult}>JobResult</button>
       <button onClick={goToLoading}>Loading</button>
+      <button onClick={goToFirebase}>Firebase</button>
       <OpenAiProcess />
 
       배포 테스트 중 테스트

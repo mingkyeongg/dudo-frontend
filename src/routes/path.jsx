@@ -21,4 +21,6 @@ export const PATH = {
 
   JOBRESULT: "/Jobwrite",
   LOADING: "/Loading",
+
+  FIREBASE: "/Firebase",
 };
