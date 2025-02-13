@@ -9,7 +9,7 @@ import Button from "../common/Button";
 import { Spacer } from "../common/Spacer";
 import doubleArrowLeft from "../../assets/Icon/doubleArrowLeft.svg";
 import micAnimation from "../../assets/animation/mic.json";
-import voice from "../../assets/icon/voice.svg";
+import voice from "../../assets/Icon/voice.svg";
 import { PATH } from "../../routes/path";
 import Lottie from "lottie-react";
 import restart from "../../assets/Icon/restart.svg";
