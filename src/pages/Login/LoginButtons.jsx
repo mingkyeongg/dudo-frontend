@@ -51,7 +51,7 @@ function LoginButtons({ email = { email }, password = { password } }) {
         password
       );
       setAlert({
-        message: "로그인",
+        message: "로그인에 성공했습니다.",
         isVisible: true,
         onConfirm: () => navigate("/Main"),
       });

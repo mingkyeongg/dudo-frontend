@@ -1,15 +1,15 @@
-import styled from '@emotion/styled';
-import dudo_mascot from '../../assets/dudo_mascot.svg';
-import dudo_logo from '../../assets/dudo_logo.svg';
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { auth, db } from '../../components/common/libraries/firebase';
+import styled from "@emotion/styled";
+import dudo_mascot from "../../assets/dudo_mascot.svg";
+import dudo_logo from "../../assets/dudo_logo.svg";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { auth, db } from "../../components/common/libraries/firebase";
 import { doc, getDoc } from "firebase/firestore";
-import { GetCertificaionList } from '../../components/ai/GetCertificationList';
+import { GetCertificaionList } from "../../components/ai/GetCertificationList";
 
 export const Loading = () => {
   const navigate = useNavigate();
-  const [ name, setName ] = useState("");
+  const [name, setName] = useState("");
   const jobState = JSON.parse(sessionStorage.getItem("jobState"));
 
   const makeAIDatas = async () => {
@@ -20,14 +20,29 @@ export const Loading = () => {
     const answer5 = jobState.answer[4];
 
     console.log(answer1, answer2, answer3, answer4, answer5);
-    const res = await GetCertificaionList({ answer1, answer2, answer3, answer4, answer5 });
+    //const res = await GetCertificaionList({ answer1, answer2, answer3, answer4, answer5 });
+    const res = [
+      {
+        certificationNumber: 1,
+        certificationName: "한식조리기능사",
+      },
+      {
+        certificationNumber: 2,
+        certificationName: "정보처리기사",
+      },
+      {
+        certificationNumber: 3,
+        certificationName: "컴퓨터활용능력 2급",
+      },
+    ];
     console.log(res);
+
+    navigate("/Jobwrite", { state: { certificationData: res } });
   };
 
   useEffect(() => {
     const timer = setTimeout(() => {
       makeAIDatas();
-      navigate('/Jobwrite');
     }, 2000);
 
     return () => clearTimeout(timer);
@@ -58,9 +73,9 @@ export const Loading = () => {
         `}
       </style>
 
-      <Header>  
+      <Header>
         <LoadingText>
-          <UserName>{ name }</UserName>
+          <UserName>{name}</UserName>
           <Text>님의 적성을 분석하고 있어요!</Text>
         </LoadingText>
 
@@ -76,7 +91,6 @@ export const Loading = () => {
           <Logo src={dudo_logo}></Logo>
         </LogoContent>
       </LogoWrapper>
-
     </LoadingWrapper>
   );
 };
@@ -102,7 +116,7 @@ const Header = styled.div`
 
 const LoadingText = styled.div`
   width: 80%;
-  background-color: #FFE0B2;
+  background-color: #ffe0b2;
   display: flex;
   justify-content: center;
   padding: 30px 0px;
@@ -118,7 +132,6 @@ const Text = styled.p`
   font-weight: 600;
   font-size: 20px;
 `;
-
 
 const Mascot = styled.img`
   width: 170px;
