@@ -1,7 +1,7 @@
 import BoxResume from "./BoxResume";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import quit_icon from "../../assets/icon/quit.svg";
+import quit_icon from "../../assets/Icon/quit.svg";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../components/common/libraries/firebase";
 import { db } from "../../components/common/libraries/firebase";
