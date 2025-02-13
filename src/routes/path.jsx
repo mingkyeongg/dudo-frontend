@@ -11,7 +11,7 @@ export const PATH = {
   JOB_QUESTION: "/Job/Question",
   JOB_ANSWER: "/Job/Answer",
 
-  HOME: "/Home",
+  MAIN: "/Main",
   EXPLANATION: "/Explanation",
   JOBARCHIVING: "/Jobarchiving",
   RESUMEARCHIVING: "/Resumearchiving",

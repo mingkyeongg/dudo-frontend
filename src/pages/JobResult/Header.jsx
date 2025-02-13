@@ -41,7 +41,7 @@ function Header() {
     },
     text1: {
       fontSize: "18px",
-      fontWeight: "bold",
+      // fontWeight: "bold",
     },
     text2: {
       fontSize: "18px",

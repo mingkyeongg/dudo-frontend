@@ -53,6 +53,7 @@ const MainContent = () => {
           text3="추천받기" 
           image={job_icon}
           color="#B29872"
+          move={"/Job/Question/1"}
         />
         <Button 
           text1="나만의" 
@@ -60,6 +61,7 @@ const MainContent = () => {
           text3="쓰러가기" 
           image={resume_icon}
           color="#D0A29D"
+          move={""}
         />
       </div>
 

@@ -9,7 +9,7 @@ import Login from "../pages/Login/Login";
 import LoginHandler from "../pages/Login/LoginHandler";
 import RecommendJob from "../components/Job/RecommendJob";
 
-import Home from "../pages/Home/Home";
+import Main from "../pages/Home/Home";
 import Explanation from "../pages/Home/Explanation";
 import JobArchiving from "../pages/Archiving/JobArchiving";
 import ResumeArchiving from "../pages/Archiving/ResumeArchiving";
@@ -60,8 +60,8 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: PATH.HOME,
-    element: <Home />,
+    path: PATH.MAIN,
+    element: <Main />,
   },
   {
     path: PATH.EXPLANATION,

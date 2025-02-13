@@ -22,8 +22,8 @@ function App() {
     navigate(PATH.JOB);
   }
 
-  const goToHome = () => {
-    navigate(PATH.HOME);
+  const goToMain = () => {
+    navigate(PATH.MAIN);
   }
 
   const goToResumeWrite = () => {
@@ -42,7 +42,7 @@ function App() {
       <button onClick={goToSpeechToText}>SpeechToText</button>
       <button onClick={goToPage}>Page</button>
       <button onClick={goToJob}>Job</button>
-      <button onClick={goToHome}>Home</button>
+      <button onClick={goToMain}>Main</button>
       <button onClick={goToResumeWrite}>Resume</button>
       <button onClick={goToResumeWrite2}>Resume2</button>
       <button onClick={goToJobResult}>JobResult</button>
