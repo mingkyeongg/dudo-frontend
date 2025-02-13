@@ -106,24 +106,10 @@ const Explanation = () => {
         color="#FFE0B2"
       />
       <BoxExplanation 
-        image={pencil_icon} 
-        title="이력서 작성"
-        text1="두도지와 대화하며 손쉽게 이력서를"
-        text2="완성해보세요."
-        color="#FFE5E2"
-      />
-      <BoxExplanation 
         image={user_icon} 
         title="추천받은 일자리 모아보기"
         text1="여태까지 두도지가 추천해줬던 일자리를"
         text2="확인해보세요."
-        color="#FFE0B2"
-      />
-      <BoxExplanation 
-        image={note_icon} 
-        title="저장된 이력서 모두보기"
-        text1="저장된 이력서를 확인하세요."
-        text2=""
         color="#FFE5E2"
       />
     </div>

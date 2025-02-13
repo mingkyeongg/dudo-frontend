@@ -1,19 +1,18 @@
 function BoxResume({ title, type, placeholder, value, onChange }) {
   const style = {
     container: {
-      padding: "0px 150px"
+      width: "100%",
     },
     text: {
       fontSize: "18px",
-      margin: "30px 0px 10px 0px",
+      margin: "20px 0px 10px 0px",
     },
     input: {
       width: "100%",
       maxWidth: "700px",
       height: "50px",
-      border: "none",
       borderRadius: "20px 20px 0px 20px",
-      boxShadow: "0px 5px 10px rgb(147, 124, 85, 0.5)",
+      border: "1px solid #66553B",
       fontSize: "18px",
       padding: "0px 0px 0px 20px",
       boxSizing: "border-box",
@@ -26,7 +25,6 @@ function BoxResume({ title, type, placeholder, value, onChange }) {
       <p style={style.text}>{title}</p>
       <input
         type={type}
-        placeholder={placeholder}
         value={value}
         onChange={onChange}
         style={style.input}

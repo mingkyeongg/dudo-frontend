@@ -4,9 +4,6 @@ import step2 from "../../assets/progressBar/step2.svg";
 import step3 from "../../assets/progressBar/step3.svg";
 import step4 from "../../assets/progressBar/step4.svg";
 import step5 from "../../assets/progressBar/step5.svg";
-import step6 from "../../assets/progressBar/step6.svg";
-import step7 from "../../assets/progressBar/step7.svg";
-import step8 from "../../assets/progressBar/step8.svg";
 import { useParams } from "react-router-dom";
 
 export const JobQuestion = () => {

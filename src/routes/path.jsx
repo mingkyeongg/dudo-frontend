@@ -16,9 +16,7 @@ export const PATH = {
   JOBARCHIVING: "/Jobarchiving",
   RESUMEARCHIVING: "/Resumearchiving",
 
-  RESUMEWRITE: "/Resumewrite",
-  RESUMEWRITE2: "/Resumewrite2",
-
   JOBRESULT: "/Jobwrite",
   LOADING: "/Loading",
+  SIGNUP: "/Signup",
 };

@@ -25,12 +25,6 @@ function App() {
     navigate(PATH.MAIN);
   }
 
-  const goToResumeWrite = () => {
-    navigate(PATH.RESUMEWRITE);
-  }
-  const goToResumeWrite2 = () => {
-    navigate(PATH.RESUMEWRITE2);
-  }
   const goToJobResult = () => {
     navigate(PATH.JOBRESULT);
   }
@@ -46,8 +40,6 @@ function App() {
       <button onClick={goToPage}>Page</button>
       <button onClick={goToJob}>Job</button>
       <button onClick={goToMain}>Main</button>
-      <button onClick={goToResumeWrite}>Resume</button>
-      <button onClick={goToResumeWrite2}>Resume2</button>
       <button onClick={goToJobResult}>JobResult</button>
       <button onClick={goToLoading}>Loading</button>
 
