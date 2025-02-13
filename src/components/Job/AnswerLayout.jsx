@@ -12,10 +12,15 @@ import micAnimation from "../../assets/animation/mic.json";
 import { PATH } from "../../routes/path";
 import Lottie from "lottie-react";
 import restart from "../../assets/Icon/restart.svg";
+import { useAtom } from "jotai";
+import { jobAtom } from "../../store/job";
 
 export const AnswerLayout = ({ question = [], answerDefault = '', step }) => {
   const [isListening, setIsListening] = useState(false);
-  const [transcript, setTranscript] = useState("");
+  const [ jobState, setJobState ] = useAtom(jobAtom);
+  const answer = jobState.answer;
+  console.log(answer);
+  const [transcript, setTranscript] = useState(answer[parseInt(step) - 1]);
   const speechRecognizerRef = useRef(null);
   const timeoutRef = useRef(null);
   const navigate = useNavigate();
@@ -94,7 +99,17 @@ export const AnswerLayout = ({ question = [], answerDefault = '', step }) => {
   };
 
   const goToNextPage = () => {
+    setJobState((prev) => ({
+      ...prev,
+      answer: prev.answer.map((item, index) =>
+        index === parseInt(step) - 1 ? transcript : item
+      ),
+    }));
     navigate(`${PATH.JOB_QUESTION}/${parseInt(step) + 1}`);
+  };
+  
+
+  const handleTextChange = () => {
   };
 
   useEffect(() => {
@@ -112,7 +127,14 @@ export const AnswerLayout = ({ question = [], answerDefault = '', step }) => {
     <Content>
       <QuestionBox>{question.join(' ')}</QuestionBox>
       <Spacer height={18} />
-      <AnswerOutput defaultValue={answerDefault} value={transcript} readOnly={readOnly} />
+      <AnswerOutput
+        defaultValue={answerDefault}
+        value={transcript}
+        readOnly={readOnly}
+        onChange={handleTextChange}
+        step={step}
+      />
+
       <Spacer height={18} />
       <ButtonContainer>
         <Button width={isMobile ? "156px" : "100%"} height="48px" innerText="수정" disabled={buttonDisabled} onClick={handleEdit} />

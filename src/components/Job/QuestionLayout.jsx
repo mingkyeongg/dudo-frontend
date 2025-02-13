@@ -6,6 +6,7 @@ import Content from './Content';
 import rightArrowIcon from '../../assets/Icon/rightArrow.svg';
 import { useNavigate } from 'react-router-dom';
 import { PATH } from '../../routes/path';
+import doubleArrowLeft from '../../assets/Icon/doubleArrowLeft.svg';
 
 export const QuestionLayout = ({ progressbarSrc, question = [], onClick, step }) => {
 
@@ -13,6 +14,10 @@ export const QuestionLayout = ({ progressbarSrc, question = [], onClick, step })
   
   const goToNextPage = () => {
     navigate(`${PATH.JOB_ANSWER}/${step}`);
+  };
+
+  const goToPreviousPage = () => {
+    navigate(`${PATH.JOB_ANSWER}/${parseInt(step) - 1}`);
   };
 
   return (
@@ -24,9 +29,12 @@ export const QuestionLayout = ({ progressbarSrc, question = [], onClick, step })
           <Question key={index}>{element}</Question>
         ))}
       </QuestionWrapper>
-      <RightArrow onClick={onClick}>
-        <RightArrowIcon src={rightArrowIcon} alt="rightArrow" onClick={goToNextPage}/>
-      </RightArrow>
+      <Footer>
+          <BackIcon src={doubleArrowLeft} alt="rightArrow" onClick={goToPreviousPage} />
+          <RightArrow onClick={onClick}>
+          <RightArrowIcon src={rightArrowIcon} alt="rightArrow" onClick={goToNextPage}/>
+        </RightArrow>
+      </Footer>
     </Content>
   );
 };
@@ -41,6 +49,27 @@ const DudoImg = styled.img`
     height: 142px;
     margin-top: 120px;
   }
+`;
+
+const BackIcon = styled.img`
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  align-self: center;
+  justify-self: center;
+
+  @media (max-width: ${breakpoints.mobile}px) {
+    width: 24px;
+    height: 24px;
+  }
+`;
+
+const Footer = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  align-items: center;
+  width: 100%;
+  margin-top: 160px;
 `;
 
 const Progressbar = styled.img`
@@ -82,7 +111,8 @@ const RightArrow = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 160px;
+  align-self: center;
+  justify-self: center;
 
   @media (max-width: ${breakpoints.mobile}px) {
     width: 80px;

@@ -1,14 +1,30 @@
 import styled from "@emotion/styled";
 import breakpoints from "../../constants/breakpoints";
 import colors from "../../constants/colors";
-import { useState, useEffect } from "react";
+import { useState, useEffect, forwardRef } from "react";
+import { useAtom } from "jotai";
+import { jobAtom } from "../../store/job";
 
-export const AnswerOutput = ({ defaultValue = '', readOnly = false, value }) => {
+export const AnswerOutput = forwardRef(({ defaultValue = '', readOnly = false, value, step }, ref) => {
   const [text, setText] = useState(value);
+  const [jobState, setJobState] = useAtom(jobAtom);
 
   useEffect(() => {
     setText(value);
-  }, [value]);
+
+    if (!jobState || !jobState.answer) return;
+
+    const stepIndex = parseInt(step) - 1;
+    
+    if (!isNaN(stepIndex) && jobState.answer[stepIndex] !== value) {
+      setJobState((prev) => ({
+        ...prev,
+        answer: prev.answer.map((item, index) =>
+          index === stepIndex ? text : item
+        ),
+      }));
+    }
+  }, [text, step, setJobState]);
 
   return (
     <OutputBox
@@ -18,8 +34,7 @@ export const AnswerOutput = ({ defaultValue = '', readOnly = false, value }) => 
       value={text}
     />
   );
-};
-
+});
 
 const OutputBox = styled.textarea`
   display: block;
@@ -47,6 +62,5 @@ const OutputBox = styled.textarea`
     font-size: 18px;
   }
 `;
-
 
 export default AnswerOutput;
