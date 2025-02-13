@@ -18,7 +18,7 @@ function HeaderArchiving({text1, text2}) {
       margin: "30px 0px 20px 0px",
     },
     text: {
-      fontSize: "18px",
+      fontSize: "20px",
       fontWeight: "700",
       margin: "0px 0px 5px 0px"
     },

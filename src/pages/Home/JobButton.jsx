@@ -1,16 +1,17 @@
 
-const JobButton = ({text1, text2, text3, image, color}) => {
+const JobButton = ({text1, text2, text3, image, color, move}) => {
   const style = {
     container: {
     },
     button: {
-      width: "180px",
+      width: "100%",
       height: "260px",
       borderRadius: "24px",
       border: "none",
       backgroundColor: color,
       color: "#FFFFFC",
       padding: "30px",
+      cursor: "pointer",
     },
     text1: {
       fontSize: "16px",
@@ -30,7 +31,11 @@ const JobButton = ({text1, text2, text3, image, color}) => {
 
   return (
     <div style={style.container}>
-      <button style={style.button}>
+      <button 
+        style={style.button}
+        type="button"
+        onClick={() => window.location.href = move}
+      >
         <p style={style.text1}>{text1}</p>
         <p style={style.text2}>{text2}</p>
         <p style={style.text2}>{text3}</p>

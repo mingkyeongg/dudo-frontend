@@ -11,8 +11,10 @@ const BoxExplanation = ({image, title, text1, text2, color}) => {
       padding: "23px",
       borderRadius: "20px",
       gap: "8px",
-      width: "327px",
-      height: "94px",
+      width: "100%",
+      height: "auto",
+      boxSizing: "border-box",
+      // maxWidth: "400px",
     },
     title: {
       display: "flex",
@@ -24,6 +26,14 @@ const BoxExplanation = ({image, title, text1, text2, color}) => {
     text: {
       fontSize: "18px",
     },
+    globalStyles: `
+      @media (max-width: 768px) {
+        .container {
+          padding: 10px;
+          font-size: 14px;
+        }
+      }
+    `,
   };
 
   return (

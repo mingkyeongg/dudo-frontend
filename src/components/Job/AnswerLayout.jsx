@@ -69,6 +69,7 @@ export const AnswerLayout = ({ question = [], answerDefault = '', step }) => {
       setConfirmButtonDisabled(true);
       setEditButtonDisabled(true);
       setIsRestart(false);
+      setTranscript("");
       speechRecognizerRef.current.start();
 
       timeoutRef.current = setTimeout(() => {
@@ -119,6 +120,8 @@ export const AnswerLayout = ({ question = [], answerDefault = '', step }) => {
 
   const handleTextChange = () => {
   };
+
+  console.log("현재 상태:", answer[parseInt(step) - 1]);
 
   useEffect(() => {
     if (lottieRef.current) {

@@ -6,6 +6,7 @@ export const Content = styled.div`
   align-items: center;
   padding: 30px 28px;
   box-sizing: border-box;
+
 `;
 
 export default Content;

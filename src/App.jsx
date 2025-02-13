@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { PATH } from "./routes/path";
 import styled from "@emotion/styled";
+import Confirm from "./components/common/Modal/Confirm.jsx";
 
 function App() {
   const navigate = useNavigate();
@@ -21,21 +22,37 @@ function App() {
     navigate(PATH.JOB);
   }
 
-  const goToHome = () => {
-    navigate(PATH.HOME);
+  const goToMain = () => {
+    navigate(PATH.MAIN);
   }
 
-  const goToResumeResult = () => {
-    navigate(PATH.RESUMERESULT);
+  const goToResumeWrite = () => {
+    navigate(PATH.RESUMEWRITE);
   }
+  const goToResumeWrite2 = () => {
+    navigate(PATH.RESUMEWRITE2);
+  }
+  const goToJobResult = () => {
+    navigate(PATH.JOBRESULT);
+  }
+  const goToLoading = () => {
+    navigate(PATH.LOADING);
+  }
+
 
   return (
     <AppContainer>
+      <Confirm />
       <button onClick={goToWhisper}>Whisper</button>
       <button onClick={goToSpeechToText}>SpeechToText</button>
       <button onClick={goToPage}>Page</button>
       <button onClick={goToJob}>Job</button>
-      <button onClick={goToHome}>Home</button>
+      <button onClick={goToMain}>Main</button>
+      <button onClick={goToResumeWrite}>Resume</button>
+      <button onClick={goToResumeWrite2}>Resume2</button>
+      <button onClick={goToJobResult}>JobResult</button>
+      <button onClick={goToLoading}>Loading</button>
+
       배포 테스트 중 테스트
     </AppContainer>
   );

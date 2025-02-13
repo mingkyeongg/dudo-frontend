@@ -9,12 +9,16 @@ import Login from "../pages/Login/Login";
 import LoginHandler from "../pages/Login/LoginHandler";
 import RecommendJob from "../components/Job/RecommendJob";
 
-import Home from "../pages/Home/Home";
+import Main from "../pages/Home/Home";
 import Explanation from "../pages/Home/Explanation";
 import JobArchiving from "../pages/Archiving/JobArchiving";
 import ResumeArchiving from "../pages/Archiving/ResumeArchiving";
+import ResumeWrite from "../pages/ResumeWrite/ResumeWrite";
+import ResumeWrite2 from "../pages/ResumeWrite/ResumeWrite2";
+import JobResult from "../pages/JobResult/JobResult";
 import { JobQuestion } from "../components/Job/JobQuestion";
 import JobAnswer from "../components/Job/JobAnswer";
+import Loading from '../pages/JobResult/Loading';
 
 const router = createBrowserRouter([
   {
@@ -57,8 +61,8 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: PATH.HOME,
-    element: <Home />,
+    path: PATH.MAIN,
+    element: <Main />,
   },
   {
     path: PATH.EXPLANATION,
@@ -71,6 +75,22 @@ const router = createBrowserRouter([
   {
     path: PATH.RESUMEARCHIVING,
     element: <ResumeArchiving />,
+  },
+  {
+    path: PATH.RESUMEWRITE,
+    element: <ResumeWrite />,
+  },
+  {
+    path: PATH.RESUMEWRITE2,
+    element: <ResumeWrite2 />,
+  },
+  {
+    path: PATH.JOBRESULT,
+    element: <JobResult />,
+  },
+  {
+    path: PATH.LOADING,
+    element: <Loading />,
   },
 ]);
 

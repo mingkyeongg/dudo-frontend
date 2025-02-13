@@ -9,8 +9,8 @@ function Header() {
       margin: "40px 0px",
     },
     logoImage: {
-      width: "94px",
-      height: "94px",
+      width: "100px",
+      height: "100px",
     },
     textContainer: {
       display: "flex",
@@ -18,11 +18,11 @@ function Header() {
       margin: "30px 0px",
     },
     text1: {
-      fontSize: "18px",
+      fontSize: "20px",
       margin: "0px 0px 5px 0px"
     },
     text2: {
-      fontSize: "18px",
+      fontSize: "20px",
       margin: "0px 0px 10px 0px"
     }
   };

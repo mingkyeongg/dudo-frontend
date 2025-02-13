@@ -51,7 +51,8 @@ function Login() {
     },
     button: {
       border: "none",
-      backgroundColor: "#FFFFFC"
+      backgroundColor: "#FFFFFC",
+      cursor: "pointer",
     }
   };
   const handleLogin = () => {

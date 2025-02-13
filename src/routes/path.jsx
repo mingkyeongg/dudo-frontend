@@ -11,8 +11,14 @@ export const PATH = {
   JOB_QUESTION: "/Job/Question",
   JOB_ANSWER: "/Job/Answer",
 
-  HOME: "/Home",
+  MAIN: "/Main",
   EXPLANATION: "/Explanation",
   JOBARCHIVING: "/Jobarchiving",
   RESUMEARCHIVING: "/Resumearchiving",
+
+  RESUMEWRITE: "/Resumewrite",
+  RESUMEWRITE2: "/Resumewrite2",
+
+  JOBRESULT: "/Jobwrite",
+  LOADING: "/Loading",
 };

@@ -16,7 +16,7 @@ function ResumeArchiving() {
 
   const style = {
     container: {
-      padding: "0px 0px 50px 0px"
+      padding: "0px 20% 50px 20%"
     }
   }
   return (
