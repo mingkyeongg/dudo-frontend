@@ -4,8 +4,8 @@ import React, { useEffect, useState } from "react";
 import { db } from "../../components/common/libraries/firebase";
 import { collection, getDoc, doc } from "firebase/firestore";
 import { useLocation } from "react-router-dom";
-import help_icon from "../../assets/Icon/help.svg";
-import dudo_mascot from "../../assets/dudo_mascot.svg";
+import helpIcon from "@/assets/Icon/help.svg";
+import dudo_mascot from "@/assets/dudo_mascot.svg";
 
 function JobDetail() {
   const [jobs, setJobs] = useState([]); // ✅ jobs 상태 관리
@@ -227,7 +227,7 @@ function JobDetailHeader({date}) {
       <div style={style.header}>
         <p style={style.headerTitle}>일자리 추천 결과</p>
         <a href="/Explanation">
-          <img src={help_icon} style={style.helpIcon} />
+          <img src={helpIcon} style={style.helpIcon} />
         </a>
       </div>
 
