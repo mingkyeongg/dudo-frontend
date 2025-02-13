@@ -25,7 +25,9 @@ export const fetchAIResponse = async ({ prompt }) => {
     });
 
     const data = await response.json();
-    let aiResponse = data.choices[0]?.message?.content || "{}";
+
+
+    let aiResponse = data.choices[0]?.message?.content || mockData;
 
     aiResponse = aiResponse
       .replace(/```json/g, "")
@@ -98,6 +100,50 @@ const getFieldRecommandPrompt = (answer1, answer2, answer3) => `
   }
 ]
 `;
+
+const mockData = [
+  {
+    "date": "2025-02-13",
+    "workFields": [
+      {
+        "workFieldDescription": "전기 및 전자 장비의 설치와 수리, 유지보수를 담당하는 직군입니다.",
+        "workFieldName": "전기/전자",
+        "workFieldReason": "전기/전자 분야는 다양한 자격증을 통해 기술을 배우고 쉽게 접근할 수 있으며, 경력에 따라 많은 경험을 활용할 수 있습니다.",
+        "workNumber": 1
+      },
+      {
+        "workFieldDescription": "건축물 및 토목 구조물의 건설과 관련된 업무를 수행하는 분야입니다.",
+        "workFieldName": "건설",
+        "workFieldReason": "건설 분야는 체계적인 교육과 자격증 취득을 통해 진입할 수 있으며, 다양한 경험을 활용하여 프로젝트에 참여할 수 있습니다.",
+        "workNumber": 2
+      },
+      {
+        "workFieldDescription": "산업 현장에서의 안전 기준을 마련하고 이를 지키기 위한 관리 업무를 수행하는 직군입니다.",
+        "workFieldName": "안전관리",
+        "workFieldReason": "안전관리는 다양한 산업에서 필요로 하며, 직업교육 과정을 통해 쉽게 배울 수 있는 매력적인 분야입니다.",
+        "workNumber": 3
+      },
+      {
+        "workFieldDescription": "기업의 회계, 경영 관리를 지원하는 사무 관련 업무를 포함하는 분야입니다.",
+        "workFieldName": "경영, 회계, 사무",
+        "workFieldReason": "이 분야는 경영 경험이 많은 사용자에게 적합하며, 사무 환경에서 빠르게 적응할 수 있습니다.",
+        "workNumber": 4
+      },
+      {
+        "workFieldDescription": "정보통신 네트워크의 설계, 구축 및 운영에 관련된 직군입니다.",
+        "workFieldName": "정보 통신",
+        "workFieldReason": "정보 통신 분야는 최신 기술을 배우기 좋고, 다양한 온라인 교육이 제공되어 새로운 기술 습득이 용이합니다.",
+        "workNumber": 5
+      },
+      {
+        "workFieldDescription": "화물이나 사람을 안전하고 효율적으로 운송하는 업무를 포함합니다.",
+        "workFieldName": "운전, 운송",
+        "workFieldReason": "운전 및 운송 분야는 비교적 쉽게 접근할 수 있으며, 운전 경험을 바탕으로 추가 교육을 통해 직업으로 연결할 수 있습니다.",
+        "workNumber": 6
+      }
+    ]
+  }
+];  
 
 export const OpenAiProcess = ({ answer1, answer2, answer3 }) => {
   useEffect(() => {
