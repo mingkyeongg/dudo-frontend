@@ -37,6 +37,10 @@ export const AnswerLayout = ({ question = [], answerDefault = '', step }) => {
       return;
     }
 
+    if (answer[parseInt(step) - 1]) {
+      setIsRestart(true);
+    }
+
     speechRecognizerRef.current = new recognition();
     speechRecognizerRef.current.continuous = true;
     speechRecognizerRef.current.interimResults = true;
@@ -63,6 +67,7 @@ export const AnswerLayout = ({ question = [], answerDefault = '', step }) => {
       setIsListening(true);
       setButtonDisabled(true);
       setIsRestart(false);
+      setTranscript("");
       speechRecognizerRef.current.start();
 
       timeoutRef.current = setTimeout(() => {
@@ -99,18 +104,14 @@ export const AnswerLayout = ({ question = [], answerDefault = '', step }) => {
   };
 
   const goToNextPage = () => {
-    setJobState((prev) => ({
-      ...prev,
-      answer: prev.answer.map((item, index) =>
-        index === parseInt(step) - 1 ? transcript : item
-      ),
-    }));
     navigate(`${PATH.JOB_QUESTION}/${parseInt(step) + 1}`);
   };
   
 
   const handleTextChange = () => {
   };
+
+  console.log("현재 상태:", answer[parseInt(step) - 1]);
 
   useEffect(() => {
     if (lottieRef.current) {
