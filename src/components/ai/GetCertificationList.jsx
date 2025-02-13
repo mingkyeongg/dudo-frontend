@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 
 export const fetchAIResponse = async ({ prompt }) => {
-  const API_KEY = "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";
+  const API_KEY = "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";
 
   if (!API_KEY) {
     console.error("API_KEY is missing! Check your .env file.");

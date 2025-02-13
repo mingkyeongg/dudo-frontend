@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { saveWorkFieldsToFirestore } from "../common/libraries/saveWorkFields.js";
 
 export const fetchAIResponse = async ({ prompt }) => {
-  const API_KEY = "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";
+  const API_KEY = "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";
 
   if (!API_KEY) {
     console.error("API_KEY is missing! Check your .env file.");
