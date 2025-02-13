@@ -19,6 +19,7 @@ import JobAnswer from "../components/Job/JobAnswer";
 import Loading from '../pages/JobResult/Loading';
 import SignUp from "../pages/Login/SignUp";
 import FirebasePage from "../components/common/libraries/test.jsx";
+import MainLoading from "../pages/Home/MainLoading.jsx";
 
 const router = createBrowserRouter([
   {
@@ -83,6 +84,10 @@ const router = createBrowserRouter([
   {
     path: PATH.SIGNUP,
     element: <ProtectedRoute element={<SignUp />} />, 
+  },
+  {
+    path: PATH.MAINLOADING,
+    element: <MainLoading />,
   },
 ]);
 

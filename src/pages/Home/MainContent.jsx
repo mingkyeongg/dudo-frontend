@@ -48,7 +48,7 @@ const MainContent = () => {
           text2="일자리 추천받기"
           image={job_icon}
           color="#B29872"
-          move={"/Job/Question/1"}
+          move={"/MainLoading"}
         />
       </div>
 

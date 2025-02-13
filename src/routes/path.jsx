@@ -21,4 +21,5 @@ export const PATH = {
   SIGNUP: "/Signup",
 
   FIREBASE: "/Firebase",
+  MAINLOADING: "/Mainloading",
 };
