@@ -1,14 +1,17 @@
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
-const useCheckData = (getData, condition, delay = 1000) => {
+const useCheckData = (getData, condition, delay = 10000) => {
+  const navigate = useNavigate();
+
   useEffect(() => {
     const interval = setInterval(async () => {
-      const data = await getData(); // 데이터 가져오기
+      const data = getData;
       console.log("🔄 데이터 체크 중:", data);
 
       if (condition(data)) {
         console.log("✅ 조건 충족! 새로고침 실행");
-        window.location.reload(); // 새로고침
+        navigate(0);
       }
     }, delay);
 

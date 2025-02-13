@@ -20,6 +20,7 @@ import Loading from '../pages/JobResult/Loading';
 import SignUp from "../pages/Login/SignUp";
 import FirebasePage from "../components/common/libraries/test.jsx";
 import MainLoading from "../pages/Home/MainLoading.jsx";
+import JobDetail from "../pages/Archiving/JobDetail.jsx";
 
 const router = createBrowserRouter([
   {
@@ -72,6 +73,10 @@ const router = createBrowserRouter([
   {
     path: PATH.JOBARCHIVING,
     element: <JobArchiving />,
+  },
+  {
+    path: `${PATH.JOBARCHIVING}/:id`,
+    element: <JobDetail />,
   },
   {
     path: PATH.JOBRESULT,

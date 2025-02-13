@@ -1,59 +1,66 @@
-import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom"; // ✅ 네비게이션 추가
+import styled from "@emotion/styled";
 import Header from "./HeaderArchiving";
 import Jobs from "./Jobs";
-import { auth } from "../../components/common/libraries/firebase";
-import { getFirestore, collection, getDocs } from "firebase/firestore";
-import back_icon from "../../assets/icon/back.svg";
+import backIcon from "../../assets/icon/back.svg";
+import { fetchCertificationsFromFirestore } from "../../components/common/libraries/fetchCertificationsFromFirestore";
+import { PATH } from "../../routes/path";
 
 function JobArchiving() {
-  const [jobList, setJobList] = useState([]);
+  const navigate = useNavigate();
+  const userId = sessionStorage.getItem("userId");
 
-  useEffect(() => {
-    const fetchJobs = async () => {
-      const user = auth.currentUser;
-      if (user) {
-        const db = getFirestore();
-        const jobResultRef = collection(db, user.uid);
-        const snapshot = await getDocs(jobResultRef);
-        const jobs = snapshot.docs.map(doc => ({ id: doc.id })); // 문서 이름(날짜)만 가져옴
-        setJobList(jobs);
-      }
-    };
-    fetchJobs();
-  }, []);
+  const { data = [] } = useQuery({
+    queryKey: ["field", userId], 
+    queryFn: () => fetchCertificationsFromFirestore(userId),
+  });
 
-  const style = {
-    container: {
-      padding: "0px 20% 50px 20%",
-      position: "relative"
-    },
-    backIcon: {
-      position: "absolute",  // 절대 위치 설정
-      top: "0px",
-      left: "20%",          // 왼쪽 여백
-      zIndex: 10             // 다른 요소 위에 표시
-    }
-  };
+  console.log("🔥 가져온 데이터:", data);
+
+  
 
   return (
-    <div style={style.container}>
-      <a href="/Main" style={style.backIcon}>
-        <img src={back_icon}></img>
-      </a>
+    <Container>
+      <BackButton onClick={() => navigate("/Main")}>
+        <img src={backIcon} alt="뒤로가기" />
+      </BackButton>
+
       <Header text1={"두도지가 추천해준"} text2={"일자리들을 모아뒀어요."} />
 
-      {jobList.length === 0 ? (
+      {data.length === 0 ? (
         <p>저장된 일자리가 없습니다.</p>
       ) : (
-        jobList.map((job) => (
+        data.map((cert) => (
           <Jobs 
-            key={job.id}
-            text={job.id}  // 문서 이름(생성 날짜) 표시
+            key={cert.id}
+            text={cert.date}
+            onClick={() => {
+              console.log("클릭됨! 이동할 ID:", cert.id);
+              console.log("전달할 state:", cert.certifications);
+            
+              navigate(`/Jobarchiving/${cert.id}`, { state: { certifications: cert.certifications, date: cert.date } });
+            }}
           />
         ))
       )}
-    </div>
+    </Container>
   );
 }
 
 export default JobArchiving;
+
+const Container = styled.div`
+  padding: 0px 20% 50px 20%;
+  position: relative;
+`;
+
+const BackButton = styled.button`
+  position: absolute;
+  top: 0px;
+  left: 20%;
+  z-index: 10;
+  background: none;
+  border: none;
+  cursor: pointer;
+`;

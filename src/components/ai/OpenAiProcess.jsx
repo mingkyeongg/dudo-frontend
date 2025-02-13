@@ -2,21 +2,21 @@ import { useEffect } from "react";
 import { saveWorkFieldsToFirestore } from "../common/libraries/saveWorkFields.js";
 
 export const fetchAIResponse = async ({ prompt }) => {
-  const API_KEY = "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";
-
+  const API_KEY = "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";
   if (!API_KEY) {
     console.error("API_KEY is missing! Check your .env file.");
     return;
   }
 
   const userId = sessionStorage.getItem("userId");
+  const today = new Date().toISOString().split("T")[0];
 
   try {
     const response = await fetch("https://api.openai.com/v1/chat/completions", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${API_KEY}`, // 🔥 백틱 사용
+        Authorization: `Bearer ${API_KEY}`,
       },
       body: JSON.stringify({
         model: "gpt-4o-mini",
@@ -26,27 +26,33 @@ export const fetchAIResponse = async ({ prompt }) => {
 
     const data = await response.json();
 
+    let aiResponse = data.choices[0]?.message?.content || null;
 
-    let aiResponse = data.choices[0]?.message?.content || mockData;
-
-    aiResponse = aiResponse
-      .replace(/```json/g, "")
-      .replace(/```/g, "")
-      .trim();
-    console.log("AI 응답:", aiResponse);
-
-    const today = new Date().toISOString().split("T")[0];
-    let workFields;
-    try {
-      workFields = JSON.parse(aiResponse);
-    } catch (error) {
-      console.error("❌ OpenAI 응답이 JSON 형식이 아닙니다:", error);
-      return;
+    if (!aiResponse) {
+      throw new Error("OpenAI 응답이 없음");
     }
 
-    saveWorkFieldsToFirestore(userId, today, workFields);
+    // ✅ JSON 파싱 시도
+    try {
+      aiResponse = aiResponse.replace(/```json/g, "").replace(/```/g, "").trim();
+      const workFields = JSON.parse(aiResponse);
+      console.log("✅ AI 응답:", workFields);
+
+      // 🔥 정상 응답이면 Firestore에 저장
+      saveWorkFieldsToFirestore(userId, today, workFields);
+    } catch (error) {
+      console.error("❌ JSON 파싱 오류 발생:", error);
+      console.warn("🔥 목데이터(`mockData`)를 저장합니다.");
+      
+      // 🔥 JSON 파싱 실패 시 목데이터 저장
+      saveWorkFieldsToFirestore(userId, today, mockData[0].workFields);
+    }
   } catch (error) {
-    console.error("OpenAI API 호출 중 오류 발생:", error);
+    console.error("❌ OpenAI API 호출 중 오류 발생:", error);
+    console.warn("🔥 목데이터(`mockData`)를 저장합니다.");
+    
+    // 🔥 API 호출 실패 시 목데이터 저장
+    saveWorkFieldsToFirestore(userId, today, mockData[0].workFields);
   }
 };
 

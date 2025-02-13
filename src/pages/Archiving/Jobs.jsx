@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 
-function Jobs({text, move}) {
+function Jobs({text, move, onClick}) {
   const navigate = useNavigate();
 
   const style = {
@@ -29,7 +29,7 @@ function Jobs({text, move}) {
   };
 
   return (
-    <button style={style.container} onClick={handleButton}>
+    <button style={style.container} onClick={onClick}>
       <p style={style.text}>{text}</p>
     </button>
   )

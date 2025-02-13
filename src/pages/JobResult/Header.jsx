@@ -115,7 +115,7 @@ function Header() {
 
       <div style={style.divider}>
         <hr style={style.hr} />
-        <span style={style.dividerText}>추천 직업</span>
+        <span style={style.dividerText}>추천 자격증</span>
         <hr style={style.hr} />
       </div>
     </header>

@@ -1,19 +1,38 @@
 import { useEffect } from "react";
+import { saveCertificationsToFirestore } from "../common/libraries/saveCertificationsToFirestore";
+
+const mockData = [
+  {
+    certificationNumber: 1,
+    certificationName: "전기기사"
+  },
+  {
+    certificationNumber: 2,
+    certificationName: "산업안전기사"
+  },
+  {
+    certificationNumber: 3,
+    certificationName: "컴퓨터활용능력2급"
+  }
+];
 
 export const fetchAIResponse = async ({ prompt }) => {
-  const API_KEY = "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";
+  const API_KEY = "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"; // 🔥 OpenAI API 키
 
   if (!API_KEY) {
     console.error("API_KEY is missing! Check your .env file.");
-    return;
+    return mockData; // 🔥 API_KEY 없을 때 목데이터 반환
   }
+
+  const userId = sessionStorage.getItem("userId");
+  const today = new Date().toISOString().split("T")[0];
 
   try {
     const response = await fetch("https://api.openai.com/v1/chat/completions", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${API_KEY}`, // 🔥 백틱 사용
+        Authorization: `Bearer ${API_KEY}`,
       },
       body: JSON.stringify({
         model: "gpt-4o-mini",
@@ -26,18 +45,32 @@ export const fetchAIResponse = async ({ prompt }) => {
 
     aiResponse = aiResponse.replace(/```json/g, "").replace(/```/g, "").trim();
     console.log("AI 응답:", aiResponse);
-    let certification;
+
     try {
-      certification = JSON.parse(aiResponse);
+      const certification = JSON.parse(aiResponse);
+      console.log("✅ AI 추천 자격증:", certification);
+
+      // 🔥 Firestore에 저장
+      saveCertificationsToFirestore(userId, today, certification);
+      return certification;
     } catch (error) {
       console.error("❌ OpenAI 응답이 JSON 형식이 아닙니다:", error);
-      return;
+      console.warn("🔥 목데이터(`mockData`)를 저장합니다.");
+
+      // 🔥 JSON 파싱 실패 시 목데이터 저장
+      saveCertificationsToFirestore(userId, today, mockData);
+      return mockData;
     }
-    return certification;
   } catch (error) {
-    console.error("OpenAI API 호출 중 오류 발생:", error);
+    console.error("❌ OpenAI API 호출 중 오류 발생:", error);
+    console.warn("🔥 목데이터(`mockData`)를 저장합니다.");
+
+    // 🔥 API 호출 실패 시 목데이터 저장
+    saveCertificationsToFirestore(userId, today, mockData);
+    return mockData;
   }
 };
+
 
 const getCertRecommandPrompt = (answer1, answer2, answer3, answer4, answer5) => `
 당신은 5060 액티브 시니어의 재취업을 위한 AI 직업 추천 시스템입니다.  
