@@ -85,8 +85,8 @@ const HeaderText = styled.h1`
 const QuitIcon = styled.img`
   position: absolute;
   right: 28px;
-  width: 20px;
-  height: 20px;
+  width: 24px;
+  height: 24px;
   cursor: pointer;
 
   @media(max-width: ${breakpoints.mobile}px) {

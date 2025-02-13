@@ -20,21 +20,7 @@ export const Loading = () => {
     const answer5 = jobState.answer[4];
 
     console.log(answer1, answer2, answer3, answer4, answer5);
-    //const res = await GetCertificaionList({ answer1, answer2, answer3, answer4, answer5 });
-    const res = [
-      {
-        certificationNumber: 1,
-        certificationName: "한식조리기능사",
-      },
-      {
-        certificationNumber: 2,
-        certificationName: "정보처리기사",
-      },
-      {
-        certificationNumber: 3,
-        certificationName: "컴퓨터활용능력 2급",
-      },
-    ];
+    const res = await GetCertificaionList({ answer1, answer2, answer3, answer4, answer5 });
     console.log(res);
 
     navigate("/Jobwrite", { state: { certificationData: res } });
