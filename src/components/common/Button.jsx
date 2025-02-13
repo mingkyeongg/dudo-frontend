@@ -3,7 +3,13 @@ import colors from "../../constants/colors";
 
 export const Button = ({ disabled = false, width = "100%", height = "100%", innerText = "", fontSize = "16px", onClick = () => {} }) => {
   return (
-    <ButtonContainer disabled={disabled} width={width} height={height} onClick={disabled ? undefined : onClick}>
+    <ButtonContainer 
+      type="button"
+      disabled={disabled} 
+      width={width} 
+      height={height} 
+      onClick={disabled ? undefined : onClick}
+    >
       {innerText}
     </ButtonContainer>
   );

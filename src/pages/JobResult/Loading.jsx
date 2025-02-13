@@ -1,8 +1,19 @@
 import styled from '@emotion/styled';
 import dudo_mascot from '../../assets/dudo_mascot.svg';
 import dudo_logo from '../../assets/dudo_logo.svg';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export const Loading = () => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      navigate('/Jobwrite');
+    }, 2000);
+
+    return () => clearTimeout(timer);
+  }, [navigate]);
 
   return (
     <LoadingWrapper>
@@ -36,7 +47,7 @@ export const Loading = () => {
 
     </LoadingWrapper>
   );
-}
+};
 
 const LoadingWrapper = styled.div`
   display: flex;
@@ -108,16 +119,5 @@ const LogoWrapper = styled.div`
   text-align: center;
   gap: 10px;
 `;
-
-// const RecommendJobWrapper = styled.div`
-//   padding: 30px 20px;
-//   display: flex;
-//   flex-direction: column;
-//   align-items: center;
-//   background-color: ${colors.secondary[10]};
-//   min-height: 100vh;
-//   box-sizing: border-box;
-// `;
-
 
 export default Loading;
