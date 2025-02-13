@@ -6,12 +6,14 @@ import quitIcon from '../../assets/Icon/quit.svg';
 import { useSetAtom } from 'jotai';
 import { confirmAtom } from '../../store/modal';
 import { Confirm } from '../common/Modal/Confirm';
+import { alertAtom } from '../../store/modal';
+import Alert from '../common/Modal/Alert';
 
 export const RecommendJob = () => {
   const setConfirm = useSetAtom(confirmAtom);
+  const setAlert = useSetAtom(alertAtom);
 
   const onClick = () => {
-    console.log('onClick');
     setConfirm({
       message: '홈으로 나가시겠어요?',
       description: '현재 페이지가 저장되지 않아요',
@@ -22,12 +24,21 @@ export const RecommendJob = () => {
       },
       onCancel: () => {},
     });
+    // setAlert({
+    //   message: '홈으로 나가시겠어요?',
+    //   isVisible: true,
+    //   onConfirm: () => {
+    //     window.location.href = '/Main';
+    //     sessionStorage.removeItem('jobState');
+    //   },
+    // });
   }
 
   return (
     <RecommendJobWrapper>
       <Header>
         <Confirm />
+        <Alert />
         <HeaderText>
           일자리 추천받기
         </HeaderText>
