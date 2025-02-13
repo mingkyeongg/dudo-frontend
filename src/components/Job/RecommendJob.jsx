@@ -2,21 +2,39 @@ import styled from '@emotion/styled';
 import colors from '../../constants/colors';
 import { Outlet } from 'react-router-dom';
 import breakpoints from '../../constants/breakpoints';
-import AnswerLayout from './AnswerLayout';
 import quitIcon from '../../assets/Icon/quit.svg';
+import { useSetAtom } from 'jotai';
+import { confirmAtom } from '../../store/modal';
+import { Confirm } from '../common/Modal/Confirm';
 
 export const RecommendJob = () => {
+  const setConfirm = useSetAtom(confirmAtom);
+
+  const onClick = () => {
+    console.log('onClick');
+    setConfirm({
+      message: '홈으로 나가시겠어요?',
+      description: '현재 페이지가 저장되지 않아요',
+      isVisible: true,
+      onConfirm: () => {
+        window.location.href = '/Main';
+        sessionStorage.removeItem('jobState');
+      },
+      onCancel: () => {},
+    });
+  }
 
   return (
     <RecommendJobWrapper>
       <Header>
+        <Confirm />
         <HeaderText>
           일자리 추천받기
         </HeaderText>
         <QuitIcon 
           src={quitIcon} 
           alt="quit" 
-          onClick={() => window.location.href = '/Main'}
+          onClick={onClick}
         />
       </Header>
       <Outlet />

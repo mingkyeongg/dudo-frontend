@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { PATH } from "./routes/path";
 import styled from "@emotion/styled";
+import Confirm from "./components/common/Modal/Confirm.jsx";
 
 function App() {
   const navigate = useNavigate();
@@ -41,6 +42,7 @@ function App() {
 
   return (
     <AppContainer>
+      <Confirm />
       <button onClick={goToWhisper}>Whisper</button>
       <button onClick={goToSpeechToText}>SpeechToText</button>
       <button onClick={goToPage}>Page</button>
