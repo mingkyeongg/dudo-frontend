@@ -3,6 +3,7 @@ import { PATH } from "./routes/path";
 import styled from "@emotion/styled";
 import Confirm from "./components/common/Modal/Confirm.jsx";
 import OpenAiProcess from "./components/ai/OpenAiProcess.jsx";
+import { fetchWorkFieldsFromFirestore } from "./components/common/libraries/fetchWorkFieldsFromFirestore.js";
 
 function App() {
   const navigate = useNavigate();
@@ -58,6 +59,7 @@ function App() {
       <button onClick={goToJobResult}>JobResult</button>
       <button onClick={goToLoading}>Loading</button>
       <button onClick={goToFirebase}>Firebase</button>
+      <button onClick={() => {fetchWorkFieldsFromFirestore("user123")}}>FirebaseFetch</button>
       <OpenAiProcess />
 
       배포 테스트 중 테스트

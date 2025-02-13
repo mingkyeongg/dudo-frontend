@@ -4,22 +4,23 @@ import step2 from "../../assets/progressBar/step2.svg";
 import step3 from "../../assets/progressBar/step3.svg";
 import step4 from "../../assets/progressBar/step4.svg";
 import step5 from "../../assets/progressBar/step5.svg";
-import step6 from "../../assets/progressBar/step6.svg";
-import step7 from "../../assets/progressBar/step7.svg";
-import step8 from "../../assets/progressBar/step8.svg";
 import { useParams } from "react-router-dom";
+import { useAtomValue } from "jotai";
+import { jobAtomWithPersistence } from "../../store/job";
+import OpenAiProcess from "../ai/OpenAiProcess";
 
 export const JobQuestion = () => {
   const { step } = useParams();
+  const jobState = JSON.parse(sessionStorage.getItem("jobState"));
+
+  console.log(jobState.answer);
+
   const progressBar = [
     step1,
     step2,
     step3,
     step4,
     step5,
-    // step6,
-    // step7,
-    // step8,
   ];
   const question = [
     ['이전에 어떤 회사에서', '무슨 일을 하셨나요?'],
@@ -28,9 +29,24 @@ export const JobQuestion = () => {
     ['어떤 기술 분야에', '가장 관심이 있으신가요?'],
     ['거주하시는 곳의 시, 군, 구, 동을', '알려주세요.'],
   ];
+
+  const makeAIDatas = () => {
+      const answer1 = jobState.answer[0];
+      const answer2 = jobState.answer[1];
+      const answer3 = jobState.answer[2];
+      return (
+        <OpenAiProcess question1={answer1} question2={answer2} question3={answer3} />
+      );
+  };
+  
+
   return (
+    <>
+      {step === "4" && makeAIDatas()}  
       <QuestionLayout progressbarSrc={progressBar[step - 1]} question={question[step - 1]} step={step}/>
+    </>
   );
+  
 }
 
 export default JobQuestion;
