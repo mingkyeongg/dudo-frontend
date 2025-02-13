@@ -110,7 +110,7 @@ export const AnswerLayout = ({ question = [], answerDefault = '', step }) => {
     setJobState((prev) => ({
       ...prev,
       answer: prev.answer.map((item, index) =>
-        index === parseInt(step) - 1 ? transcript : item
+        index === parseInt(step) - 1 ? answer[parseInt(step) - 1] : item
       ),
     }));
     sessionStorage.setItem("jobState", JSON.stringify(jobState));
@@ -119,6 +119,7 @@ export const AnswerLayout = ({ question = [], answerDefault = '', step }) => {
   
 
   const handleTextChange = () => {
+
   };
 
   console.log("현재 상태:", answer[parseInt(step) - 1]);

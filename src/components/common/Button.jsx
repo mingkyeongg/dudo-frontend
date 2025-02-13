@@ -9,7 +9,7 @@ export const Button = ({ disabled = false, width = "100%", height = "100%", inne
   );
 };
 
-const ButtonContainer = styled.button`  // ✅ button 태그로 변경
+const ButtonContainer = styled.button`
   background-color: ${({ disabled }) => (disabled ? `${colors.grayScale[30]}` : `${colors.secondary[90]}`)};
   color: ${colors.white};
   border: none;
@@ -27,7 +27,15 @@ const ButtonContainer = styled.button`  // ✅ button 태그로 변경
   opacity: ${({ disabled }) => (disabled ? 0.6 : 1)};
 
   &:hover {
-    background-color: ${({ disabled }) => (disabled ? `${colors.grayScale[30]}` : `${colors.secondary[80]}`)};
+    background-color: ${({ disabled }) => (disabled ? `${colors.grayScale[30]}` : `${colors.secondary[100]}`)};
+  }
+  &:focus {
+    outline: none;
+
+  }
+  &:active {
+    background-color: ${colors.secondary[100]};
+    box-shadow: 0px 4px 6px 0px #00000029;
   }
 `;
 
