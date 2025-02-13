@@ -3,6 +3,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import colors from "../../constants/colors";
 import moreIcon from "../../assets/Icon/more.svg";
+import breakpoints from "../../constants/breakpoints";
 
 const JobAccordion = ({ title, children, isSelected, onSelect }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -44,6 +45,10 @@ const AccordionContainer = styled.div`
   cursor: pointer;
   box-sizing: border-box;
   transition: background 0.3s, border 0.3s;
+
+  @media (max-width: ${breakpoints.mobile}px) {
+    width: ${({ isSelected }) => (isSelected ? "325px" : "327px")};
+  }
 `;
 
 const AccordionHeader = styled.div`

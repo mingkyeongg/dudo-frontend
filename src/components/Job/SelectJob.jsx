@@ -11,30 +11,45 @@ import { useNavigate } from "react-router-dom";
 import { jobAtomWithPersistence } from "../../store/job";
 import { useAtom } from "jotai";
 import { PATH } from "../../routes/path";
+import { useQuery } from "@tanstack/react-query";
+import { getField } from "../../api/job";
 
 export const SelectJob = ({ step }) => {
-  const isMobile = window.innerWidth < breakpoints.mobile;
   const navigate = useNavigate();
+  const isMobile = window.innerWidth < breakpoints.mobile;
   const [confirmButtonDisabled, setConfirmButtonDisabled] = useState(true);
   const [jobState, setJobState] = useAtom(jobAtomWithPersistence);
 
-  const jobOptions = ["📚 교육", "💻 IT", "🔧 기술", "🛒 서비스", "📊 금융", "🎨 디자인"];
+  const { data, isLoading } = useQuery({
+    queryKey: ["field"],
+    queryFn: getField,
+  });
+
   const [selected, setSelected] = useState([]);
+  console.log(data);
 
-  /** ✅ 페이지가 처음 로드될 때, 기존 선택값을 반영 */
   useEffect(() => {
-    const savedSelection = jobState.answer[parseInt(step) - 1] || [];
-    const filteredSelection = jobOptions.filter((option) => savedSelection.includes(option));
-    setSelected(filteredSelection);
-  }, [jobState, step]);
 
-  /** ✅ 사용자가 선택하면 상태 업데이트 */
+    if (!data) {
+      return;
+    }
+
+    const savedSelection = jobState.answer[parseInt(step) - 1] || [];
+    if (Array.isArray(savedSelection)) {
+      const filteredSelection = data
+        .map((field) => field.workFieldName)
+        .filter((option) => savedSelection.includes(option));
+
+      setSelected(filteredSelection);
+    }
+  }, [jobState, step, data]);
+
   const handleSelect = (title) => {
     setSelected((prev) => {
       if (prev.includes(title)) {
-        return prev.filter((item) => item !== title); // 선택 해제
+        return prev.filter((item) => item !== title);
       } else if (prev.length < 2) {
-        return [...prev, title]; // 최대 2개까지 선택
+        return [...prev, title];
       } else {
         toast.error("2개까지만 선택 가능해요.");
         return prev;
@@ -42,12 +57,10 @@ export const SelectJob = ({ step }) => {
     });
   };
 
-  /** ✅ 선택 상태가 변경될 때 버튼 활성화/비활성화 업데이트 */
   useEffect(() => {
     setConfirmButtonDisabled(selected.length === 0);
   }, [selected]);
 
-  /** ✅ 다음 페이지 이동 및 `sessionStorage`에 저장 */
   const goToNextPage = () => {
     const updatedJobState = {
       ...jobState,
@@ -57,29 +70,31 @@ export const SelectJob = ({ step }) => {
     };
 
     setJobState(updatedJobState);
-    sessionStorage.setItem("jobState", JSON.stringify(updatedJobState)); // 최신 값 저장
+    sessionStorage.setItem("jobState", JSON.stringify(updatedJobState));
     navigate(`${PATH.JOB_QUESTION}/${parseInt(step) + 1}`);
   };
 
   return (
     <Content>
-      <div><Toaster /></div>
+      <div>
+        <Toaster />
+      </div>
       <QuestionBox>희망 직종을 선택해주세요 (최대 2개)</QuestionBox>
       <Spacer height={16} />
-      {jobOptions.map((title) => (
-        <ArrcodionWrapper key={title}>
+      {data && data.map((field) => (
+        <AccordionWrapper key={field.workNumber}>
           <JobAccordion
-            title={title}
-            isSelected={selected.includes(title)}
-            onSelect={() => handleSelect(title)}
+            title={field.workFieldName}
+            isSelected={selected.includes(field.workFieldName)}
+            onSelect={() => handleSelect(field.workFieldName)}
           >
-            {`${title}에 대한 설명`}
+            {field.workFieldDescription}
           </JobAccordion>
           <Spacer height={12} />
-        </ArrcodionWrapper>
+        </AccordionWrapper>
       ))}
       <Button
-        width={isMobile ? "156px" : "100%"}
+        width={isMobile ? "327px" : "100%"}
         height="48px"
         innerText="확인"
         disabled={confirmButtonDisabled}
@@ -89,7 +104,7 @@ export const SelectJob = ({ step }) => {
   );
 };
 
-const ArrcodionWrapper = styled.div`
+const AccordionWrapper = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
