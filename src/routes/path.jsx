@@ -19,4 +19,6 @@ export const PATH = {
   JOBRESULT: "/Jobwrite",
   LOADING: "/Loading",
   SIGNUP: "/Signup",
+
+  FIREBASE: "/Firebase",
 };

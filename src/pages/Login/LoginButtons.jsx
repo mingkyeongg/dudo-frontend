@@ -8,7 +8,7 @@ function LoginButtons() {
     buttonContainer: {
       display: "flex",
       flexDirection: "column",
-      gap: "10px",
+      gap: "20px",
       width: "100%",
       marginTop: "20px",
     },

@@ -1,6 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import { PATH } from "./routes/path";
 import styled from "@emotion/styled";
+import Confirm from "./components/common/Modal/Confirm.jsx";
+import OpenAiProcess from "./components/ai/OpenAiProcess.jsx";
 
 function App() {
   const navigate = useNavigate();
@@ -32,9 +34,14 @@ function App() {
     navigate(PATH.LOADING);
   }
 
+  const goToFirebase = () => {
+    navigate(PATH.FIREBASE);
+  }
+
 
   return (
     <AppContainer>
+      <Confirm />
       <button onClick={goToWhisper}>Whisper</button>
       <button onClick={goToSpeechToText}>SpeechToText</button>
       <button onClick={goToPage}>Page</button>
@@ -42,6 +49,8 @@ function App() {
       <button onClick={goToMain}>Main</button>
       <button onClick={goToJobResult}>JobResult</button>
       <button onClick={goToLoading}>Loading</button>
+      <button onClick={goToFirebase}>Firebase</button>
+      <OpenAiProcess />
 
       배포 테스트 중 테스트
     </AppContainer>

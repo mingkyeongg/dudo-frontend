@@ -18,6 +18,7 @@ import { JobQuestion } from "../components/Job/JobQuestion";
 import JobAnswer from "../components/Job/JobAnswer";
 import Loading from '../pages/JobResult/Loading';
 import SignUp from "../pages/Login/SignUp";
+import FirebasePage from "../components/common/libraries/test.jsx";
 
 const router = createBrowserRouter([
   {
@@ -86,6 +87,8 @@ const router = createBrowserRouter([
   {
     path: PATH.SIGNUP,
     element: <SignUp />,
+    path: PATH.FIREBASE,
+    element: <FirebasePage />,
   },
 ]);
 

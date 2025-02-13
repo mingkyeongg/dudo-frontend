@@ -159,6 +159,7 @@ export const AnswerLayout = ({ question = [], answerDefault = '', step }) => {
 
 
   const handleTextChange = () => {
+
   };
 
   console.log("현재 상태:", answer[parseInt(step) - 1]);
