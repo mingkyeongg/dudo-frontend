@@ -1,8 +1,6 @@
 import { useEffect } from "react";
 import { saveWorkFieldsToFirestore } from "../common/libraries/saveWorkFields.js";
 
-const userId = "user123";
-
 export const fetchAIResponse = async ({ prompt }) => {
   const API_KEY = import.meta.env.VITE_OPENAI_API_KEY;
 
@@ -10,6 +8,8 @@ export const fetchAIResponse = async ({ prompt }) => {
     console.error("API_KEY is missing! Check your .env file.");
     return;
   }
+
+  const userId = sessionStorage.getItem("userId");
 
   try {
     const response = await fetch("https://api.openai.com/v1/chat/completions", {

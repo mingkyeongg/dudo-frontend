@@ -330,6 +330,7 @@ function Login() {
     if (user) {
       const uid = user.uid;
       console.log("로그인한 사용자 UID:", uid);
+      sessionStorage.setItem("userId", uid);
 
       // uploadDataToFirestore();
     } else {

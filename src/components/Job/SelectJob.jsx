@@ -25,10 +25,11 @@ export const SelectJob = ({ step }) => {
 
   const uuid = sessionStorage.getItem("docId");
   console.log(uuid);
+  const userId = sessionStorage.getItem("userId");
 
   const { data, isLoading } = useQuery({
     queryKey: ["field", uuid],
-    queryFn: () => (uuid ? fetchOneWorkField({ userId: "user123", uuid }) : null),
+    queryFn: () => (uuid ? fetchOneWorkField({ userId , uuid }) : null),
     enabled: !!uuid,
   });
 
