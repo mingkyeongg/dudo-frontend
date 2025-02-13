@@ -16,6 +16,8 @@ import ResumeArchiving from "../pages/Archiving/ResumeArchiving";
 import ResumeWrite from "../pages/ResumeWrite/ResumeWrite";
 import ResumeWrite2 from "../pages/ResumeWrite/ResumeWrite2";
 import JobResult from "../pages/JobResult/JobResult";
+import { JobQuestion } from "../components/Job/JobQuestion";
+import JobAnswer from "../components/Job/JobAnswer";
 
 const router = createBrowserRouter([
   {
@@ -46,6 +48,16 @@ const router = createBrowserRouter([
   {
     path: PATH.JOB,
     element: <RecommendJob />,
+    children: [
+      {
+        path: `${PATH.JOB_QUESTION}/:step`,
+        element: <JobQuestion />,
+      },
+      {
+        path: `${PATH.JOB_ANSWER}/:step`,
+        element: <JobAnswer />,
+      },
+    ],
   },
   {
     path: PATH.HOME,

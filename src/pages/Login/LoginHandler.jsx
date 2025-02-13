@@ -20,7 +20,7 @@ function LoginHandler() {
           },
         }).then((res) => { 
         // 변경할 부분 
-        navigate("/Login");
+        navigate("/Home");
       });
     };
     kakaoLogin();

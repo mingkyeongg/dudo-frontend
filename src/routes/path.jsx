@@ -8,6 +8,8 @@ export const PATH = {
   LOGIN: "/Login",
   LOGINHANDLER: "/Loginhandler",
   JOB: "/Job",
+  JOB_QUESTION: "/Job/Question",
+  JOB_ANSWER: "/Job/Answer",
 
   HOME: "/Home",
   EXPLANATION: "/Explanation",

@@ -2,10 +2,24 @@ import styled from '@emotion/styled';
 import colors from '../../constants/colors';
 import dudo from '../../assets/dudo_mascot.svg';
 import breakpoints from '../../constants/breakpoints';
-import microphone from '../../assets/Icon/microphone.svg';
 import Content from './Content';
+import rightArrowIcon from '../../assets/Icon/rightArrow.svg';
+import { useNavigate } from 'react-router-dom';
+import { PATH } from '../../routes/path';
+import doubleArrowLeft from '../../assets/Icon/doubleArrowLeft.svg';
 
-export const QuestionLayout = ({ progressbarSrc, question = [], onClick }) => {
+export const QuestionLayout = ({ progressbarSrc, question = [], onClick, step }) => {
+
+  const navigate = useNavigate();
+  
+  const goToNextPage = () => {
+    navigate(`${PATH.JOB_ANSWER}/${step}`);
+  };
+
+  const goToPreviousPage = () => {
+    navigate(`${PATH.JOB_ANSWER}/${parseInt(step) - 1}`);
+  };
+
   return (
     <Content>
       <Progressbar src={progressbarSrc} alt="step1" />
@@ -15,9 +29,12 @@ export const QuestionLayout = ({ progressbarSrc, question = [], onClick }) => {
           <Question key={index}>{element}</Question>
         ))}
       </QuestionWrapper>
-      <Microphone onClick={onClick}>
-        <MicrophoneIcon src={microphone} alt="microphone" />
-      </Microphone>
+      <Footer>
+          <BackIcon src={doubleArrowLeft} alt="rightArrow" onClick={goToPreviousPage} />
+          <RightArrow onClick={onClick}>
+          <RightArrowIcon src={rightArrowIcon} alt="rightArrow" onClick={goToNextPage}/>
+        </RightArrow>
+      </Footer>
     </Content>
   );
 };
@@ -25,13 +42,34 @@ export const QuestionLayout = ({ progressbarSrc, question = [], onClick }) => {
 const DudoImg = styled.img`
   width: 200px;
   height: 200px;
-  margin-top: 170px;
+  margin-top: 60px;
 
   @media (max-width: ${breakpoints.mobile}px) {
     width: 142px;
     height: 142px;
     margin-top: 120px;
   }
+`;
+
+const BackIcon = styled.img`
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  align-self: center;
+  justify-self: center;
+
+  @media (max-width: ${breakpoints.mobile}px) {
+    width: 24px;
+    height: 24px;
+  }
+`;
+
+const Footer = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  align-items: center;
+  width: 100%;
+  margin-top: 160px;
 `;
 
 const Progressbar = styled.img`
@@ -43,7 +81,7 @@ const Progressbar = styled.img`
 `;
 
 const QuestionWrapper = styled.div`
-  margin-top: 40px;
+  margin-top: 30px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -63,17 +101,18 @@ const Question = styled.h1`
   }
 `;
 
-const Microphone = styled.button`
-  width: 120px;
-  height: 120px;
+const RightArrow = styled.button`
+  width: 100px;
+  height: 100px;
   background-color: ${colors.secondary[90]};
   border-radius: 50%;
-  position: absolute;
   bottom: 80px;
   border: none;
   display: flex;
   justify-content: center;
   align-items: center;
+  align-self: center;
+  justify-self: center;
 
   @media (max-width: ${breakpoints.mobile}px) {
     width: 80px;
@@ -81,7 +120,7 @@ const Microphone = styled.button`
   }
 `;
 
-const MicrophoneIcon = styled.img`
+const RightArrowIcon = styled.img`
   width: 60px;
   height: 60px;
   color: ${colors.white};
