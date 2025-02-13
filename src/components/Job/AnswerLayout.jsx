@@ -19,7 +19,6 @@ export const AnswerLayout = ({ question = [], answerDefault = '', step }) => {
   const [isListening, setIsListening] = useState(false);
   const [ jobState, setJobState ] = useAtom(jobAtomWithPersistence);
   const answer = jobState.answer;
-  console.log(answer);
   const [transcript, setTranscript] = useState(answer[parseInt(step) - 1]);
   const speechRecognizerRef = useRef(null);
   const timeoutRef = useRef(null);
@@ -194,7 +193,7 @@ const RestartIcon = styled.img`
   cursor: pointer;
 `;
 
-const QuestionBox = styled.div`
+export const QuestionBox = styled.div`
   display: flex;
   width: 450px;
   flex-direction: column;
