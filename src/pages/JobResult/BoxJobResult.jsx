@@ -59,6 +59,7 @@ function BoxJobResult({rank, title, jobListings}) {
       display: "block",
     }
   };
+  
 
   return (
     <div style={style.container} onClick={toggleAccordion}>
