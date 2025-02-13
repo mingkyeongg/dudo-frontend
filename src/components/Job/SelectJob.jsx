@@ -7,7 +7,7 @@ import { Spacer } from "../common/Spacer";
 import Button from "../common/Button";
 import styled from "@emotion/styled";
 import breakpoints from "../../constants/breakpoints";
-import { useNavigate } from "react-router-dom";
+import { data, useNavigate } from "react-router-dom";
 import { jobAtomWithPersistence } from "../../store/job";
 import { useAtom } from "jotai";
 import { PATH } from "../../routes/path";
@@ -16,6 +16,8 @@ import { fetchOneWorkField } from "../common/libraries/fetchWorkFieldsFromFirest
 import pinIcon from "../../assets/Icon/pin.svg";
 import goodIcon from "../../assets/Icon/good.svg";
 import OnLoading from "./OnLoading";
+import useCheckData from "../../hooks/useCheckData";
+import useAutoRefresh from "../../hooks/useAutoRefresh";
 
 export const SelectJob = ({ step }) => {
   const navigate = useNavigate();
@@ -88,18 +90,14 @@ useEffect(() => {
     navigate(`${PATH.JOB_QUESTION}/${stepIndex + 1}`);
   };
 
-  useEffect(() => {
-    if (data?.workFields && data.workFields.length > 0) {
-      console.log("🔄 데이터 업데이트됨:", data.workFields.length);
-      setArrayLength((prev) => (prev !== data.workFields.length ? data.workFields.length : prev));
-    }
-  }, [data?.workFields?.length]);  // ✅ 배열 길이를 직접 감지
+  const checkCondition = (data) => data?.workFields?.length === 6;
+  useCheckData(data, checkCondition);
+  useAutoRefresh();
+
+
   
-  useEffect(() => {
-    console.log("📌 arrayLength 상태 변경:", arrayLength);
-  }, [arrayLength]);
   
-  if (!data || data?.workFields.length !== 6) {
+  if (isLoading || !data || data.workFields.length === 0) {
     return <OnLoading />;
   }
   
