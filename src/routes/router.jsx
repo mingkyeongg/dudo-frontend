@@ -12,7 +12,6 @@ import RecommendJob from "../components/Job/RecommendJob";
 import Main from "../pages/Home/Home";
 import Explanation from "../pages/Home/Explanation";
 import JobArchiving from "../pages/Archiving/JobArchiving";
-import ResumeArchiving from "../pages/Archiving/ResumeArchiving";
 import JobResult from "../pages/JobResult/JobResult";
 import { JobQuestion } from "../components/Job/JobQuestion";
 import JobAnswer from "../components/Job/JobAnswer";
@@ -71,10 +70,6 @@ const router = createBrowserRouter([
   {
     path: PATH.JOBARCHIVING,
     element: <JobArchiving />,
-  },
-  {
-    path: PATH.RESUMEARCHIVING,
-    element: <ResumeArchiving />,
   },
   {
     path: PATH.JOBRESULT,

@@ -1,12 +1,20 @@
 import Header from "./Header";
 import BoxJobResult from "./BoxJobResult";
 import Bottom from "./Bottom";
-import React, {useEffect, useState} from "react";
+import { useLocation } from "react-router-dom";
+import React, { useEffect, useState } from "react";
 import { db } from "../../components/common/libraries/firebase";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDoc, doc } from "firebase/firestore";
 
-function JobResult({collectionName}) {
-  const [ jobs, setJobs] = useState([]);
+function JobResult() {
+  // const certificationData = [
+  //   { certificationNumber: 1, certificationName: "한식조리기능사" },
+  //   { certificationNumber: 2, certificationName: "정보처리기사" },
+  //   { certificationNumber: 3, certificationName: "컴퓨터활용능력 2급" },
+  // ];
+  const location = useLocation();
+  const { certificationData } = location.state || {};
+  const [jobs, setJobs] = useState([]);
 
   const style = {
     container: {
@@ -49,18 +57,60 @@ function JobResult({collectionName}) {
     `,
   };
 
+  // useEffect(() => {
+  //   const fetchJobs = async () => {
+  //     try {
+  //       if (certificationData) {
+  //         const jobList = [];
+  //         for (const item of certificationData) {
+  //           const docRef = doc(db, "certifications", item.certificationName);
+  //           const docSnap = await getDoc(docRef);
+  //           if (docSnap.exists()) {
+  //             jobList.push({ id: item.certificationNumber, ...docSnap.data() });
+  //           }
+  //         }
+  //         setJobs(jobList);
+  //       }
+  //     } catch (error) {
+  //       console.error("Firebase에서 데이터 가져오기 실패:", error);
+  //     }
+  //   };
+
+  //   fetchJobs();
+  // }, [certificationData]);
+
   useEffect(() => {
     const fetchJobs = async () => {
       try {
-        const querySnapshot = await getDocs(collection(db, collectionName));
-        const jobList = querySnapshot.docs.map((doc) => ({ id:doc.id, ...doc.data()}));
+        const jobList = [];
+        for (const item of certificationData) {
+          const docRef = doc(db, "certifications", item.certificationName);
+          const docSnap = await getDoc(docRef);
+          if (docSnap.exists()) {
+            const data = docSnap.data();
+            jobList.push({
+              id: item.certificationNumber,
+              certification_rank: item.certificationNumber,
+              certification_name: data.certification_name,
+              job_post_title: data.job_post_title,
+              job_post_url: data.job_post_url,
+              youtube_title: data.youtube_title,
+              youtube_link: data.youtube_link,
+              blog_title: data.blog_title,
+              blog_link: data.blog_link,
+            });
+          } else {
+            console.warn(`${item.certificationName} 데이터가 없습니다.`);
+          }
+        }
         setJobs(jobList);
       } catch (error) {
         console.error("Firebase에서 데이터 가져오기 실패:", error);
       }
     };
+
     fetchJobs();
-  }, [collectionName]);
+  }, []);
 
   return (
     <div style={style.container}>
@@ -76,7 +126,7 @@ function JobResult({collectionName}) {
       <Header />
 
       <div style={style.content}>
-        {jobs.map((job, index) => (
+        {jobs.map((job) => (
           <BoxJobResult
             key={job.id}
             rank={job.certification_rank}
@@ -88,60 +138,6 @@ function JobResult({collectionName}) {
             ]}
           />
         ))}
-        {/* <BoxJobResult
-          rank={1}
-          title="사회복지사"
-          jobListings={[
-            {
-              title: "#1 채용공고제목 00000",
-              link: "https://www.example.com/job1",
-            },
-            {
-              title: "#2 채용공고제목 00000",
-              link: "https://www.example.com/job2",
-            },
-            {
-              title: "#3 채용공고제목 00000",
-              link: "https://www.example.com/job3",
-            },
-          ]}
-        />
-        <BoxJobResult
-          rank={2}
-          title="사회복지사"
-          jobListings={[
-            {
-              title: "#1 채용공고제목 00000",
-              link: "https://www.example.com/job1",
-            },
-            {
-              title: "#2 채용공고제목 00000",
-              link: "https://www.example.com/job2",
-            },
-            {
-              title: "#3 채용공고제목 00000",
-              link: "https://www.example.com/job3",
-            },
-          ]}
-        />
-        <BoxJobResult
-          rank={3}
-          title="사회복지사"
-          jobListings={[
-            {
-              title: "#1 채용공고제목 00000",
-              link: "https://www.example.com/job1",
-            },
-            {
-              title: "#2 채용공고제목 00000",
-              link: "https://www.example.com/job2",
-            },
-            {
-              title: "#3 채용공고제목 00000",
-              link: "https://www.example.com/job3",
-            },
-          ]}
-        /> */}
       </div>
 
       <Bottom style={style.bottom} />
