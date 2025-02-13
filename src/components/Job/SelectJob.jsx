@@ -26,6 +26,7 @@ export const SelectJob = ({ step }) => {
   const [jobState, setJobState] = useAtom(jobAtomWithPersistence);
   const [arrayLength, setArrayLength] = useState(0);
   const stepIndex = parseInt(step, 10);
+  const [isRefresh, setIsRefresh] = useState(false);
 
   const [uuid, setUuid] = useState(sessionStorage.getItem("docId"));
 const [userId, setUserId] = useState(sessionStorage.getItem("userId"));
@@ -90,9 +91,8 @@ useEffect(() => {
     navigate(`${PATH.JOB_QUESTION}/${stepIndex + 1}`);
   };
 
-  const checkCondition = (data) => data?.workFields?.length === 6;
+  const checkCondition = (data) => data?.workFields?.length === 0;
   useCheckData(data, checkCondition);
-  useAutoRefresh();
 
 
   

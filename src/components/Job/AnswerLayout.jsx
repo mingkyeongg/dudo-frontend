@@ -57,6 +57,7 @@ export const AnswerLayout = ({ question = [], answerDefault = '', step }) => {
     }
 
     speechRecognizerRef.current = new recognition();
+    speechRecognizerRef.current.interimResults = false;
     speechRecognizerRef.current.continuous = true;
     speechRecognizerRef.current.interimResults = true;
     speechRecognizerRef.current.lang = "ko-KR";
