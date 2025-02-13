@@ -34,17 +34,23 @@ function Header() {
 
   useEffect(() => {
     const fetchUserName = async () => {
+      if (sessionStorage.getItem("name")) {
+        setName(sessionStorage.getItem("name"));
+        return;
+      }
       const user = auth.currentUser;
       if (user) {
         const userRef = doc(db, "users", user.uid);
         const docSnap = await getDoc(userRef);
         if (docSnap.exists()) {
           setName(docSnap.data().name);
+          sessionStorage.setItem("name", docSnap.data().name);
         }
       }
     };
     fetchUserName();
   }, []);
+
 
   return (
     <header>
