@@ -7,7 +7,7 @@ import Modal from './Modal';
 
 export const Confirm = () => {
   const [modal, setModal] = useAtom(confirmAtom);
-  const { message, description, isVisible, onConfirm, onCancel } = modal;
+  const { message, description, isVisible, onConfirm, onCancel, acceptButtonName } = modal;
 
   const confirm = () => {
     setModal({
@@ -27,6 +27,7 @@ export const Confirm = () => {
       isVisible: false,
       onConfirm: () => {},
       onCancel: () => {},
+      acceptButtonName: '',
     });
     onCancel();
   };
@@ -38,7 +39,7 @@ export const Confirm = () => {
         <DescriptionStyle>{description}</DescriptionStyle>
         <ButtonContainer>
           <CancelButton onClick={cancel}>취소</CancelButton>
-          <AcceptButton onClick={confirm}>나가기</AcceptButton>
+          <AcceptButton onClick={confirm}>{acceptButtonName}</AcceptButton>
         </ButtonContainer>
       </ConfirmStyle>
     </Modal>

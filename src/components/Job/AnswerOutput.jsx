@@ -41,7 +41,7 @@ export const AnswerOutput = forwardRef(({ defaultValue = '', readOnly = false, v
 const OutputBox = styled.textarea`
   display: block;
   width: 100%;
-  height: 346px;
+  height: 300px;
   box-sizing: border-box;
   font-size: 24px;
   background-color: ${colors.white};

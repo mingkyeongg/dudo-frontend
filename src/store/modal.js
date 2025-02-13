@@ -12,4 +12,5 @@ export const confirmAtom = atom({
   isVisible: false,
   onConfirm: () => {},
   onCancel: () => {},
+  acceptButtonName: '',
 });

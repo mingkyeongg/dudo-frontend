@@ -5,13 +5,14 @@ import step3 from "../../assets/progressBar/step3.svg";
 import step4 from "../../assets/progressBar/step4.svg";
 import step5 from "../../assets/progressBar/step5.svg";
 import { useParams } from "react-router-dom";
-import { useAtomValue } from "jotai";
+import { useSetAtom } from "jotai";
 import { jobAtomWithPersistence } from "../../store/job";
 import OpenAiProcess from "../ai/OpenAiProcess";
 
 export const JobQuestion = () => {
   const { step } = useParams();
   const jobState = JSON.parse(sessionStorage.getItem("jobState"));
+  const setJobState = useSetAtom(jobAtomWithPersistence);
 
   console.log(jobState.answer);
 
@@ -38,6 +39,11 @@ export const JobQuestion = () => {
         <OpenAiProcess question1={answer1} question2={answer2} question3={answer3} />
       );
   };
+
+  if (step === "1") {
+    sessionStorage.setItem("jobState", JSON.stringify({ answer: ["", "", "", "", ""] }));
+    setJobState({ answer: ["", "", "", "", ""] });
+  }
   
 
   return (
