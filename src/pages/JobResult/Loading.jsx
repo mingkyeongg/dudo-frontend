@@ -1,11 +1,14 @@
 import styled from '@emotion/styled';
 import dudo_mascot from '../../assets/dudo_mascot.svg';
 import dudo_logo from '../../assets/dudo_logo.svg';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { auth, db } from '../../components/common/libraries/firebase';
+import { doc, getDoc } from "firebase/firestore";
 
 export const Loading = () => {
   const navigate = useNavigate();
+  const [ name, setName ] = useState("");
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -14,6 +17,20 @@ export const Loading = () => {
 
     return () => clearTimeout(timer);
   }, [navigate]);
+
+  useEffect(() => {
+    const fetchUserName = async () => {
+      const user = auth.currentUser;
+      if (user) {
+        const userRef = doc(db, "users", user.uid);
+        const docSnap = await getDoc(userRef);
+        if (docSnap.exists()) {
+          setName(docSnap.data().name);
+        }
+      }
+    };
+    fetchUserName();
+  }, []);
 
   return (
     <LoadingWrapper>
@@ -28,7 +45,7 @@ export const Loading = () => {
 
       <Header>  
         <LoadingText>
-          <UserName>지연</UserName>
+          <UserName>{ name }</UserName>
           <Text>님의 적성을 분석하고 있어요!</Text>
         </LoadingText>
 

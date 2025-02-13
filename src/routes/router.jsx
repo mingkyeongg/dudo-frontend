@@ -24,7 +24,7 @@ const router = createBrowserRouter([
   {
     index: true,
     path: "/",
-    element: <App />,
+    element: <Page />,
   },
   {
     path: PATH.WHISPER,
@@ -87,8 +87,6 @@ const router = createBrowserRouter([
   {
     path: PATH.SIGNUP,
     element: <SignUp />,
-    path: PATH.FIREBASE,
-    element: <FirebasePage />,
   },
 ]);
 

@@ -1,7 +1,9 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../../components/common/libraries/firebase";
 
-function LoginButtons() {
+function LoginButtons({ email={email}, password={password} }) {
   const navigate = useNavigate();
 
   const style = {
@@ -36,9 +38,25 @@ function LoginButtons() {
     },
   };
 
+  const handleLogin = async () => {
+    try {
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      console.log("로그인 성공:", userCredential.user);
+      alert("로그인 성공!");
+      navigate("/Main"); 
+    } catch (error) {
+      console.error("로그인 실패:", error.message);
+      alert("로그인 실패: " + error.message);
+    }
+  };
+
   return (
     <div style={style.buttonContainer}>
-      <button style={style.loginButton} type="button">
+      <button 
+        style={style.loginButton} 
+        type="button"
+        onClick={handleLogin}
+      >
         로그인
       </button>
       <button 

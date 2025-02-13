@@ -1,4 +1,4 @@
-function BoxResume({ title, type, placeholder, value, onChange }) {
+function BoxResume({ title, type, value, onChange }) {
   const style = {
     container: {
       width: "100%",

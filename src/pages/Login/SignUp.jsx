@@ -2,9 +2,13 @@ import BoxResume from "./BoxResume";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import quit_icon from "../../assets/icon/quit.svg";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../../components/common/libraries/firebase";
+import { db } from "../../components/common/libraries/firebase";
+import { doc, setDoc } from 'firebase/firestore';
 
 function SignUp() {
-  const [id, setId] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName ] = useState('');
   const navigate = useNavigate();
@@ -16,7 +20,6 @@ function SignUp() {
       flexDirection: "column",
       alignItems: "center",
       height: "100vh",
-      //justifyContent: "center",
       boxSizing: "border-box",
       gap: "20px"
     },
@@ -48,6 +51,25 @@ function SignUp() {
     }
   };
 
+  const handleSignUp = async () => {
+    try {
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+      
+      await setDoc(doc(db, "users", user.uid), {
+        name: name,
+        email: email,
+      });
+
+      console.log("회원가입 성공:", userCredential.user);
+      alert("회원가입 성공!");
+      navigate("/login");
+    } catch (error) {
+      console.error("회원가입 실패:", error.message);
+      alert("회원가입 실패: " + error.message);
+    }
+  };
+
   return (
     <div style={style.container}>
       <div style={style.header}>
@@ -66,10 +88,10 @@ function SignUp() {
         onChange={(e) => setName(e.target.value)}
       />
       <BoxResume 
-        title={"아이디"}
-        type={"text"}
-        value={id}
-        onChange={(e) => setId(e.target.value)}
+        title={"이메일"}
+        type={"email"}
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
       />
       <BoxResume 
         title={"비밀번호"}
@@ -77,7 +99,11 @@ function SignUp() {
         value={password}
         onChange={(e) => setPassword(e.target.value)}
       />
-      <button style={style.signupButton} type="button">
+      <button 
+        style={style.signupButton} 
+        type="button"
+        onClick={handleSignUp}
+      >
         회원가입
       </button>
     </div>

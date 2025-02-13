@@ -9,6 +9,7 @@ import Button from "../common/Button";
 import { Spacer } from "../common/Spacer";
 import doubleArrowLeft from "../../assets/Icon/doubleArrowLeft.svg";
 import micAnimation from "../../assets/animation/mic.json";
+import voice from "../../assets/icon/voice.svg";
 import { PATH } from "../../routes/path";
 import Lottie from "lottie-react";
 import restart from "../../assets/Icon/restart.svg";
@@ -131,7 +132,7 @@ export const AnswerLayout = ({ question = [], answerDefault = '', step }) => {
 
   const goToNextPage = (event) => {
     event.preventDefault();
-    setNextPageTrigger(true);  // 페이지 이동 트리거 상태 변경
+    setNextPageTrigger(true); 
   };
   
   useEffect(() => {
@@ -201,7 +202,9 @@ export const AnswerLayout = ({ question = [], answerDefault = '', step }) => {
       <Spacer height={28} />
       <Footer>
         <BackIcon src={doubleArrowLeft} onClick={handleBack} />
-        {isRestart ?
+        
+        
+        {/* {isRestart ?
         <RestartIconWrapper>
           <RestartIcon 
             src={restart} 
@@ -209,9 +212,29 @@ export const AnswerLayout = ({ question = [], answerDefault = '', step }) => {
           />
         </RestartIconWrapper>
         : <Lottie
-          animationData={micAnimation}
+          //animationData={micAnimation}
+          animationData={voice}
           lottieRef={lottieRef}
           style={{ height: isMobile ? "80px" : "100px", cursor: "pointer", outline: "none", WebkitTapHighlightColor: "transparent"}}
+          onClick={clickButtonHandler}
+        />
+      } */}
+        {isRestart ?
+        <RestartIconWrapper>
+          <RestartIcon 
+            src={restart} 
+            onClick={clickButtonHandler} 
+          />
+        </RestartIconWrapper>
+        : <img
+          src={voice}
+          lottieRef={lottieRef}
+          style={{ 
+            marginLeft: '23px',
+            height: isMobile ? "100px" : "100px", 
+            cursor: "pointer", 
+            outline: "none", 
+            WebkitTapHighlightColor: "transparent"}}
           onClick={clickButtonHandler}
         />
       }

@@ -3,10 +3,17 @@ import dudoLogo from "../../assets/dudo_logo.svg";
 import BoxResume from "./BoxResume.jsx";
 import LoginButtons from "./LoginButtons.jsx";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../../components/common/libraries/firebase.js";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 function Login() {
-  const [id, setId] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+
+  const auth = getAuth();
 
   const imageStyle = {
     width: "90px",
@@ -60,6 +67,16 @@ function Login() {
     }
   };
 
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      const uid = user.uid;
+      console.log("로그인한 사용자 UID:", uid);
+    } else {
+      console.log("로그인하지 않은 상태입니다.");
+    }
+  });
+  
+
   return (
     <>
       <style>
@@ -87,10 +104,10 @@ function Login() {
         </div>
 
         <BoxResume 
-          title={"아이디"}
-          type={"text"}
-          value={id}
-          onChange={(e) => setId(e.target.value)}
+          title={"이메일"}
+          type={"email"}
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
         />
         <BoxResume 
           title={"비밀번호"}
@@ -99,7 +116,10 @@ function Login() {
           onChange={(e) => setPassword(e.target.value)}
         />
 
-        <LoginButtons />
+        <LoginButtons 
+          email={email}
+          password={password}
+        />
       </div>
     </>
   )
