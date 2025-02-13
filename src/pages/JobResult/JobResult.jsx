@@ -7,13 +7,13 @@ import { db } from "../../components/common/libraries/firebase";
 import { collection, getDoc, doc } from "firebase/firestore";
 
 function JobResult() {
-  const certificationData = [
-    { certificationNumber: 1, certificationName: "한식조리기능사" },
-    { certificationNumber: 2, certificationName: "정보처리기사" },
-    { certificationNumber: 3, certificationName: "컴퓨터활용능력 2급" },
-  ];
-  //const location = useLocation();
-  //const { certificationData } = location.state || {};
+  // const certificationData = [
+  //   { certificationNumber: 1, certificationName: "한식조리기능사" },
+  //   { certificationNumber: 2, certificationName: "정보처리기사" },
+  //   { certificationNumber: 3, certificationName: "컴퓨터활용능력 2급" },
+  // ];
+  const location = useLocation();
+  const { certificationData } = location.state || {};
   const [jobs, setJobs] = useState([]);
 
   const style = {
