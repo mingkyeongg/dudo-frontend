@@ -1,4 +1,3 @@
-import Header from "../JobResult/Header";
 import BoxJobResult from "../JobResult/BoxJobResult";
 import Bottom from "../JobResult/Bottom";
 import React, { useEffect, useState } from "react";
