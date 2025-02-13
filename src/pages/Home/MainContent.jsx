@@ -13,12 +13,8 @@ const MainContent = () => {
       alignItems: "center",
     },
     btnContainer: {
-      display: "flex",
-      flexDirection: "row",
-      justifyContent: "space-around",
       width: "100%",
       maxWidth: "700px",
-      gap: "10px",
     },
     divider: {
       display: "flex",
@@ -49,19 +45,10 @@ const MainContent = () => {
       <div style={style.btnContainer}>
         <Button 
           text1="나에게 맞는" 
-          text2="일자리"
-          text3="추천받기" 
+          text2="일자리 추천받기"
           image={job_icon}
           color="#B29872"
           move={"/Job/Question/1"}
-        />
-        <Button 
-          text1="나만의" 
-          text2="이력서"
-          text3="쓰러가기" 
-          image={resume_icon}
-          color="#D0A29D"
-          move={""}
         />
       </div>
 
@@ -75,10 +62,6 @@ const MainContent = () => {
         <Collect 
           text="추천받은 일자리 모아보기" 
           move="/JobArchiving"
-        />
-        <Collect 
-          text="저장된 이력서 모아보기"
-          move="/ResumeArchiving" 
         />
       </div>
     </div>

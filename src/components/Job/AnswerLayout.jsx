@@ -9,6 +9,7 @@ import Button from "../common/Button";
 import { Spacer } from "../common/Spacer";
 import doubleArrowLeft from "../../assets/Icon/doubleArrowLeft.svg";
 import micAnimation from "../../assets/animation/mic.json";
+import voice from "../../assets/icon/voice.svg";
 import { PATH } from "../../routes/path";
 import Lottie from "lottie-react";
 import restart from "../../assets/Icon/restart.svg";
@@ -30,6 +31,8 @@ export const AnswerLayout = ({ question = [], answerDefault = '', step }) => {
   const [confirmButtonDisabled, setConfirmButtonDisabled] = useState(true);
   const lottieRef = useRef(null);
   const [isRestart, setIsRestart] = useState(false);
+
+  const [nextPageTrigger, setNextPageTrigger] = useState(false);
 
   useEffect(() => {
     if (!recognition) {
@@ -106,19 +109,58 @@ export const AnswerLayout = ({ question = [], answerDefault = '', step }) => {
     setReadOnly(false);
   };
 
-  const goToNextPage = () => {
-    setJobState((prev) => ({
-      ...prev,
-      answer: prev.answer.map((item, index) =>
-        index === parseInt(step) - 1 ? transcript : item
-      ),
-    }));
-    sessionStorage.setItem("jobState", JSON.stringify(jobState));
-    navigate(`${PATH.JOB_QUESTION}/${parseInt(step) + 1}`);
+  // const goToNextPage = (event) => {
+  //   event.preventDefault();
+
+  //   useEffect(() => {
+  //     if (parseInt(step) > 5) {
+  //       console.log(PATH.LOADING);
+  //       navigate('/Loading');
+  //     } else {
+  //       navigate(`${PATH.JOB_QUESTION}/${parseInt(step) + 1}`);
+  //     }
+  //   });
+
+  //   setJobState((prev) => ({
+  //     ...prev,
+  //     answer: prev.answer.map((item, index) =>
+  //       index === parseInt(step) - 1 ? transcript : item
+  //     ),
+  //   }));
+  //   sessionStorage.setItem("jobState", JSON.stringify(jobState));
+  // };
+
+  const goToNextPage = (event) => {
+    event.preventDefault();
+    setNextPageTrigger(true); 
   };
   
+  useEffect(() => {
+    if (nextPageTrigger) {
+  
+      setJobState((prev) => ({
+        ...prev,
+        answer: prev.answer.map((item, index) =>
+          index === parseInt(step) - 1 ? transcript : item
+        ),
+      }));
+  
+      sessionStorage.setItem("jobState", JSON.stringify(jobState));
+      
+      if (Number(step) >= 5) {
+        console.log('Loading 페이지로 이동');
+        navigate('/Loading');
+      } else {
+        navigate(`${PATH.JOB_QUESTION}/${parseInt(step) + 1}`);
+      }
+  
+      setNextPageTrigger(false);
+    }
+  }, [nextPageTrigger]);
+
 
   const handleTextChange = () => {
+
   };
 
   console.log("현재 상태:", answer[parseInt(step) - 1]);
@@ -149,12 +191,20 @@ export const AnswerLayout = ({ question = [], answerDefault = '', step }) => {
       <Spacer height={18} />
       <ButtonContainer>
         <Button width={isMobile ? "156px" : "100%"} height="48px" innerText="수정" disabled={editButtonDisabled} onClick={handleEdit} />
-        <Button width={isMobile ? "156px" : "100%"} height="48px" innerText="확인" disabled={confirmButtonDisabled} onClick={goToNextPage} />
+        <Button 
+          width={isMobile ? "156px" : "100%"} 
+          height="48px" 
+          innerText="확인" 
+          disabled={confirmButtonDisabled} 
+          onClick={(e) => goToNextPage(e)} 
+        />
       </ButtonContainer>
       <Spacer height={28} />
       <Footer>
         <BackIcon src={doubleArrowLeft} onClick={handleBack} />
-        {isRestart ?
+        
+        
+        {/* {isRestart ?
         <RestartIconWrapper>
           <RestartIcon 
             src={restart} 
@@ -162,9 +212,29 @@ export const AnswerLayout = ({ question = [], answerDefault = '', step }) => {
           />
         </RestartIconWrapper>
         : <Lottie
-          animationData={micAnimation}
+          //animationData={micAnimation}
+          animationData={voice}
           lottieRef={lottieRef}
           style={{ height: isMobile ? "80px" : "100px", cursor: "pointer", outline: "none", WebkitTapHighlightColor: "transparent"}}
+          onClick={clickButtonHandler}
+        />
+      } */}
+        {isRestart ?
+        <RestartIconWrapper>
+          <RestartIcon 
+            src={restart} 
+            onClick={clickButtonHandler} 
+          />
+        </RestartIconWrapper>
+        : <img
+          src={voice}
+          lottieRef={lottieRef}
+          style={{ 
+            marginLeft: '23px',
+            height: isMobile ? "100px" : "100px", 
+            cursor: "pointer", 
+            outline: "none", 
+            WebkitTapHighlightColor: "transparent"}}
           onClick={clickButtonHandler}
         />
       }

@@ -1,5 +1,5 @@
 import BoxResume from "./BoxResume";
-import CheckBox from "./CheckBox";
+import CheckBox from "../Login/CheckBox";
 import { useState } from "react";
 
 function ResumeWrite() {

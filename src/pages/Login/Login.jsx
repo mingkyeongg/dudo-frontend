@@ -1,10 +1,20 @@
 import dudoMascot from "../../assets/dudo_mascot.svg";
-import kakaoLogin from "../../assets/kakao_login.svg";
 import dudoLogo from "../../assets/dudo_logo.svg";
-
-import { KAKAO_AUTH_URL } from './OAuth.js';
+import BoxResume from "./BoxResume.jsx";
+import LoginButtons from "./LoginButtons.jsx";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../../components/common/libraries/firebase.js";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 function Login() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+
+  const auth = getAuth();
+
   const imageStyle = {
     width: "90px",
     height: "auto",
@@ -16,8 +26,9 @@ function Login() {
       flexDirection: "column",
       justifyContent: "center",
       alignItems: "center",
-      height: "90vh",
-      gap: "50px",
+      height: "100vh",
+      gap: "20px",
+      padding: "0px 20%",
     },
     title: {
       display: "flex",
@@ -55,9 +66,16 @@ function Login() {
       cursor: "pointer",
     }
   };
-  const handleLogin = () => {
-    window.location.href = KAKAO_AUTH_URL;
-  };
+
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      const uid = user.uid;
+      console.log("로그인한 사용자 UID:", uid);
+    } else {
+      console.log("로그인하지 않은 상태입니다.");
+    }
+  });
+  
 
   return (
     <>
@@ -85,10 +103,23 @@ function Login() {
           <p style={style.mascotText}>두도의 마스코트 <strong>'두도지'</strong></p>
         </div>
 
-        <button onClick={handleLogin} style={style.button}>
-          <img src={kakaoLogin}></img>
-        </button>
+        <BoxResume 
+          title={"이메일"}
+          type={"email"}
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <BoxResume 
+          title={"비밀번호"}
+          type={"password"}
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
 
+        <LoginButtons 
+          email={email}
+          password={password}
+        />
       </div>
     </>
   )

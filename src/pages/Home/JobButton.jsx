@@ -5,8 +5,8 @@ const JobButton = ({text1, text2, text3, image, color, move}) => {
     },
     button: {
       width: "100%",
-      height: "260px",
-      borderRadius: "24px",
+      height: "200px",
+      borderRadius: "25px",
       border: "none",
       backgroundColor: color,
       color: "#FFFFFC",
@@ -14,17 +14,17 @@ const JobButton = ({text1, text2, text3, image, color, move}) => {
       cursor: "pointer",
     },
     text1: {
-      fontSize: "16px",
+      fontSize: "20px",
       margin: "0px 0px 5px 0px"
     },
     text2: {
-      fontSize: "18px",
+      fontSize: "24px",
       fontWeight: "600",
       margin: "0px 0px 5px 0px"
     },
     image: {
-      width: "100px",
-      height: "100px",
+      width: "50px",
+      height: "50px",
       margin: "7px 0px 0px 0px"
     }
   };
@@ -38,7 +38,6 @@ const JobButton = ({text1, text2, text3, image, color, move}) => {
       >
         <p style={style.text1}>{text1}</p>
         <p style={style.text2}>{text2}</p>
-        <p style={style.text2}>{text3}</p>
         <img src={image} style={style.image}></img>
       </button>
     </div>

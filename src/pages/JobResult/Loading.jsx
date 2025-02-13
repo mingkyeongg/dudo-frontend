@@ -1,8 +1,36 @@
 import styled from '@emotion/styled';
 import dudo_mascot from '../../assets/dudo_mascot.svg';
 import dudo_logo from '../../assets/dudo_logo.svg';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { auth, db } from '../../components/common/libraries/firebase';
+import { doc, getDoc } from "firebase/firestore";
 
 export const Loading = () => {
+  const navigate = useNavigate();
+  const [ name, setName ] = useState("");
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      navigate('/Jobwrite');
+    }, 2000);
+
+    return () => clearTimeout(timer);
+  }, [navigate]);
+
+  useEffect(() => {
+    const fetchUserName = async () => {
+      const user = auth.currentUser;
+      if (user) {
+        const userRef = doc(db, "users", user.uid);
+        const docSnap = await getDoc(userRef);
+        if (docSnap.exists()) {
+          setName(docSnap.data().name);
+        }
+      }
+    };
+    fetchUserName();
+  }, []);
 
   return (
     <LoadingWrapper>
@@ -17,7 +45,7 @@ export const Loading = () => {
 
       <Header>  
         <LoadingText>
-          <UserName>지연</UserName>
+          <UserName>{ name }</UserName>
           <Text>님의 적성을 분석하고 있어요!</Text>
         </LoadingText>
 
@@ -36,7 +64,7 @@ export const Loading = () => {
 
     </LoadingWrapper>
   );
-}
+};
 
 const LoadingWrapper = styled.div`
   display: flex;
@@ -108,16 +136,5 @@ const LogoWrapper = styled.div`
   text-align: center;
   gap: 10px;
 `;
-
-// const RecommendJobWrapper = styled.div`
-//   padding: 30px 20px;
-//   display: flex;
-//   flex-direction: column;
-//   align-items: center;
-//   background-color: ${colors.secondary[10]};
-//   min-height: 100vh;
-//   box-sizing: border-box;
-// `;
-
 
 export default Loading;

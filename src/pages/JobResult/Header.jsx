@@ -1,7 +1,12 @@
 import help_icon from "../../assets/icon/help.svg";
 import dudo_mascot from "../../assets/dudo_mascot.svg";
+import { useEffect, useState } from "react";
+import { auth, db } from "../../components/common/libraries/firebase";
+import { doc, getDoc } from "firebase/firestore";
 
 function Header() {
+  const [ name, setName ] = useState("");
+
   const style = {
     header: {
       position: "relative",
@@ -77,6 +82,20 @@ function Header() {
     `,
   };
 
+  useEffect(() => {
+    const fetchUserName = async () => {
+      const user = auth.currentUser;
+      if (user) {
+        const userRef = doc(db, "users", user.uid);
+        const docSnap = await getDoc(userRef);
+        if (docSnap.exists()) {
+          setName(docSnap.data().name);
+        }
+      }
+    };
+    fetchUserName();
+  }, []);
+
   return (
     <header>
       <div style={style.header}>
@@ -89,7 +108,7 @@ function Header() {
       <div style={style.textContainer}>
         <img src={dudo_mascot} style={style.logoImage} />
         <div style={style.textBox}>
-          <p style={style.text1}><strong>지연</strong>님이 이 일을 하면</p>
+          <p style={style.text1}><strong>{name}</strong>님이 이 일을 하면</p>
           <p style={style.text2}>잘 하실 것 같아요!</p>
         </div>
       </div>
