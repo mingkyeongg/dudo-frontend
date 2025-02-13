@@ -23,6 +23,7 @@ export const RecommendJob = () => {
         sessionStorage.removeItem('jobState');
       },
       onCancel: () => {},
+      acceptButtonName: '나가기',
     });
     // setAlert({
     //   message: '홈으로 나가시겠어요?',

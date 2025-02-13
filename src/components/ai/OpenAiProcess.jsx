@@ -3,7 +3,7 @@ import { saveWorkFieldsToFirestore } from "../common/libraries/saveWorkFields.js
 
 const userId = "user123";
 
-const fetchAIResponse = async ({ prompt }) => {
+export const fetchAIResponse = async ({ prompt }) => {
   const API_KEY = import.meta.env.VITE_OPENAI_API_KEY;
 
   if (!API_KEY) {

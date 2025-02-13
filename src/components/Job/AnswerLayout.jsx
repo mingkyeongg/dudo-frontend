@@ -8,31 +8,42 @@ import AnswerOutput from "./AnswerOutput";
 import Button from "../common/Button";
 import { Spacer } from "../common/Spacer";
 import doubleArrowLeft from "../../assets/Icon/doubleArrowLeft.svg";
-import micAnimation from "../../assets/animation/mic.json";
-import voice from "../../assets/Icon/voice.svg";
 import { PATH } from "../../routes/path";
-import Lottie from "lottie-react";
 import restart from "../../assets/Icon/restart.svg";
 import { useAtom } from "jotai";
 import { jobAtomWithPersistence } from "../../store/job";
+import VoiceProgress from "./VoiceProgress.jsx";
+import { confirmAtom } from "../../store/modal";
+import { useSetAtom } from "jotai";
+import Confirm from "../common/Modal/Confirm";
 
 export const AnswerLayout = ({ question = [], answerDefault = '', step }) => {
   const [isListening, setIsListening] = useState(false);
   const [ jobState, setJobState ] = useAtom(jobAtomWithPersistence);
   const answer = jobState.answer;
-  const [transcript, setTranscript] = useState(answer[parseInt(step) - 1]);
+  const value = JSON.parse(sessionStorage.getItem("jobState")) || "";
+  const [transcript, setTranscript] = useState(value.answer[parseInt(step) - 1]);
   const speechRecognizerRef = useRef(null);
   const timeoutRef = useRef(null);
   const navigate = useNavigate();
   const isMobile = window.innerWidth < breakpoints.mobile;
   const recognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-  const [readOnly, setReadOnly] = useState(true);
+  const [readOnly, setReadOnly] = useState(false);
   const [editButtonDisabled, setEditButtonDisabled] = useState(true);
-  const [confirmButtonDisabled, setConfirmButtonDisabled] = useState(true);
+  const [confirmButtonDisabled, setConfirmButtonDisabled] = useState(false);
   const lottieRef = useRef(null);
   const [isRestart, setIsRestart] = useState(false);
+  const setConfirm = useSetAtom(confirmAtom);
 
   const [nextPageTrigger, setNextPageTrigger] = useState(false);
+  
+  useEffect(() => {
+    setConfirmButtonDisabled(answer[parseInt(step) - 1] ? false : true);
+  }, [answer, step]);
+
+  const handleTextChange = (e) => {
+    setTranscript(e.target.value);
+  };
 
   useEffect(() => {
     if (!recognition) {
@@ -54,8 +65,14 @@ export const AnswerLayout = ({ question = [], answerDefault = '', step }) => {
       const result = Array.from(event.results)
         .map((res) => res[0].transcript)
         .join(" ");
-      setTranscript(result);
+
+      if (isRestart) {
+        setTranscript(result);
+      } else {
+        setTranscript((prevTranscript) => prevTranscript + " " + result);
+      }
     };
+    
 
     speechRecognizerRef.current.onerror = (event) => {
       console.error("음성 인식 오류:", event.error);
@@ -69,10 +86,10 @@ export const AnswerLayout = ({ question = [], answerDefault = '', step }) => {
   const startListening = () => {
     if (speechRecognizerRef.current) {
       setIsListening(true);
+      setTranscript(answer[parseInt(step) - 1]);
       setConfirmButtonDisabled(true);
       setEditButtonDisabled(true);
       setIsRestart(false);
-      setTranscript("");
       speechRecognizerRef.current.start();
 
       timeoutRef.current = setTimeout(() => {
@@ -97,6 +114,19 @@ export const AnswerLayout = ({ question = [], answerDefault = '', step }) => {
     }
   };
 
+  const clickRestartButtonHandler = () => {
+    setConfirm({
+      message: "다시 녹음 하기",
+      description: "작성한 내용이 지워질 수 있어요",
+      isVisible: true,
+      onConfirm: () => {
+        isListening ? stopListening() : startListening();
+      },
+      onCancel: () => {},
+      acceptButtonName: "확인"
+    });
+  };
+
   const clickButtonHandler = () => {
     isListening ? stopListening() : startListening();
   };
@@ -109,27 +139,6 @@ export const AnswerLayout = ({ question = [], answerDefault = '', step }) => {
     setReadOnly(false);
   };
 
-  // const goToNextPage = (event) => {
-  //   event.preventDefault();
-
-  //   useEffect(() => {
-  //     if (parseInt(step) > 5) {
-  //       console.log(PATH.LOADING);
-  //       navigate('/Loading');
-  //     } else {
-  //       navigate(`${PATH.JOB_QUESTION}/${parseInt(step) + 1}`);
-  //     }
-  //   });
-
-  //   setJobState((prev) => ({
-  //     ...prev,
-  //     answer: prev.answer.map((item, index) =>
-  //       index === parseInt(step) - 1 ? transcript : item
-  //     ),
-  //   }));
-  //   sessionStorage.setItem("jobState", JSON.stringify(jobState));
-  // };
-
   const goToNextPage = (event) => {
     event.preventDefault();
     setNextPageTrigger(true); 
@@ -137,16 +146,19 @@ export const AnswerLayout = ({ question = [], answerDefault = '', step }) => {
   
   useEffect(() => {
     if (nextPageTrigger) {
-  
-      setJobState((prev) => ({
-        ...prev,
-        answer: prev.answer.map((item, index) =>
-          index === parseInt(step) - 1 ? transcript : item
+      // 새로운 상태 업데이트
+      const updatedJobState = {
+        ...jobState,
+        answer: jobState.answer.map((item, index) =>
+          index === parseInt(step) - 1 ? answer[parseInt(step) - 1] : item
         ),
-      }));
+      };
   
-      sessionStorage.setItem("jobState", JSON.stringify(jobState));
-      
+      setJobState(updatedJobState);
+  
+      // 상태가 변경된 후 sessionStorage 업데이트
+      sessionStorage.setItem("jobState", JSON.stringify(updatedJobState));
+  
       if (Number(step) >= 5) {
         console.log('Loading 페이지로 이동');
         navigate('/Loading');
@@ -157,11 +169,7 @@ export const AnswerLayout = ({ question = [], answerDefault = '', step }) => {
       setNextPageTrigger(false);
     }
   }, [nextPageTrigger]);
-
-
-  const handleTextChange = () => {
-
-  };
+  
 
   console.log("현재 상태:", answer[parseInt(step) - 1]);
 
@@ -178,6 +186,7 @@ export const AnswerLayout = ({ question = [], answerDefault = '', step }) => {
 
   return (
     <Content>
+      <Confirm />
       <QuestionBox>{question.join(' ')}</QuestionBox>
       <Spacer height={18} />
       <AnswerOutput
@@ -202,41 +211,17 @@ export const AnswerLayout = ({ question = [], answerDefault = '', step }) => {
       <Spacer height={28} />
       <Footer>
         <BackIcon src={doubleArrowLeft} onClick={handleBack} />
-        
-        
-        {/* {isRestart ?
-        <RestartIconWrapper>
-          <RestartIcon 
-            src={restart} 
-            onClick={clickButtonHandler} 
-          />
-        </RestartIconWrapper>
-        : <Lottie
-          //animationData={micAnimation}
-          animationData={voice}
-          lottieRef={lottieRef}
-          style={{ height: isMobile ? "80px" : "100px", cursor: "pointer", outline: "none", WebkitTapHighlightColor: "transparent"}}
-          onClick={clickButtonHandler}
-        />
-      } */}
         {isRestart ?
         <RestartIconWrapper>
           <RestartIcon 
             src={restart} 
-            onClick={clickButtonHandler} 
+            onClick={clickRestartButtonHandler} 
           />
         </RestartIconWrapper>
-        : <img
-          src={voice}
-          lottieRef={lottieRef}
-          style={{ 
-            marginLeft: '23px',
-            height: isMobile ? "100px" : "100px", 
-            cursor: "pointer", 
-            outline: "none", 
-            WebkitTapHighlightColor: "transparent"}}
-          onClick={clickButtonHandler}
-        />
+        : 
+        <VoiceBox>
+          <VoiceProgress active={isListening} onClick={clickButtonHandler} />
+        </VoiceBox>
       }
       </Footer>
     </Content>
@@ -244,8 +229,8 @@ export const AnswerLayout = ({ question = [], answerDefault = '', step }) => {
 };
 
 const RestartIconWrapper = styled.div`
-  width: 100px;
-  height: 100px;
+  width: 80px;
+  height: 80px;
   border-radius: 50%;
   display: flex;
   justify-content: center;
@@ -253,17 +238,20 @@ const RestartIconWrapper = styled.div`
   background-color: ${colors.secondary[90]};
   justify-self: center;
   align-self: center;
-
-  @media (max-width: ${breakpoints.mobile}px) {
-    width: 80px;
-    height: 80px;
-  }
 `;
 
 const RestartIcon = styled.img`
   width: 40px;
   height: 40px;
   cursor: pointer;
+`;
+
+const VoiceBox = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  justify-self: center;
+  align-self: center;
 `;
 
 export const QuestionBox = styled.div`
@@ -290,12 +278,14 @@ export const QuestionBox = styled.div`
   }
 `;
 
+
 const Footer = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   align-items: center;
   width: 100%;
   margin-top: 24px;
+  height: 84px;
 `;
 
 const BackIcon = styled.img`

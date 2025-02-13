@@ -13,50 +13,55 @@ import { useAtom } from "jotai";
 import { PATH } from "../../routes/path";
 import { useQuery } from "@tanstack/react-query";
 import { fetchOneWorkField } from "../common/libraries/fetchWorkFieldsFromFirestore";
+import pinIcon from "../../assets/Icon/pin.svg";
+import goodIcon from "../../assets/Icon/good.svg";
 
 export const SelectJob = ({ step }) => {
   const navigate = useNavigate();
   const isMobile = window.innerWidth < breakpoints.mobile;
   const [confirmButtonDisabled, setConfirmButtonDisabled] = useState(true);
   const [jobState, setJobState] = useAtom(jobAtomWithPersistence);
+  const stepIndex = parseInt(step, 10);
 
   const uuid = sessionStorage.getItem("docId");
-
   console.log(uuid);
 
+  useEffect(() => {
+    const timer = setTimeout(() => setShowLoading(false), 3000);
+    return () => clearTimeout(timer);
+  }, []);
+
   const { data, isLoading } = useQuery({
-    queryKey: ["field"],
-    queryFn: () => fetchOneWorkField({ userId: "user123", uuid }),
+    queryKey: ["field", uuid],
+    queryFn: () => (uuid ? fetchOneWorkField({ userId: "user123", uuid }) : null),
+    enabled: !!uuid,
   });
 
   const [selected, setSelected] = useState([]);
   console.log(data);
 
   useEffect(() => {
+    if (!data || !data.workFields) return;
 
-    if (!data) {
-      return;
-    }
-
-    const savedSelection = jobState.answer[parseInt(step) - 1] || [];
+    const savedSelection = jobState.answer[stepIndex - 1] || [];
     if (Array.isArray(savedSelection)) {
-      const filteredSelection = data.workFields
+      const validSelections = data.workFields
         .map((field) => field.workFieldName)
         .filter((option) => savedSelection.includes(option));
 
-      setSelected(filteredSelection);
+      setSelected(validSelections);
     }
-  }, [jobState, step, data]);
+  }, [jobState, stepIndex, data]);
 
   const handleSelect = (title) => {
-    setSelected((prev) => {
-      if (prev.includes(title)) {
-        return prev.filter((item) => item !== title);
-      } else if (prev.length < 2) {
-        return [...prev, title];
+    setSelected((prevSelected) => {
+      if (prevSelected.includes(title)) {
+        return prevSelected.filter((item) => item !== title);
+      } else if (prevSelected.length < 2) {
+        return [...prevSelected, title];
       } else {
         toast.error("2개까지만 선택 가능해요.");
-        return prev;
+        return prevSelected;
       }
     });
   };
@@ -69,44 +74,86 @@ export const SelectJob = ({ step }) => {
     const updatedJobState = {
       ...jobState,
       answer: jobState.answer.map((item, index) =>
-        index === parseInt(step) - 1 ? selected : item
+        index === stepIndex - 1 ? selected : item
       ),
     };
 
     setJobState(updatedJobState);
     sessionStorage.setItem("jobState", JSON.stringify(updatedJobState));
-    navigate(`${PATH.JOB_QUESTION}/${parseInt(step) + 1}`);
+    navigate(`${PATH.JOB_QUESTION}/${stepIndex + 1}`);
   };
 
-  return (
-    <Content>
+  if (isLoading) {
+    return (
+    <>
       <div>
-        <Toaster />
+        Loading...
       </div>
-      <QuestionBox>희망 직종을 선택해주세요 (최대 2개)</QuestionBox>
-      <Spacer height={16} />
-      {data && data.workFields.map((field) => (
-        <AccordionWrapper key={field.workNumber}>
-          <JobAccordion
-            title={field.workFieldName}
-            isSelected={selected.includes(field.workFieldName)}
-            onSelect={() => handleSelect(field.workFieldName)}
-          >
-            {field.workFieldDescription}
-          </JobAccordion>
-          <Spacer height={12} />
-        </AccordionWrapper>
-      ))}
-      <Button
-        width={isMobile ? "327px" : "100%"}
-        height="48px"
-        innerText="확인"
-        disabled={confirmButtonDisabled}
-        onClick={goToNextPage}
-      />
-    </Content>
+    </>
+    );
+  }
+
+
+  return (
+    <>
+        <Content>
+          <Toaster />
+          <QuestionBox>희망 직종을 선택해주세요 (최대 2개)</QuestionBox>
+          <Spacer height={16} />
+          {data?.workFields?.map((field) => (
+            <AccordionWrapper key={field.workNumber}>
+              <JobAccordion
+                title={field.workFieldName}
+                isSelected={selected.includes(field.workFieldName)}
+                onSelect={() => handleSelect(field.workFieldName)}
+              >
+                <TitleWrapper>
+                  <PinIcon src={pinIcon} alt="pin" />
+                  <Title>이 분야는</Title>
+                  </TitleWrapper>
+                {field.workFieldDescription}
+                <Spacer height={16} />
+                <TitleWrapper>
+                  <GoodIcon src={goodIcon} alt="pin" />
+                  <Title>추천 이유</Title>
+                  </TitleWrapper>
+                  {field.workFieldReason}
+              </JobAccordion>
+              <Spacer height={12} />
+            </AccordionWrapper>
+          ))}
+          <Button
+            width={isMobile ? "327px" : "100%"}
+            height="48px"
+            innerText="확인"
+            disabled={confirmButtonDisabled}
+            onClick={goToNextPage}
+          />
+        </Content>
+    </>
   );
 };
+
+const TitleWrapper = styled.div`
+  display: flex;
+  gap: 5px;
+  margin-bottom: 10px;
+`;
+
+const Title = styled.div`
+  font-size: 16px;
+  font-weight: 500;
+`;
+
+const PinIcon = styled.img`
+  width: 16px;
+  height: 16px;
+`;
+
+const GoodIcon = styled.img`
+  width: 16px;
+  height: 16px;
+`;
 
 const AccordionWrapper = styled.div`
   display: flex;

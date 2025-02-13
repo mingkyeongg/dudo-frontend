@@ -58,7 +58,7 @@ export const QuestionLayout = ({
 const DudoImg = styled.img`
   width: 200px;
   height: 200px;
-  margin-top: 60px;
+  margin-top: 50px;
 
   @media (max-width: ${breakpoints.mobile}px) {
     width: 142px;
@@ -86,7 +86,7 @@ const Footer = styled.div`
   align-items: center;
   justify-items: center;
   width: 100%;
-  margin-top: 160px;
+  margin-top: 80px;
 `;
 
 const Progressbar = styled.img`
@@ -102,6 +102,7 @@ const QuestionWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  height: 102px;
   @media (max-width: ${breakpoints.mobile}px) {
     margin-top: 24px;
   }
@@ -119,8 +120,8 @@ const Question = styled.h1`
 `;
 
 const RightArrow = styled.button`
-  width: 100px;
-  height: 100px;
+  width: 80px;
+  height: 80px;
   background-color: ${colors.secondary[90]};
   border-radius: 50%;
   bottom: 80px;
@@ -131,22 +132,12 @@ const RightArrow = styled.button`
   align-self: center;
   justify-self: center;
   cursor: pointer;
-
-  @media (max-width: ${breakpoints.mobile}px) {
-    width: 80px;
-    height: 80px;
-  }
 `;
 
 const RightArrowIcon = styled.img`
-  width: 60px;
-  height: 60px;
+  width: 26px;
+  height: 40px;
   color: ${colors.white};
-
-  @media (max-width: ${breakpoints.mobile}px) {
-    width: 26px;
-    height: 40px;
-  }
 `;
 
 export default QuestionLayout;

@@ -5,13 +5,28 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { auth, db } from '../../components/common/libraries/firebase';
 import { doc, getDoc } from "firebase/firestore";
+import { GetCertificaionList } from '../../components/ai/GetCertificationList';
 
 export const Loading = () => {
   const navigate = useNavigate();
   const [ name, setName ] = useState("");
+  const jobState = JSON.parse(sessionStorage.getItem("jobState"));
+
+  const makeAIDatas = async () => {
+    const answer1 = jobState.answer[0];
+    const answer2 = jobState.answer[1];
+    const answer3 = jobState.answer[2];
+    const answer4 = jobState.answer[3].join(" ");
+    const answer5 = jobState.answer[4];
+
+    console.log(answer1, answer2, answer3, answer4, answer5);
+    const res = await GetCertificaionList({ answer1, answer2, answer3, answer4, answer5 });
+    console.log(res);
+  };
 
   useEffect(() => {
     const timer = setTimeout(() => {
+      makeAIDatas();
       navigate('/Jobwrite');
     }, 2000);
 
