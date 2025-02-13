@@ -20,4 +20,5 @@ export const PATH = {
   RESUMEWRITE2: "/Resumewrite2",
 
   JOBRESULT: "/Jobwrite",
+  LOADING: "/Loading",
 };

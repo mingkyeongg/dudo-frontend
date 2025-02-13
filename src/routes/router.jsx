@@ -18,6 +18,7 @@ import ResumeWrite2 from "../pages/ResumeWrite/ResumeWrite2";
 import JobResult from "../pages/JobResult/JobResult";
 import { JobQuestion } from "../components/Job/JobQuestion";
 import JobAnswer from "../components/Job/JobAnswer";
+import Loading from '../pages/JobResult/Loading';
 
 const router = createBrowserRouter([
   {
@@ -86,6 +87,10 @@ const router = createBrowserRouter([
   {
     path: PATH.JOBRESULT,
     element: <JobResult />,
+  },
+  {
+    path: PATH.LOADING,
+    element: <Loading />,
   },
 ]);
 

@@ -35,6 +35,10 @@ function App() {
   const goToJobResult = () => {
     navigate(PATH.JOBRESULT);
   }
+  const goToLoading = () => {
+    navigate(PATH.LOADING);
+  }
+
 
   return (
     <AppContainer>
@@ -46,6 +50,7 @@ function App() {
       <button onClick={goToResumeWrite}>Resume</button>
       <button onClick={goToResumeWrite2}>Resume2</button>
       <button onClick={goToJobResult}>JobResult</button>
+      <button onClick={goToLoading}>Loading</button>
 
       배포 테스트 중 테스트
     </AppContainer>
