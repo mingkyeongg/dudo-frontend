@@ -3,6 +3,7 @@ import App from "../App";
 import AudioRecorder from "../whisper";
 import SpeechToText from "../SpeechToText";
 import { PATH } from "./path";
+import ProtectedRoute from "./ProtectedRoute";
 
 import Page from "../pages/Login/Page";
 import Login from "../pages/Login/Login";
@@ -39,7 +40,7 @@ const router = createBrowserRouter([
   },
   {
     path: PATH.LOGIN,
-    element: <Login />,
+    element: <ProtectedRoute element={<Login />} />,
   },
   {
     path: PATH.LOGINHANDLER,
@@ -81,7 +82,7 @@ const router = createBrowserRouter([
   },
   {
     path: PATH.SIGNUP,
-    element: <SignUp />,
+    element: <ProtectedRoute element={<SignUp />} />, 
   },
 ]);
 

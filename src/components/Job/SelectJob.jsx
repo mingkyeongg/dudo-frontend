@@ -7,7 +7,7 @@ import { Spacer } from "../common/Spacer";
 import Button from "../common/Button";
 import styled from "@emotion/styled";
 import breakpoints from "../../constants/breakpoints";
-import { useNavigate } from "react-router-dom";
+import { data, useNavigate } from "react-router-dom";
 import { jobAtomWithPersistence } from "../../store/job";
 import { useAtom } from "jotai";
 import { PATH } from "../../routes/path";
@@ -15,17 +15,29 @@ import { useQuery } from "@tanstack/react-query";
 import { fetchOneWorkField } from "../common/libraries/fetchWorkFieldsFromFirestore";
 import pinIcon from "../../assets/Icon/pin.svg";
 import goodIcon from "../../assets/Icon/good.svg";
+import OnLoading from "./OnLoading";
+import useCheckData from "../../hooks/useCheckData";
+import useAutoRefresh from "../../hooks/useAutoRefresh";
 
 export const SelectJob = ({ step }) => {
   const navigate = useNavigate();
   const isMobile = window.innerWidth < breakpoints.mobile;
   const [confirmButtonDisabled, setConfirmButtonDisabled] = useState(true);
   const [jobState, setJobState] = useAtom(jobAtomWithPersistence);
+  const [arrayLength, setArrayLength] = useState(0);
   const stepIndex = parseInt(step, 10);
+  const [isRefresh, setIsRefresh] = useState(false);
 
-  const uuid = sessionStorage.getItem("docId");
-  console.log(uuid);
-  const userId = sessionStorage.getItem("userId");
+  const [uuid, setUuid] = useState(sessionStorage.getItem("docId"));
+const [userId, setUserId] = useState(sessionStorage.getItem("userId"));
+
+useEffect(() => {
+  const storedUuid = sessionStorage.getItem("docId");
+  const storedUserId = sessionStorage.getItem("userId");
+  
+  if (storedUuid) setUuid(storedUuid);
+  if (storedUserId) setUserId(storedUserId);
+}, []);
 
   const { data, isLoading } = useQuery({
     queryKey: ["field", uuid],
@@ -79,15 +91,16 @@ export const SelectJob = ({ step }) => {
     navigate(`${PATH.JOB_QUESTION}/${stepIndex + 1}`);
   };
 
-  if (isLoading) {
-    return (
-    <>
-      <div>
-        Loading...
-      </div>
-    </>
-    );
+  const checkCondition = (data) => data?.workFields?.length === 0;
+  useCheckData(data, checkCondition);
+
+
+  
+  
+  if (isLoading || !data || data.workFields.length === 0) {
+    return <OnLoading />;
   }
+  
 
 
   return (
