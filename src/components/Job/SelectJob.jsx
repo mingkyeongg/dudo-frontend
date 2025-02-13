@@ -12,7 +12,7 @@ import { jobAtomWithPersistence } from "../../store/job";
 import { useAtom } from "jotai";
 import { PATH } from "../../routes/path";
 import { useQuery } from "@tanstack/react-query";
-import { getField } from "../../api/job";
+import { fetchOneWorkField } from "../common/libraries/fetchWorkFieldsFromFirestore";
 
 export const SelectJob = ({ step }) => {
   const navigate = useNavigate();
@@ -20,9 +20,13 @@ export const SelectJob = ({ step }) => {
   const [confirmButtonDisabled, setConfirmButtonDisabled] = useState(true);
   const [jobState, setJobState] = useAtom(jobAtomWithPersistence);
 
+  const uuid = sessionStorage.getItem("docId");
+
+  console.log(uuid);
+
   const { data, isLoading } = useQuery({
     queryKey: ["field"],
-    queryFn: getField,
+    queryFn: () => fetchOneWorkField({ userId: "user123", uuid }),
   });
 
   const [selected, setSelected] = useState([]);
@@ -36,7 +40,7 @@ export const SelectJob = ({ step }) => {
 
     const savedSelection = jobState.answer[parseInt(step) - 1] || [];
     if (Array.isArray(savedSelection)) {
-      const filteredSelection = data
+      const filteredSelection = data.workFields
         .map((field) => field.workFieldName)
         .filter((option) => savedSelection.includes(option));
 
@@ -81,7 +85,7 @@ export const SelectJob = ({ step }) => {
       </div>
       <QuestionBox>희망 직종을 선택해주세요 (최대 2개)</QuestionBox>
       <Spacer height={16} />
-      {data && data.map((field) => (
+      {data && data.workFields.map((field) => (
         <AccordionWrapper key={field.workNumber}>
           <JobAccordion
             title={field.workFieldName}

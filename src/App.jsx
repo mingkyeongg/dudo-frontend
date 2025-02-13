@@ -3,6 +3,7 @@ import { PATH } from "./routes/path";
 import styled from "@emotion/styled";
 import Confirm from "./components/common/Modal/Confirm.jsx";
 import OpenAiProcess from "./components/ai/OpenAiProcess.jsx";
+import { fetchWorkFieldsFromFirestore } from "./components/common/libraries/fetchWorkFieldsFromFirestore.js";
 
 function App() {
   const navigate = useNavigate();
