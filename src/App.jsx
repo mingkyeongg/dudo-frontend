@@ -11,11 +11,6 @@ function App() {
     navigate(PATH.PAGE);
   };
 
-  const goToFirebase = () => {
-    navigate(PATH.FIREBASE);
-  }
-
-
   return (
     <AppContainer>
       <Confirm />
