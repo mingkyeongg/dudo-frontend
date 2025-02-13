@@ -1,4 +1,4 @@
-import home_icon from "@/assets/icon/bottom.svg";
+import home_icon from "../../assets/Icon/bottom.svg";
 
 function Bottom() {
   const style = {

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import down_icon from "@/assets/icon/down.svg";
+import down_icon from "../../assets/Icon/down.svg";
 
 function BoxJobResult({rank, title, jobListings}) {
   const [isOpen, setIsOpen] = useState(false);
