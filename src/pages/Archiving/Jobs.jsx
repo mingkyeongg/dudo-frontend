@@ -5,6 +5,9 @@ function Jobs({text, move}) {
 
   const style = {
     container: {
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
       width: "100%",
       height: "60px",
       borderRadius: "16px",
@@ -22,13 +25,12 @@ function Jobs({text, move}) {
     },
   }
   const handleButton = () => {
-    navigate(move);
+    // navigate("/Result", { state: {id: text}});
   };
 
   return (
     <button style={style.container} onClick={handleButton}>
-      <p style={style.text}>2025 - 02 - 03</p>
-      {/* <p style={style.text}>{text}</p> */}
+      <p style={style.text}>{text}</p>
     </button>
   )
 }

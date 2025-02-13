@@ -4,7 +4,7 @@ import dudo_logo from "../../assets/dudo_logo.svg";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { auth, db } from "../../components/common/libraries/firebase";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc, getFirestore } from "firebase/firestore";
 import { GetCertificaionList } from "../../components/ai/GetCertificationList";
 
 export const Loading = () => {
@@ -18,14 +18,29 @@ export const Loading = () => {
     const answer3 = jobState.answer[2];
     const answer4 = jobState.answer[3].join(" ");
     const answer5 = jobState.answer[4];
-
+  
     console.log(answer1, answer2, answer3, answer4, answer5);
     const res = await GetCertificaionList({ answer1, answer2, answer3, answer4, answer5 });
-    console.log(res);
+    if (res) {
+      const user = auth.currentUser;
+      if (user) {
+        const db = getFirestore();
+        const userId = user.uid;
+        const date = new Date().toISOString().split('T')[0];
+        await setDoc(doc(db, userId, date), {
+          workFields: res,
+          createdAt: new Date().toISOString()
+        });
+        console.log("✅ Firestore에 데이터가 저장되었습니다!");
+      }
+    }
 
+
+    console.log(res);
+    
     navigate("/Jobwrite", { state: { certificationData: res } });
   };
-
+  
   useEffect(() => {
     const timer = setTimeout(() => {
       makeAIDatas();
