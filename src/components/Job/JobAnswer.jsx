@@ -1,5 +1,6 @@
 import AnswerLayout from "./AnswerLayout";
 import { useParams } from "react-router-dom";
+import { SelectJob } from "./SelectJob";
 
 export const JobAnswer = () => {
   const { step } = useParams();
@@ -28,9 +29,21 @@ export const JobAnswer = () => {
     // "예시7",
     // "예시8",
   ];
+
   return (
-    <AnswerLayout question={question[step - 1]} answerDefault={answerDefault[step - 1]} step={step}/>
+    <>
+      {parseInt(step) === 5 ? (
+        <SelectJob step={step} />
+      ) : (
+        <AnswerLayout
+          question={question[parseInt(step) - 1]}
+          answerDefault={answerDefault[parseInt(step) - 1]}
+          step={parseInt(step)}
+        />
+      )}
+    </>
   );
 };
+
 
 export default JobAnswer;

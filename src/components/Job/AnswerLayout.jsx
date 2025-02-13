@@ -13,13 +13,12 @@ import { PATH } from "../../routes/path";
 import Lottie from "lottie-react";
 import restart from "../../assets/Icon/restart.svg";
 import { useAtom } from "jotai";
-import { jobAtom } from "../../store/job";
+import { jobAtomWithPersistence } from "../../store/job";
 
 export const AnswerLayout = ({ question = [], answerDefault = '', step }) => {
   const [isListening, setIsListening] = useState(false);
-  const [ jobState, setJobState ] = useAtom(jobAtom);
+  const [ jobState, setJobState ] = useAtom(jobAtomWithPersistence);
   const answer = jobState.answer;
-  console.log(answer);
   const [transcript, setTranscript] = useState(answer[parseInt(step) - 1]);
   const speechRecognizerRef = useRef(null);
   const timeoutRef = useRef(null);
@@ -27,7 +26,8 @@ export const AnswerLayout = ({ question = [], answerDefault = '', step }) => {
   const isMobile = window.innerWidth < breakpoints.mobile;
   const recognition = window.SpeechRecognition || window.webkitSpeechRecognition;
   const [readOnly, setReadOnly] = useState(true);
-  const [buttonDisabled, setButtonDisabled] = useState(true);
+  const [editButtonDisabled, setEditButtonDisabled] = useState(true);
+  const [confirmButtonDisabled, setConfirmButtonDisabled] = useState(true);
   const lottieRef = useRef(null);
   const [isRestart, setIsRestart] = useState(false);
 
@@ -35,6 +35,11 @@ export const AnswerLayout = ({ question = [], answerDefault = '', step }) => {
     if (!recognition) {
       alert("이 브라우저는 음성 인식을 지원하지 않습니다.");
       return;
+    }
+
+    if (answer[parseInt(step) - 1]) {
+      setIsRestart(true);
+      setConfirmButtonDisabled(false);
     }
 
     speechRecognizerRef.current = new recognition();
@@ -61,8 +66,10 @@ export const AnswerLayout = ({ question = [], answerDefault = '', step }) => {
   const startListening = () => {
     if (speechRecognizerRef.current) {
       setIsListening(true);
-      setButtonDisabled(true);
+      setConfirmButtonDisabled(true);
+      setEditButtonDisabled(true);
       setIsRestart(false);
+      setTranscript("");
       speechRecognizerRef.current.start();
 
       timeoutRef.current = setTimeout(() => {
@@ -76,7 +83,8 @@ export const AnswerLayout = ({ question = [], answerDefault = '', step }) => {
     if (speechRecognizerRef.current) {
       setIsListening(false);
       speechRecognizerRef.current.stop();
-      setButtonDisabled(false);
+      setEditButtonDisabled(false);
+      setConfirmButtonDisabled(false);
       setIsRestart(true);
 
       if (timeoutRef.current !== null) {
@@ -105,12 +113,15 @@ export const AnswerLayout = ({ question = [], answerDefault = '', step }) => {
         index === parseInt(step) - 1 ? transcript : item
       ),
     }));
+    sessionStorage.setItem("jobState", JSON.stringify(jobState));
     navigate(`${PATH.JOB_QUESTION}/${parseInt(step) + 1}`);
   };
   
 
   const handleTextChange = () => {
   };
+
+  console.log("현재 상태:", answer[parseInt(step) - 1]);
 
   useEffect(() => {
     if (lottieRef.current) {
@@ -137,8 +148,8 @@ export const AnswerLayout = ({ question = [], answerDefault = '', step }) => {
 
       <Spacer height={18} />
       <ButtonContainer>
-        <Button width={isMobile ? "156px" : "100%"} height="48px" innerText="수정" disabled={buttonDisabled} onClick={handleEdit} />
-        <Button width={isMobile ? "156px" : "100%"} height="48px" innerText="확인" disabled={buttonDisabled} onClick={goToNextPage} />
+        <Button width={isMobile ? "156px" : "100%"} height="48px" innerText="수정" disabled={editButtonDisabled} onClick={handleEdit} />
+        <Button width={isMobile ? "156px" : "100%"} height="48px" innerText="확인" disabled={confirmButtonDisabled} onClick={goToNextPage} />
       </ButtonContainer>
       <Spacer height={28} />
       <Footer>
@@ -185,7 +196,7 @@ const RestartIcon = styled.img`
   cursor: pointer;
 `;
 
-const QuestionBox = styled.div`
+export const QuestionBox = styled.div`
   display: flex;
   width: 450px;
   flex-direction: column;

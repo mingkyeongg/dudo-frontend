@@ -6,17 +6,14 @@ import { useAtom } from "jotai";
 import { jobAtom } from "../../store/job";
 
 export const AnswerOutput = forwardRef(({ defaultValue = '', readOnly = false, value, step }, ref) => {
-  const [text, setText] = useState(value);
+  const [text, setText] = useState(value || ""); // 초기값 설정
   const [jobState, setJobState] = useAtom(jobAtom);
 
   useEffect(() => {
-    setText(value);
-
     if (!jobState || !jobState.answer) return;
 
     const stepIndex = parseInt(step) - 1;
-    
-    if (!isNaN(stepIndex) && jobState.answer[stepIndex] !== value) {
+    if (!isNaN(stepIndex) && jobState.answer[stepIndex] !== text) {
       setJobState((prev) => ({
         ...prev,
         answer: prev.answer.map((item, index) =>
@@ -26,8 +23,13 @@ export const AnswerOutput = forwardRef(({ defaultValue = '', readOnly = false, v
     }
   }, [text, step, setJobState]);
 
+  useEffect(() => {
+    setText(value || "");
+  }, [value]);
+
   return (
     <OutputBox
+      ref={ref}
       placeholder={defaultValue}
       onChange={(e) => setText(e.target.value)}
       readOnly={readOnly}
