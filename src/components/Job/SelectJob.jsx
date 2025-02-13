@@ -26,11 +26,6 @@ export const SelectJob = ({ step }) => {
   const uuid = sessionStorage.getItem("docId");
   console.log(uuid);
 
-  useEffect(() => {
-    const timer = setTimeout(() => setShowLoading(false), 3000);
-    return () => clearTimeout(timer);
-  }, []);
-
   const { data, isLoading } = useQuery({
     queryKey: ["field", uuid],
     queryFn: () => (uuid ? fetchOneWorkField({ userId: "user123", uuid }) : null),
