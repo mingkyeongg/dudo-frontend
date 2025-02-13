@@ -15,9 +15,9 @@ const MainContent = () => {
     btnContainer: {
       display: "flex",
       flexDirection: "row",
-      justifyContent: "space-between",
+      justifyContent: "space-around",
       width: "100%",
-      maxWidth: "500px",
+      maxWidth: "700px",
       gap: "10px",
     },
     divider: {

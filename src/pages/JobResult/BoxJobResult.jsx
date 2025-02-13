@@ -12,7 +12,7 @@ function BoxJobResult({rank, title, jobListings}) {
     container: {
       width: "100%",
       maxWidth: "500px",
-      margin: "10px 0px",
+      margin: "20px 0px",
       backgroundColor: "#FFEED4",
       display: "flex",
       flexDirection: "column",

@@ -1,23 +1,29 @@
-import styled from '@emotion/styled';
-import colors from '../../constants/colors';
-import dudo from '../../assets/dudo_mascot.svg';
-import breakpoints from '../../constants/breakpoints';
-import Content from './Content';
-import rightArrowIcon from '../../assets/Icon/rightArrow.svg';
-import { useNavigate } from 'react-router-dom';
-import { PATH } from '../../routes/path';
-import doubleArrowLeft from '../../assets/Icon/doubleArrowLeft.svg';
+import styled from "@emotion/styled";
+import colors from "../../constants/colors";
+import dudo from "../../assets/dudo_mascot.svg";
+import breakpoints from "../../constants/breakpoints";
+import Content from "./Content";
+import rightArrowIcon from "../../assets/Icon/rightArrow.svg";
+import { useNavigate } from "react-router-dom";
+import { PATH } from "../../routes/path";
+import doubleArrowLeft from "../../assets/Icon/doubleArrowLeft.svg";
 
-export const QuestionLayout = ({ progressbarSrc, question = [], onClick, step }) => {
-
+export const QuestionLayout = ({
+  progressbarSrc,
+  question = [],
+  onClick,
+  step,
+}) => {
   const navigate = useNavigate();
-  
+
   const goToNextPage = () => {
     navigate(`${PATH.JOB_ANSWER}/${step}`);
   };
 
   const goToPreviousPage = () => {
-    navigate(`${PATH.JOB_ANSWER}/${parseInt(step) - 1}`);
+    if (step > 1) {
+      navigate(`${PATH.JOB_ANSWER}/${parseInt(step) - 1}`);
+    }
   };
 
   return (
@@ -29,10 +35,20 @@ export const QuestionLayout = ({ progressbarSrc, question = [], onClick, step })
           <Question key={index}>{element}</Question>
         ))}
       </QuestionWrapper>
-      <Footer>
-          <BackIcon src={doubleArrowLeft} alt="rightArrow" onClick={goToPreviousPage} />
-          <RightArrow onClick={onClick}>
-          <RightArrowIcon src={rightArrowIcon} alt="rightArrow" onClick={goToNextPage}/>
+      <Footer step={step}>
+        {step > 1 && (
+          <BackIcon
+            src={doubleArrowLeft}
+            alt="rightArrow"
+            onClick={goToPreviousPage}
+          />
+        )}
+        <RightArrow onClick={onClick}>
+          <RightArrowIcon
+            src={rightArrowIcon}
+            alt="rightArrow"
+            onClick={goToNextPage}
+          />
         </RightArrow>
       </Footer>
     </Content>
@@ -66,8 +82,9 @@ const BackIcon = styled.img`
 
 const Footer = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: ${({ step }) => (step > 1 ? "1fr 1fr 1fr" : "1fr")};
   align-items: center;
+  justify-items: center;
   width: 100%;
   margin-top: 160px;
 `;
@@ -113,6 +130,7 @@ const RightArrow = styled.button`
   align-items: center;
   align-self: center;
   justify-self: center;
+  cursor: pointer;
 
   @media (max-width: ${breakpoints.mobile}px) {
     width: 80px;

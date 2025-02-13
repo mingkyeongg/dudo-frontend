@@ -24,20 +24,22 @@ function Header() {
     },
     textContainer: {
       display: "flex",
-      flexDirection: "row",
-      alignItems: "center",
+      //alignItems: "center",
       gap: "15px",
-      justifyContent: "center",
+      //justifyContent: "center",
+      alignItems: "flex-end",
       maxWidth: "700px",
-      margin: "auto",
+      //margin: "auto",
+      marginBottom: "20px",
     },
     logoImage: {
-      width: "80px",
-      height: "80px",
+      width: "90px",
+      height: "90px",
     },
     textBox: {
       display: "flex",
       flexDirection: "column",
+      marginBottom: "10px",
     },
     text1: {
       fontSize: "18px",

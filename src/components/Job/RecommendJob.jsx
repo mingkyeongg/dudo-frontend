@@ -10,18 +10,22 @@ export const RecommendJob = () => {
   return (
     <RecommendJobWrapper>
       <Header>
-          <HeaderText>
-            일자리 추천받기
-          </HeaderText>
-          <QuitIcon src={quitIcon} alt="quit" />
-        </Header>
+        <HeaderText>
+          일자리 추천받기
+        </HeaderText>
+        <QuitIcon 
+          src={quitIcon} 
+          alt="quit" 
+          onClick={() => window.location.href = '/Main'}
+        />
+      </Header>
       <Outlet />
     </RecommendJobWrapper>
   );
 }
 
 const RecommendJobWrapper = styled.div`
-  padding-top: 20px;
+  padding: 30px 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -53,6 +57,7 @@ const QuitIcon = styled.img`
   right: 28px;
   width: 20px;
   height: 20px;
+  cursor: pointer;
 
   @media(max-width: ${breakpoints.mobile}px) {
     position: absolute;
