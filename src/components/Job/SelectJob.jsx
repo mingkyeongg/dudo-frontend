@@ -15,17 +15,26 @@ import { useQuery } from "@tanstack/react-query";
 import { fetchOneWorkField } from "../common/libraries/fetchWorkFieldsFromFirestore";
 import pinIcon from "../../assets/Icon/pin.svg";
 import goodIcon from "../../assets/Icon/good.svg";
+import OnLoading from "./OnLoading";
 
 export const SelectJob = ({ step }) => {
   const navigate = useNavigate();
   const isMobile = window.innerWidth < breakpoints.mobile;
   const [confirmButtonDisabled, setConfirmButtonDisabled] = useState(true);
   const [jobState, setJobState] = useAtom(jobAtomWithPersistence);
+  const [arrayLength, setArrayLength] = useState(0);
   const stepIndex = parseInt(step, 10);
 
-  const uuid = sessionStorage.getItem("docId");
-  console.log(uuid);
-  const userId = sessionStorage.getItem("userId");
+  const [uuid, setUuid] = useState(sessionStorage.getItem("docId"));
+const [userId, setUserId] = useState(sessionStorage.getItem("userId"));
+
+useEffect(() => {
+  const storedUuid = sessionStorage.getItem("docId");
+  const storedUserId = sessionStorage.getItem("userId");
+  
+  if (storedUuid) setUuid(storedUuid);
+  if (storedUserId) setUserId(storedUserId);
+}, []);
 
   const { data, isLoading } = useQuery({
     queryKey: ["field", uuid],
@@ -79,15 +88,21 @@ export const SelectJob = ({ step }) => {
     navigate(`${PATH.JOB_QUESTION}/${stepIndex + 1}`);
   };
 
-  if (isLoading) {
-    return (
-    <>
-      <div>
-        Loading...
-      </div>
-    </>
-    );
+  useEffect(() => {
+    if (data?.workFields && data.workFields.length > 0) {
+      console.log("🔄 데이터 업데이트됨:", data.workFields.length);
+      setArrayLength((prev) => (prev !== data.workFields.length ? data.workFields.length : prev));
+    }
+  }, [data?.workFields?.length]);  // ✅ 배열 길이를 직접 감지
+  
+  useEffect(() => {
+    console.log("📌 arrayLength 상태 변경:", arrayLength);
+  }, [arrayLength]);
+  
+  if (!data || data?.workFields.length !== 6) {
+    return <OnLoading />;
   }
+  
 
 
   return (
