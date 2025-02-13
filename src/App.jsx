@@ -1,7 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { PATH } from "./routes/path";
 import styled from "@emotion/styled";
-import colors from "./constants/colors";
 
 function App() {
   const navigate = useNavigate();
