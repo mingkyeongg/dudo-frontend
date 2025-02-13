@@ -61,8 +61,8 @@ const getCertRecommandPrompt = (answer1, answer2, answer3, answer4, answer5) => 
 5. 전기산업기사
 6. 전기기능사
 7. 토목기사
-8. 직업상담사 2급
-9. 컴퓨터활용능력 2급
+8. 직업상담사2급
+9. 컴퓨터활용능력2급
 10. 자동차정비기능사
 11. 정보처리기사
 12. 산업안전기사
