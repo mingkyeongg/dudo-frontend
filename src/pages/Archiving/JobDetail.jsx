@@ -226,7 +226,7 @@ function JobDetailHeader({date}) {
       <div style={style.header}>
         <p style={style.headerTitle}>일자리 추천 결과</p>
         <a href="/Explanation">
-          <img src={help_icon} style={style.helpIcon} />
+          ?
         </a>
       </div>
 
