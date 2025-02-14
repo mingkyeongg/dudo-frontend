@@ -17,7 +17,7 @@ const mockData = [
 ];
 
 export const fetchAIResponse = async ({ prompt }) => {
-  const API_KEY = "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"; // 🔥 OpenAI API 키
+  const API_KEY = "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"; // 🔥 OpenAI API 키
 
   if (!API_KEY) {
     console.error("API_KEY is missing! Check your .env file.");
