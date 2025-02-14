@@ -5,7 +5,6 @@ import { db } from "../../components/common/libraries/firebase";
 import { collection, getDoc, doc } from "firebase/firestore";
 import { useLocation } from "react-router-dom";
 import dudo_mascot from "@/assets/dudo_mascot.svg";
-import help_icon from "@/assets/Icon/help.svg";
 
 function JobDetail() {
   const [jobs, setJobs] = useState([]); // ✅ jobs 상태 관리
